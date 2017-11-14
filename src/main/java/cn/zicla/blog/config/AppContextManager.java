@@ -1,0 +1,176 @@
+package cn.zicla.blog.config;
+
+import cn.zicla.blog.config.exception.NotFoundException;
+import cn.zicla.blog.config.exception.UtilException;
+import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.base.BaseEntityDao;
+import cn.zicla.blog.rest.base.BaseEntityService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.ResolvableType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import java.util.function.Consumer;
+
+/**
+ * 一个用作搭建Spring Bean和非Spring Bean的桥梁
+ */
+@Service
+public class AppContextManager implements ApplicationContextAware {
+    private static Logger logger = Logger.getLogger(AppContextManager.class);
+    private static ApplicationContext appCtx;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        appCtx = applicationContext;
+    }
+
+    public static ApplicationContext getAppContext() {
+        return appCtx;
+    }
+
+
+    public static <T> T getBean(Class<T> requiredType) throws BeansException {
+        return getAppContext().getBean(requiredType);
+    }
+
+    /**
+     * 获取带泛型的bean. 例如: CrudRepository<Article,Long> 那么传入参数：CrudRepository.class, Article.class, Long.class
+     */
+    public static Object getGenericBean(Class<?> sourceClass, Class<?>... generics) {
+
+        ResolvableType resolvableType = ResolvableType.forClassWithGenerics(sourceClass, generics);
+
+        if (resolvableType != null) {
+            String[] beanNames = AppContextManager.getAppContext().getBeanNamesForType(resolvableType);
+            if (beanNames != null) {
+                if (beanNames.length > 0 && beanNames[0] != null) {
+                    return AppContextManager.getAppContext().getBean(beanNames[0]);
+                } else {
+                    logger.error("出现数组长度为0的情况了！");
+                }
+
+            }
+
+        }
+
+        throw new UtilException("不存在" + resolvableType.toString() + "的相关Bean,请及时排查错误！");
+
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static <T extends BaseEntity> BaseEntityDao<T> getBaseEntityDao(Class<T> clazz) {
+
+        if (clazz == null) {
+            throw new UtilException("clazz不能为空！");
+        }
+
+        return (BaseEntityDao<T>) getGenericBean(BaseEntityDao.class, clazz);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends BaseEntity> BaseEntityService<T> getBaseEntityService(Class<T> clazz) {
+
+        if (clazz == null) {
+            throw new UtilException("clazz不能为空！");
+        }
+
+        return (BaseEntityService<T>) getGenericBean(BaseEntityService.class, clazz);
+
+    }
+
+
+    //检出一个指定类型的实例。考虑deleted字段。找不到抛异常。
+    public static <T extends BaseEntity> T check(Class<T> clazz, String uuid) {
+
+        if (uuid == null) {
+            throw new UtilException("id必须指定");
+        }
+
+        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
+
+
+        T entity = baseDao.findOne(uuid);
+
+        if (entity == null || entity.deleted) {
+            throw new NotFoundException("您访问的内容不存在或者已经被删除");
+        }
+
+        return entity;
+    }
+
+    //检出一个指定类型的实例。不考虑deleted字段。找不到抛异常。
+    public static <T extends BaseEntity> T checkDeeply(Class<T> clazz, String id) {
+
+        if (id == null) {
+            throw new UtilException("id必须指定");
+        }
+
+        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
+
+
+        T entity = baseDao.findOne(id);
+
+        if (entity == null) {
+            throw new NotFoundException("您访问的内容不存在或者已经被删除");
+        }
+
+        return entity;
+    }
+
+
+    //找出一个指定类型的实例。考虑deleted字段。找不到返回null
+    public static <T extends BaseEntity> T find(Class<T> clazz, String id) {
+
+        if (id == null) {
+            return null;
+        }
+        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
+        T entity = baseDao.findOne(id);
+        if (entity == null || entity.deleted) {
+            return null;
+        }
+        return entity;
+    }
+
+    //找出一个指定类型的实例，不考虑deleted字段。找不到返回null
+    public static <T extends BaseEntity> T findDeeply(Class<T> clazz, String id) {
+
+        if (id == null) {
+            return null;
+        }
+        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
+        T entity = baseDao.findOne(id);
+        if (entity == null) {
+            return null;
+        }
+        return entity;
+    }
+
+
+    //根据一个pageSize，根据一个复杂查询条件，再根据针对每个的处理方式，按照分页依次处理。
+    public static <E extends BaseEntity> void pageHandle(Class<E> clazz, Specification<E> specification, int pageSize, Consumer<? super E> consumer) {
+
+        BaseEntityDao<E> dao = AppContextManager.getBaseEntityDao(clazz);
+
+        Pageable pageRequest = new PageRequest(0, pageSize);
+
+        Page<E> pageData = dao.findAll(specification, pageRequest);
+        int totalPages = pageData.getTotalPages();
+        for (int p = 0; p < totalPages; p++) {
+            pageRequest = new PageRequest(p, pageSize);
+            pageData = dao.findAll(specification, pageRequest);
+            pageData.getContent().forEach(consumer);
+        }
+    }
+
+
+}
