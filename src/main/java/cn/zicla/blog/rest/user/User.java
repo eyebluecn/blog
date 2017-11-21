@@ -1,6 +1,7 @@
 package cn.zicla.blog.rest.user;
 
 import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,6 +24,9 @@ public class User extends BaseEntity {
 
     @JsonIgnore
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ADMIN;
 
     private String email;
 
@@ -49,11 +53,29 @@ public class User extends BaseEntity {
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date lastTime;
 
+    public boolean hasPermission(FeatureType featureType) {
+
+        if (this.role == Role.ADMIN) {
+            return true;
+        } else if (this.role == Role.USER) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     //性别
     public enum Gender {
         UNKNOWN,
         MALE,
         FEMALE
+    }
+
+    //角色
+    public enum Role {
+        USER,
+        ADMIN
     }
 
 }

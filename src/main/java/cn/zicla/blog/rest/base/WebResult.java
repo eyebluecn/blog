@@ -10,6 +10,12 @@ import java.util.Map;
 @Data
 public class WebResult {
 
+
+    //一些混淆的字段
+    public final static String COOKIE_AUTHENTICATION = "ca_";
+
+
+
     private int code = ResultCode.OK;
     private Map<String, Object> data;
     private String msg = "成功";

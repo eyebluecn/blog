@@ -12,13 +12,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @MappedSuperclass
-public class BaseEntity {
+public class BaseEntity extends Base implements Serializable {
 
     public final static String PREFIX = "blog_";
 
@@ -43,25 +44,6 @@ public class BaseEntity {
     @JsonIgnore
     public Boolean deleted = false;
 
-
-    /**
-     * 极简模式，只返回关键数据。一般用于 小权限数据，或者是为了加快接口速度。
-     */
-    public Map<String, Object> simpleMap() {
-        return new HashMap<>();
-    }
-
-
-    public Map<String, Object> map() {
-
-        return JsonUtil.toMap(this);
-    }
-
-
-    public Map<String, Object> detailMap() {
-
-        return this.map();
-    }
 
 
 }

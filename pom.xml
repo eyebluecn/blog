@@ -44,6 +44,23 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.cage</groupId>
+            <artifactId>cage</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
 
 
         <!--模板引擎 Freemarker-->
@@ -81,7 +98,6 @@
     </dependencies>
 
 
-
     <build>
 
         <plugins>
@@ -114,8 +130,6 @@
             </plugin>
         </plugins>
     </build>
-
-
 
 
 </project>

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends BaseEntityDao<User> {
 
 
-
+    User findByEmailAndDeletedFalse(String email);
 }

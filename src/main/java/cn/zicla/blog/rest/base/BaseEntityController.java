@@ -1,6 +1,7 @@
 package cn.zicla.blog.rest.base;
 
 import cn.zicla.blog.config.AppContextManager;
+import cn.zicla.blog.config.exception.LoginException;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.JsonUtil;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +157,22 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
         return AppContextManager.find(this.clazz, uuid);
     }
 
+
+    protected User findUser() {
+
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession httpSession = request.getSession(true);
+
+        Object userObject = httpSession.getAttribute(User.getTAG(User.class));
+        if (userObject == null) {
+            return null;
+        }
+
+        return (User) userObject;
+    }
+
     /**
      * 获取当前的登录的这个user. 没有就抛异常
      *
@@ -158,7 +180,11 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
      */
     protected User checkUser() {
 
-        return null;
+        User user = this.findUser();
+        if (user == null) {
+            throw new LoginException();
+        }
+        return user;
 
     }
 
