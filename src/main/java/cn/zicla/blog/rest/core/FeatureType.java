@@ -13,8 +13,15 @@ public enum FeatureType {
     PUBLIC("公共接口"),
 
 
+    /**
+     * 管理用户
+     */
+    USER_MANAGE("管理用户"),
 
-
+    /**
+     * 查看自己资料，即已经登录的用户
+     */
+    USER_MINE("查看自己资料"),
 
     /*
      * 其他

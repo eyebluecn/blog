@@ -57,6 +57,8 @@ public class UserController extends BaseEntityController<User, UserForm> {
         super(User.class);
     }
 
+
+    @Feature(FeatureType.USER_MANAGE)
     @RequestMapping("/page")
     public WebResult page(
             @RequestParam(required = false, defaultValue = "0") Integer page,
@@ -138,6 +140,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
     /**
      * 用户登录
      */
+    @Feature(FeatureType.PUBLIC)
     @RequestMapping(value = "/login")
     public WebResult login(@RequestParam String email,
                            @RequestParam String password,
@@ -183,7 +186,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
     /**
      * 退出登录
      */
-    @Feature(FeatureType.PUBLIC)
+    @Feature(FeatureType.USER_MINE)
     @RequestMapping(value = "/logout")
     public WebResult logout(HttpServletRequest request,
                             HttpServletResponse response) {

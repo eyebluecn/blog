@@ -1,15 +1,10 @@
 package cn.zicla.blog.rest.support.captcha;
 
+import cn.zicla.blog.config.Config;
 import cn.zicla.blog.rest.base.BaseEntityService;
-import cn.zicla.blog.rest.user.User;
-import cn.zicla.blog.rest.user.UserDao;
-import cn.zicla.blog.rest.user.knock.UserKnock;
-import cn.zicla.blog.rest.user.knock.UserKnockDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Slf4j
 @Service
@@ -18,11 +13,19 @@ public class SupportCaptchaService extends BaseEntityService<SupportCaptcha> {
     @Autowired
     SupportCaptchaDao supportCaptchaDao;
 
+    @Autowired
+    Config config;
+
     public SupportCaptchaService() {
         super(SupportCaptcha.class);
     }
 
     public boolean validate(String sessionId, String captchaValue) {
+
+        //如果是测试环境，允许5555直接通过。
+        if (config.isDebug() && "5555".equals(captchaValue)) {
+            return true;
+        }
 
         SupportCaptcha supportCaptcha = supportCaptchaDao.findBySessionId(sessionId);
 
