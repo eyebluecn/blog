@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -129,6 +130,25 @@ public class GlobalExceptionHandler {
         WebResult webResult = new WebResult(ResultCode.FORM_INVALID, message);
 
         log.error("------BindException------");
+        log.error(exception.getMessage());
+        exception.printStackTrace();
+
+        return webResult;
+    }
+
+
+    //请求参数不符合要求。
+    @ResponseStatus(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE)
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    @ResponseBody
+    public WebResult handle(HttpServletRequest req, MissingServletRequestParameterException exception) {
+
+
+        String message = "要求填写的参数\"" + exception.getParameterName() + "\"(" + exception.getParameterType() + ")不符合要求";
+
+        WebResult webResult = new WebResult(ResultCode.FORM_INVALID, message);
+
+        log.error("------MissingServletRequestParameterException------");
         log.error(exception.getMessage());
         exception.printStackTrace();
 

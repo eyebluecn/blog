@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value = "/support/captcha")
+@RequestMapping(value = "/api/support/captcha")
 public class SupportCaptchaController extends BaseController {
 
     @Autowired

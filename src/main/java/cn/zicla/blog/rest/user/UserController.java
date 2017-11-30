@@ -31,7 +31,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController extends BaseEntityController<User, UserForm> {
 
     @Autowired
@@ -142,27 +142,28 @@ public class UserController extends BaseEntityController<User, UserForm> {
      */
     @Feature(FeatureType.PUBLIC)
     @RequestMapping(value = "/login")
-    public WebResult login(@RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam(required = false) String captcha,
-                           HttpServletRequest request,
-                           HttpServletResponse response) {
+    public WebResult login(
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam(required = false) String captcha,
+            HttpServletRequest request,
+            HttpServletResponse response) {
 
-        User user = userDao.findByEmailAndDeletedFalse(email);
 
         String sessionId = request.getSession().getId();
         String ip = NetworkUtil.getIpAddress(request);
+        //登录错误次数超过1次必须要输入验证码。
+        if (userKnockService.needCaptcha(ip)) {
+            if (!supportCaptchaService.validate(sessionId, captcha)) {
+                userKnockService.log(sessionId, null, email, password, ip, UserKnock.Type.CAPTCHA_ERROR);
+                throw new UtilException("验证码错误！");
+            }
+        }
+
+        User user = userDao.findByEmailAndDeletedFalse(email);
+
 
         if (user != null) {
-
-            //登录错误次数超过1次必须要输入验证码。
-            if (userKnockService.needCaptcha(ip)) {
-                if (!supportCaptchaService.validate(sessionId, captcha)) {
-
-                    userKnockService.log(sessionId, user.getUuid(), email, password, ip, UserKnock.Type.CAPTCHA_ERROR);
-                    throw new UtilException("验证码错误！");
-                }
-            }
 
             if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
 
