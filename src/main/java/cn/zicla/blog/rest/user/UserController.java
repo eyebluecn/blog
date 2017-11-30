@@ -2,6 +2,7 @@ package cn.zicla.blog.rest.user;
 
 import cn.zicla.blog.config.exception.BadRequestException;
 import cn.zicla.blog.config.exception.UtilException;
+import cn.zicla.blog.rest.article.ArticleForm;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.WebResult;
 import cn.zicla.blog.rest.core.Feature;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Map;
 
@@ -55,6 +58,38 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
     public UserController() {
         super(User.class);
+    }
+
+
+
+    @Override
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult create(@Valid UserForm form) {
+        return super.create(form);
+    }
+
+    @Override
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult del(@PathVariable String uuid) {
+        return super.del(uuid);
+    }
+
+    @Override
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult edit(@Valid UserForm form) {
+        return super.edit(form);
+    }
+
+    @Override
+    @Feature(FeatureType.PUBLIC)
+    public WebResult detail(@PathVariable String uuid) {
+        return super.detail(uuid);
+    }
+
+    @Override
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult sort(@RequestParam String uuid1, @RequestParam Long sort1, @RequestParam String uuid2, @RequestParam Long sort2) {
+        return super.sort(uuid1, sort1, uuid2, sort2);
     }
 
 
