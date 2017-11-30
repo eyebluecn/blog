@@ -80,6 +80,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.USER_MANAGE)
     @RequestMapping("/page")
     public WebResult page(
+
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
 
@@ -125,7 +126,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
                 predicate = cb.and(predicate, cb.equal(root.get(Article_.userUuid), userUuid));
             }
             if (title != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Article_.title), title));
+                predicate = cb.and(predicate, cb.like(root.get(Article_.title), "%" + title + "%"));
             }
             if (tag != null) {
                 predicate = cb.and(predicate, cb.like(root.get(Article_.tags), "%" + tag + "%"));

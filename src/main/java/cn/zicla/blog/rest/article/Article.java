@@ -38,23 +38,24 @@ public class Article extends BaseEntity {
     private String digest;
 
     //是否是markdown格式
-    private Boolean isMarkdown;
+    private Boolean isMarkdown = true;
 
     //内容
     private String content;
 
     //是否是私有文章
-    private Boolean privacy;
+    private Boolean privacy = false;
 
     //是否置顶
-    private Boolean top;
+    private Boolean top = false;
 
     //点击数量
-    private Integer hit;
+    private Integer hit = 1;
 
     //发布日期
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date releaseTime;
+
 }
 
 
