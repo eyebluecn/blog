@@ -2,7 +2,6 @@ package cn.zicla.blog.rest.user;
 
 import cn.zicla.blog.config.exception.BadRequestException;
 import cn.zicla.blog.config.exception.UtilException;
-import cn.zicla.blog.rest.article.ArticleForm;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.WebResult;
 import cn.zicla.blog.rest.core.Feature;
@@ -30,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.Map;
 
 @Slf4j
 @RestController
