@@ -42,7 +42,8 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonString, typeReference);
         } catch (IOException e) {
-            throw new UtilException("信息有误，无法获取到对象数组！");
+            e.printStackTrace();
+            throw new UtilException("信息有误，无法从字符串转成对象！");
         }
 
     }

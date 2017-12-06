@@ -20,10 +20,6 @@ public class TankForm extends BaseEntityForm<Tank> {
     @NotNull
     private Long size;
     @NotNull
-    private String type;
-    @NotNull
-    private String filter;
-    @NotNull
     private Boolean privacy;
 
     private String remark;
@@ -34,8 +30,6 @@ public class TankForm extends BaseEntityForm<Tank> {
         tank.setName(name);
 
         tank.setSize(size);
-        tank.setType(type);
-        tank.setFilter(filter);
         tank.setPrivacy(privacy);
         tank.setRemark(remark);
 

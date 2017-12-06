@@ -70,9 +70,13 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
 
     @RequestMapping("/fetch/upload/token")
     @Feature(FeatureType.USER_MINE)
-    public WebResult uploadToken(@RequestParam(required = false, defaultValue = "*") String filter, @RequestParam(required = false, defaultValue = "true") Boolean privacy) throws Exception {
+    public WebResult uploadToken(
+            @RequestParam String filename,
+            @RequestParam Boolean privacy,
+            @RequestParam Long size
+    ) {
 
-        Tank tank = tankService.httpFetchUploadToken();
+        Tank tank = tankService.httpFetchUploadToken(filename, privacy, size, checkUser());
 
         return success(tank);
     }

@@ -4,9 +4,9 @@ import lombok.Data;
 
 
 @Data
-public class TankMessage<T> {
+public class TankMessage<T extends TankBaseEntity> {
 
-    private String code;
+    private int code;
     private String msg;
     private T data;
 }
