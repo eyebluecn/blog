@@ -37,7 +37,7 @@ public class Tank extends BaseEntity {
     private String uploadTokenUuid;
     //客户端需要将文件上传到何处去。
     @Transient
-    private String tankHost;
+    private String uploadUrl;
 
     public Tank(String userUuid, String name, long size, boolean privacy) {
         this.userUuid = userUuid;

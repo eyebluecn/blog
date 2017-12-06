@@ -50,7 +50,7 @@ public class TankService extends BaseEntityService<Tank> {
     private String tankPassword;
 
     private final static String URL_FETCH_UPLOAD_TOKEN = "/api/alien/fetch/upload/token";
-    private final static String URL_FETCH_DOWNLOAD_TOKEN = "/api/alien/fetch/upload/token";
+    private final static String URL_FETCH_DOWNLOAD_TOKEN = "/api/alien/fetch/download/token";
     private final static String URL_CONFIRM = "/api/alien/confirm";
     private final static String URL_UPLOAD = "/api/alien/upload";
     private final static String URL_DOWNLOAD = "/api/alien/download";
@@ -140,7 +140,7 @@ public class TankService extends BaseEntityService<Tank> {
 
         //附上用户上传需要的内容。
         tank.setUploadTokenUuid(uploadToken.getUuid());
-        tank.setTankHost(tankHost);
+        tank.setUploadUrl(tankHost + URL_UPLOAD);
         return tank;
     }
 
@@ -158,6 +158,10 @@ public class TankService extends BaseEntityService<Tank> {
             put("matterUuid", matterUuid);
         }}, new TypeReference<TankMessage<Matter>>() {
         });
+        if (tankMessage.getCode() != 200) {
+            throw new UtilException(tankMessage.getMsg());
+        }
+
 
         Matter matter = tankMessage.getData();
         if (!tank.getName().equals(matter.getName())) {
@@ -197,8 +201,11 @@ public class TankService extends BaseEntityService<Tank> {
             put("expire", 86400 + "");
         }}, new TypeReference<TankMessage<DownloadToken>>() {
         });
+        if (tankMessage.getCode() != 200) {
+            throw new UtilException(tankMessage.getMsg());
+        }
 
 
-        return this.tankHost + "?downloadTokenUuid=" + tankMessage.getData().getUuid();
+        return this.tankHost + URL_DOWNLOAD + "?downloadTokenUuid=" + tankMessage.getData().getUuid();
     }
 }
