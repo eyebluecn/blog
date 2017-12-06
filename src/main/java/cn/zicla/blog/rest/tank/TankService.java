@@ -3,9 +3,7 @@ package cn.zicla.blog.rest.tank;
 import cn.zicla.blog.config.Config;
 import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.base.BaseEntityService;
-import cn.zicla.blog.rest.tank.remote.TankBaseEntity;
-import cn.zicla.blog.rest.tank.remote.TankMessage;
-import cn.zicla.blog.rest.tank.remote.UploadToken;
+import cn.zicla.blog.rest.tank.remote.*;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
 import cn.zicla.blog.util.JsonUtil;
@@ -24,6 +22,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -132,7 +131,7 @@ public class TankService extends BaseEntityService<Tank> {
             throw new UtilException(tankMessage.getMsg());
         }
 
-        
+
         //如果获取uploadToken成功的话，那么就直接创建一个tank文件了。
         UploadToken uploadToken = tankMessage.getData();
         Tank tank = new Tank(operator.getUuid(), uploadToken.getFilename(), uploadToken.getSize(), uploadToken.isPrivacy());
@@ -145,9 +144,61 @@ public class TankService extends BaseEntityService<Tank> {
         return tank;
     }
 
-    //从远程去获取downloadToken
-    public String httpFetchDownloadToken() {
+    //从远程去确认文件
+    public void httpConfirm(String uuid, @RequestParam String matterUuid) {
 
-        return null;
+        Tank tank = this.check(uuid);
+        if (tank.isConfirmed()) {
+            throw new UtilException("文件已经被确认了，请勿重复操作。");
+        }
+
+        TankMessage<Matter> tankMessage = this.doPost(this.tankHost + URL_CONFIRM, new HashMap<String, String>() {{
+            put("email", TankService.this.tankEmail);
+            put("password", TankService.this.tankPassword);
+            put("matterUuid", matterUuid);
+        }}, new TypeReference<TankMessage<Matter>>() {
+        });
+
+        Matter matter = tankMessage.getData();
+        if (!tank.getName().equals(matter.getName())) {
+            throw new UtilException("文件名不一致，确认失败。");
+        }
+        if (tank.getSize() != matter.getSize()) {
+            throw new UtilException("文件大小不一致，确认失败。");
+        }
+        if (tank.getPrivacy() != matter.isPrivacy()) {
+            throw new UtilException("文件公开性不一致，确认失败。");
+        }
+
+        tank.setMatterUuid(matterUuid);
+        tank.setConfirmed(true);
+
+        tankDao.save(tank);
+
+    }
+
+    //从远程去获取downloadToken
+    public String httpFetchDownloadUrl(String uuid) {
+
+        Tank tank = this.check(uuid);
+        if (!tank.isConfirmed()) {
+            throw new UtilException("该文件尚未被确认，无法下载！");
+        }
+
+        if (!tank.getPrivacy()) {
+            return tank.getUrl();
+        }
+
+
+        TankMessage<DownloadToken> tankMessage = this.doPost(this.tankHost + URL_FETCH_DOWNLOAD_TOKEN, new HashMap<String, String>() {{
+            put("email", TankService.this.tankEmail);
+            put("password", TankService.this.tankPassword);
+            put("matterUuid", tank.getMatterUuid());
+            put("expire", 86400 + "");
+        }}, new TypeReference<TankMessage<DownloadToken>>() {
+        });
+
+
+        return this.tankHost + "?downloadTokenUuid=" + tankMessage.getData().getUuid();
     }
 }

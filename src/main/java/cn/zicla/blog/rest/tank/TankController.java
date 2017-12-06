@@ -9,6 +9,7 @@ import cn.zicla.blog.rest.core.FeatureType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,9 +83,9 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
     }
 
 
-    @RequestMapping("/download")
+    @RequestMapping("/download/{uuid}")
     @Feature(FeatureType.USER_MINE)
-    public void download(HttpServletResponse response, @RequestParam String uuid) throws Exception {
+    public void download(HttpServletResponse response, @PathVariable String uuid) throws Exception {
 
         Tank tank = tankDao.findOne(uuid);
 
@@ -95,13 +96,18 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
             throw new UtilException("访问链接错误！");
         }
 
-
-        String token = tankService.httpFetchDownloadToken();
-
-        String url = null;
+        String url = tankService.httpFetchDownloadUrl(uuid);
 
         response.sendRedirect(url);
 
+    }
+
+
+    @RequestMapping("/confirm")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult confirm(@RequestParam String uuid, @RequestParam String matterUuid) {
+        tankService.httpConfirm(uuid, matterUuid);
+        return success();
     }
 
 

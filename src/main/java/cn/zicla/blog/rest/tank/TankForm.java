@@ -28,7 +28,6 @@ public class TankForm extends BaseEntityForm<Tank> {
     @Override
     protected void update(Tank tank, User operator) {
         tank.setName(name);
-
         tank.setSize(size);
         tank.setPrivacy(privacy);
         tank.setRemark(remark);
