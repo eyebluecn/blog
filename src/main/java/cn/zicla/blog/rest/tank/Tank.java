@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 
 @EqualsAndHashCode(callSuper = false)
@@ -19,8 +20,6 @@ public class Tank extends BaseEntity {
 
     private String name;
 
-    //用于上传的uploadToken.
-    private String uploadToken;
 
     private String matterUuid;
     private Long size;
@@ -33,10 +32,16 @@ public class Tank extends BaseEntity {
     private boolean confirmed;
 
 
-    public Tank(String userUuid, String name, String uploadToken, long size,  boolean privacy) {
+    //用于上传的uploadToken.
+    @Transient
+    private String uploadTokenUuid;
+    //客户端需要将文件上传到何处去。
+    @Transient
+    private String tankHost;
+
+    public Tank(String userUuid, String name, long size, boolean privacy) {
         this.userUuid = userUuid;
         this.name = name;
-        this.uploadToken = uploadToken;
         this.size = size;
         this.privacy = privacy;
         this.confirmed = false;

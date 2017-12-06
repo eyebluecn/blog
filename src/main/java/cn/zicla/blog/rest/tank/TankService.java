@@ -132,11 +132,16 @@ public class TankService extends BaseEntityService<Tank> {
             throw new UtilException(tankMessage.getMsg());
         }
 
+        
         //如果获取uploadToken成功的话，那么就直接创建一个tank文件了。
         UploadToken uploadToken = tankMessage.getData();
-        Tank tank = new Tank(operator.getUuid(), uploadToken.getFilename(), uploadToken.getUuid(), uploadToken.getSize(), uploadToken.isPrivacy());
+        Tank tank = new Tank(operator.getUuid(), uploadToken.getFilename(), uploadToken.getSize(), uploadToken.isPrivacy());
 
         tank = tankDao.save(tank);
+
+        //附上用户上传需要的内容。
+        tank.setUploadTokenUuid(uploadToken.getUuid());
+        tank.setTankHost(tankHost);
         return tank;
     }
 
