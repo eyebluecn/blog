@@ -61,8 +61,6 @@ public class TankService extends BaseEntityService<Tank> {
 
     private <T extends TankBaseEntity> TankMessage<T> doPost(String url, Map<String, String> params, TypeReference<TankMessage<T>> typeReference) {
 
-        log.debug("URL= %s", url);
-
         List<NameValuePair> nvps = new ArrayList<>();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
@@ -107,7 +105,7 @@ public class TankService extends BaseEntityService<Tank> {
     }
 
     //我们存放在tank服务器的文件资源按照如下的命名规则： /app/blog/yyyy/MM/dd/timestamp
-    public String getStoreDir() {
+    private String getStoreDir() {
         Date date = new Date();
         String dateString = DateUtil.convertDateToString(date, "/yyyy/MM/dd");
         return "/app/blog" + dateString + "/" + date.getTime();
@@ -145,7 +143,7 @@ public class TankService extends BaseEntityService<Tank> {
     }
 
     //从远程去确认文件
-    public void httpConfirm(String uuid, @RequestParam String matterUuid) {
+    public Tank httpConfirm(String uuid, @RequestParam String matterUuid) {
 
         Tank tank = this.check(uuid);
         if (tank.isConfirmed()) {
@@ -176,9 +174,11 @@ public class TankService extends BaseEntityService<Tank> {
 
         tank.setMatterUuid(matterUuid);
         tank.setConfirmed(true);
+        tank.setUrl(this.tankHost + URL_DOWNLOAD + "/" + matterUuid + "/" + tank.getName());
 
         tankDao.save(tank);
 
+        return tank;
     }
 
     //从远程去获取downloadToken
@@ -206,6 +206,6 @@ public class TankService extends BaseEntityService<Tank> {
         }
 
 
-        return this.tankHost + URL_DOWNLOAD + "?downloadTokenUuid=" + tankMessage.getData().getUuid();
+        return tank.getUrl() + "?downloadTokenUuid=" + tankMessage.getData().getUuid();
     }
 }

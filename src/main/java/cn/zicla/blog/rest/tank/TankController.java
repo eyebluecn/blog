@@ -106,8 +106,8 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
     @RequestMapping("/confirm")
     @Feature(FeatureType.USER_MINE)
     public WebResult confirm(@RequestParam String uuid, @RequestParam String matterUuid) {
-        tankService.httpConfirm(uuid, matterUuid);
-        return success();
+        Tank tank = tankService.httpConfirm(uuid, matterUuid);
+        return success(tank);
     }
 
 
