@@ -40,8 +40,11 @@ public class Article extends BaseEntity {
     //是否是markdown格式
     private Boolean isMarkdown = true;
 
-    //内容
-    private String content;
+    //markdown内容
+    private String markdown;
+
+    //html内容
+    private String html;
 
     //是否是私有文章
     private Boolean privacy = false;

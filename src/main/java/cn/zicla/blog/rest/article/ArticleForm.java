@@ -1,11 +1,14 @@
 package cn.zicla.blog.rest.article;
 
+import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.base.BaseEntityForm;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
+import cn.zicla.blog.util.ValidationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.ValidationUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,8 +43,13 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private Boolean isMarkdown = true;
 
     //内容
-    @Size(min = 1, max = 100000, message = "标签必填并且最长100000字")
-    private String content;
+    @Size(max = 100000, message = "markdown最长100000字")
+    private String markdown;
+
+    //html
+    @Size(min = 1, max = 100000, message = "html必填并且最长100000字")
+    private String html;
+
 
     //是否是私有文章
     private Boolean privacy = false;
@@ -60,7 +68,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
         super(Article.class);
     }
 
-
     @Override
     protected void update(Article article, User operator) {
         article.setTitle(title);
@@ -70,7 +77,16 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setAuthor(author);
         article.setDigest(digest);
         article.setIsMarkdown(isMarkdown);
-        article.setContent(content);
+
+        if (isMarkdown) {
+            if (!ValidationUtil.checkParam(markdown)) {
+                throw new UtilException("markdown内容必填");
+            }
+        }
+
+        article.setMarkdown(markdown);
+        article.setHtml(html);
+
         article.setPrivacy(privacy);
         article.setTop(top);
         article.setReleaseTime(releaseTime);
