@@ -82,6 +82,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
             if (!ValidationUtil.checkParam(markdown)) {
                 throw new UtilException("markdown内容必填");
             }
+
         }
 
         article.setMarkdown(markdown);
