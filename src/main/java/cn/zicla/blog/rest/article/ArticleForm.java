@@ -91,7 +91,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setPrivacy(privacy);
         article.setTop(top);
         article.setReleaseTime(releaseTime);
-        article.setUserUuid(operator.getUuid());
     }
 
     public Article create(User operator) {

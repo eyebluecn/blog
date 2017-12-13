@@ -1,4 +1,4 @@
-package cn.zicla.blog.rest.article;
+package cn.zicla.blog.rest.tag;
 
 import cn.zicla.blog.rest.base.Base;
 import cn.zicla.blog.rest.base.BaseEntityController;
@@ -22,14 +22,14 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/article")
-public class ArticleController extends BaseEntityController<Article, ArticleForm> {
+@RequestMapping("/api/tag")
+public class TagController extends BaseEntityController<Tag, TagForm> {
 
     @Autowired
-    ArticleService articleService;
+    TagService tagService;
 
     @Autowired
-    ArticleDao articleDao;
+    TagDao tagDao;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -41,26 +41,29 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     SupportCaptchaService supportCaptchaService;
 
 
-    public ArticleController() {
-        super(Article.class);
+    public TagController() {
+        super(Tag.class);
     }
 
 
     @Override
     @Feature(FeatureType.USER_MANAGE)
-    public WebResult create(@Valid ArticleForm form) {
+    public WebResult create(@Valid TagForm form) {
         return super.create(form);
     }
 
     @Override
     @Feature(FeatureType.USER_MANAGE)
     public WebResult del(@PathVariable String uuid) {
-        return super.del(uuid);
+        Tag entity = this.check(uuid);
+        tagDao.delete(entity);
+
+        return success();
     }
 
     @Override
     @Feature(FeatureType.USER_MANAGE)
-    public WebResult edit(@Valid ArticleForm form) {
+    public WebResult edit(@Valid TagForm form) {
         return super.edit(form);
     }
 
@@ -83,62 +86,28 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
-
             @RequestParam(required = false) Sort.Direction orderSort,
-            @RequestParam(required = false) Sort.Direction orderTop,
-            @RequestParam(required = false) Sort.Direction orderHit,
-            @RequestParam(required = false) Sort.Direction orderPrivacy,
-            @RequestParam(required = false) Sort.Direction orderReleaseTime,
-
             @RequestParam(required = false) String userUuid,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String tag,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false) String name
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
+        Sort sort = new Sort(Sort.Direction.ASC, Tag_.deleted.getName());
 
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Article_.sort.getName()));
-        }
-
-        if (orderTop != null) {
-            sort = sort.and(new Sort(orderTop, Article_.top.getName()));
-        }
-
-        if (orderHit != null) {
-            sort = sort.and(new Sort(orderHit, Article_.hit.getName()));
-        }
-
-        if (orderPrivacy != null) {
-            sort = sort.and(new Sort(orderPrivacy, Article_.privacy.getName()));
-        }
-
-        if (orderReleaseTime != null) {
-            sort = sort.and(new Sort(orderReleaseTime, Article_.releaseTime.getName()));
+            sort = sort.and(new Sort(orderSort, Tag_.sort.getName()));
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
         return this.success(((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Article_.deleted), false);
+            Predicate predicate = cb.equal(root.get(Tag_.deleted), false);
 
             if (userUuid != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Article_.userUuid), userUuid));
+                predicate = cb.and(predicate, cb.equal(root.get(Tag_.userUuid), userUuid));
             }
-            if (title != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Article_.title), "%" + title + "%"));
-            }
-            if (tag != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Article_.tags), "%" + tag + "%"));
+            if (name != null) {
+                predicate = cb.and(predicate, cb.like(root.get(Tag_.name), "%" + name + "%"));
             }
 
-            if (keyword != null) {
-
-                Predicate predicate1 = cb.like(root.get(Article_.title), "%" + keyword + "%");
-                Predicate predicate2 = cb.like(root.get(Article_.html), "%" + keyword + "%");
-
-                predicate = cb.and(predicate, cb.or(predicate1, predicate2));
-            }
             return predicate;
 
         }), pageable, Base::map);
