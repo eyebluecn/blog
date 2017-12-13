@@ -4,6 +4,7 @@ import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.base.BaseEntityForm;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
+import cn.zicla.blog.util.JsonUtil;
 import cn.zicla.blog.util.ValidationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,10 +21,12 @@ import java.util.Date;
 public class ArticleForm extends BaseEntityForm<Article> {
 
     //标题
+    @NotNull
     @Size(min = 1, max = 255, message = "名称必填并且最长255字")
     private String title;
 
     //标签
+    @NotNull
     @Size(min = 1, max = 1024, message = "标签必填并且最长1024字")
     private String tags;
 
@@ -47,6 +50,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private String markdown;
 
     //html
+    @NotNull
     @Size(min = 1, max = 100000, message = "html必填并且最长100000字")
     private String html;
 
@@ -71,7 +75,10 @@ public class ArticleForm extends BaseEntityForm<Article> {
     @Override
     protected void update(Article article, User operator) {
         article.setTitle(title);
+
+        JsonUtil.toStringList(tags);
         article.setTags(tags);
+
         article.setPosterTankUuid(posterTankUuid);
         article.setPosterUrl(posterUrl);
         article.setAuthor(author);
