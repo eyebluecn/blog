@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import "../node_modules/animate.css/animate.min.css";
+@import "../../node_modules/animate.css/animate.min.css";
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;

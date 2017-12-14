@@ -17,7 +17,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
 
-    <link href="/static/css/app.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
 
 
     <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>
@@ -43,6 +43,7 @@
 <body>
 
 <div class="nb-app">
+
 
     <div>
         这里是菜单
