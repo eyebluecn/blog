@@ -44,9 +44,22 @@
 
 <div class="nb-app">
 
-
-    <div>
-        这里是菜单
+    <div class="section-navigation">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">
+                    <a href="#">
+                        <img src="/static/img/logo.png" class="logo"/>
+                    </a>
+                </div>
+                <div class="col-xs-9 ">
+                    <div class="menus">
+                        <a href="#">首页</a>
+                        <a href="#">关于</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
         <@layout.block name="content"></@layout.block>
 </div>

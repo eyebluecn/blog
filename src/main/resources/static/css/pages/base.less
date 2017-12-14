@@ -1,0 +1,27 @@
+@import "../common/global/variables";
+
+.section-navigation {
+  border-bottom: 1px solid #eeeeee;
+
+  @height: 60px;
+  height: @height;
+
+  .logo {
+    height: @height;
+  }
+
+  .menus {
+    text-align: right;
+    a {
+      line-height: @height;
+      font-size: 16px;
+      color: #555;
+      margin-left: 15px;
+
+      &:hover {
+        border-bottom: 2px solid @brand-primary;
+      }
+    }
+  }
+
+}

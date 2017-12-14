@@ -2,6 +2,7 @@ package cn.zicla.blog.rest.article;
 
 import cn.zicla.blog.rest.base.Base;
 import cn.zicla.blog.rest.base.BaseEntityController;
+import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
@@ -90,65 +91,30 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
-
             @RequestParam(required = false) Sort.Direction orderSort,
             @RequestParam(required = false) Sort.Direction orderTop,
             @RequestParam(required = false) Sort.Direction orderHit,
             @RequestParam(required = false) Sort.Direction orderPrivacy,
             @RequestParam(required = false) Sort.Direction orderReleaseTime,
-
             @RequestParam(required = false) String userUuid,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String tag,
             @RequestParam(required = false) String keyword
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
+        Pager<Article> articlePager = articleService.page(page,
+                pageSize,
+                orderSort,
+                orderTop,
+                orderHit,
+                orderPrivacy,
+                orderReleaseTime,
+                userUuid,
+                title,
+                tag,
+                keyword);
+        return this.success(articlePager);
 
-        if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Article_.sort.getName()));
-        }
-
-        if (orderTop != null) {
-            sort = sort.and(new Sort(orderTop, Article_.top.getName()));
-        }
-
-        if (orderHit != null) {
-            sort = sort.and(new Sort(orderHit, Article_.hit.getName()));
-        }
-
-        if (orderPrivacy != null) {
-            sort = sort.and(new Sort(orderPrivacy, Article_.privacy.getName()));
-        }
-
-        if (orderReleaseTime != null) {
-            sort = sort.and(new Sort(orderReleaseTime, Article_.releaseTime.getName()));
-        }
-
-        Pageable pageable = getPageRequest(page, pageSize, sort);
-        return this.success(((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Article_.deleted), false);
-
-            if (userUuid != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Article_.userUuid), userUuid));
-            }
-            if (title != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Article_.title), "%" + title + "%"));
-            }
-            if (tag != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Article_.tags), "%" + tag + "%"));
-            }
-
-            if (keyword != null) {
-
-                Predicate predicate1 = cb.like(root.get(Article_.title), "%" + keyword + "%");
-                Predicate predicate2 = cb.like(root.get(Article_.html), "%" + keyword + "%");
-
-                predicate = cb.and(predicate, cb.or(predicate1, predicate2));
-            }
-            return predicate;
-
-        }), pageable, Base::map);
     }
 
 }
