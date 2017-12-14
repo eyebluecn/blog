@@ -10,11 +10,18 @@
 
         <#import "../common/widget/NbPager.ftl" as NbPager>
 
-        <h1>这里就是博客首页的内容吗？</h1>
+        <#list articlePager.data as article>
+        <div class="border-bottom mt20">
+            <div>
+                <h3>${article.title}</h3>
+            </div>
+            <div>
+                <p>${article.createTime}</p>
+            </div>
+        </div>
 
-    <div>
-        分页的东东
-    </div>
+        </#list>
+
     <div>
         <@NbPager.NbPager pager=articlePager/>
     </div>

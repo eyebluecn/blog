@@ -61,7 +61,13 @@
             </div>
         </div>
     </div>
-        <@layout.block name="content"></@layout.block>
+
+    <div class="container">
+        <div class="col-xs-12">
+            <@layout.block name="content"></@layout.block>
+        </div>
+    </div>
+
 </div>
 
 </body>
