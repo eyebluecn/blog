@@ -1,11 +1,13 @@
 package cn.zicla.blog.rest.tag;
 
 import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.tank.Tank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,6 +27,9 @@ public class Tag extends BaseEntity {
 
     //Url
     private String logoUrl;
+
+    @Transient
+    private Tank logoTank;
 
 }
 

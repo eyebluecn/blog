@@ -1,6 +1,7 @@
 package cn.zicla.blog.rest.article;
 
 import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.tank.Tank;
 import cn.zicla.blog.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -58,6 +60,9 @@ public class Article extends BaseEntity {
     //发布日期
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date releaseTime;
+
+    @Transient
+    private Tank posterTank;
 
 }
 

@@ -7,6 +7,7 @@ import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
+import cn.zicla.blog.rest.tank.TankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,9 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
 
     @Autowired
     TagService tagService;
+
+    @Autowired
+    TankService tankService;
 
     @Autowired
     TagDao tagDao;
@@ -70,7 +74,9 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
-        return super.detail(uuid);
+        Tag tag = this.check(uuid);
+        tag.setLogoTank(tankService.find(tag.getLogoTankUuid()));
+        return success(tag);
     }
 
     @Override

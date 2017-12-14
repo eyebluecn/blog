@@ -94,6 +94,19 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--freemarker-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <!--用于freemarker模板继承的-->
+        <dependency>
+            <groupId>kr.pe.kwonnam.freemarker</groupId>
+            <artifactId>freemarker-template-inheritance</artifactId>
+            <version>0.4.RELEASE</version>
+        </dependency>
+
 
         <!--测试包-->
         <dependency>
