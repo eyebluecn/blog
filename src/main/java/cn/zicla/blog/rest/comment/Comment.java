@@ -16,7 +16,7 @@ public class Comment extends BaseEntity {
     //文章uui
     private String articleUuid;
 
-    //创建者
+    //创建者,如果登录了用户才有。
     private String userUuid;
 
     //是否是楼层评论

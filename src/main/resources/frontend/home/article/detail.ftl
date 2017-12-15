@@ -5,6 +5,12 @@
     <@layout.put block="head" type="append">
 
         <script src="/static/node_modules/vue/dist/vue.min.js"></script>
+        <script src="/static/node_modules/vue-resource/dist/vue-resource.min.js"></script>
+
+        <script src="/static/js/home/article/time.js"></script>
+        <script src="/static/js/home/article/Base.js"></script>
+        <script src="/static/js/home/article/BaseEntity.js"></script>
+        <script src="/static/js/home/article/Comment.js"></script>
 
         <script src="/static/js/home/article/detail.js"></script>
 

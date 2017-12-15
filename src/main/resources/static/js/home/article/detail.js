@@ -1,33 +1,25 @@
-//定义Comment实体。
-function Comment() {
-    //文章uui
-    this.articleUuid = null;
-    //创建者
-    this.userUuid = null;
-    //是否是楼层评论
-    this.isFloor = false;
-    //如果不是楼层评论，那么应该附着的楼层uuid
-    this.floorUuid = null;
-    //回复的uuid
-    this.puuid = null;
-    //评论者姓名
-    this.name = null;
-    //评论者邮箱
-    this.email = null;
-    //评论内容
-    this.content = null;
-    //是否被举报
-    this.isReport = false;
-    //举报内容
-    this.report = null;
-}
-
 $(function () {
 
     var vm = new Vue({
         el: '#comment-area',
         data: {
-            message: "Hello World"
+            message: "Hello World",
+            comment: new Comment()
+        },
+        mounted: function () {
+            console.log("comment-area mounted")
+            var that = this
+
+            this.comment.httpGet("/api/comment/detail/0b39bd0e-d743-42e5-bdd0-5ec28de0b462", {}, function (response) {
+                console.log("成功了！");
+                that.comment.render(response.body.data)
+                console.log(that.comment)
+
+            }, function (response) {
+                console.log(response)
+                console.log("失败了")
+            })
+
         }
     });
 
