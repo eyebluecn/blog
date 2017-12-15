@@ -5,9 +5,6 @@
 .section-navigation .logo {
   height: 60px;
 }
-.section-navigation .menus {
-  text-align: right;
-}
 .section-navigation .menus a {
   line-height: 60px;
   font-size: 16px;

@@ -6,6 +6,8 @@ import cn.zicla.blog.rest.article.ArticleService;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
+import cn.zicla.blog.rest.tag.Tag;
+import cn.zicla.blog.rest.tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class HomeController extends FrontendBaseController {
 
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    TagService tagService;
 
     /**
      * 首页
@@ -52,7 +57,17 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null);
 
+        //准备标签分页
+        Pager<Tag> tagPager = tagService.page(
+                0,
+                20,
+                null,
+                null,
+                null
+        );
+
         model.addAttribute("articlePager", articlePager);
+        model.addAttribute("tagPager", tagPager);
 
         return "home/index";
     }

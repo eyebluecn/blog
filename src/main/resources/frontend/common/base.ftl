@@ -47,24 +47,24 @@
     <div class="section-navigation">
         <div class="container">
             <div class="row">
-                <div class="col-xs-3">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                     <a href="/">
                         <img src="/static/img/logo.png" class="logo"/>
                     </a>
-                </div>
-                <div class="col-xs-9 ">
-                    <div class="menus">
+                    <span class="menus">
                         <a href="/">首页</a>
                         <a href="#">关于</a>
-                    </div>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="col-xs-12">
-            <@layout.block name="content"></@layout.block>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <@layout.block name="content"></@layout.block>
+            </div>
         </div>
     </div>
 

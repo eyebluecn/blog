@@ -7,7 +7,9 @@
     </@layout.put>
 
     <@layout.put block="content" type="replace">
+
         ${article.html}
+
     </@layout.put>
 
 </@layout.extends>

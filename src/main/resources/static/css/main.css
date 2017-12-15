@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import "../../node_modules/animate.css/animate.min.css";
+@import "../node_modules/animate.css/animate.min.css";
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -16842,9 +16842,6 @@ p {
 .section-navigation .logo {
   height: 60px;
 }
-.section-navigation .menus {
-  text-align: right;
-}
 .section-navigation .menus a {
   line-height: 60px;
   font-size: 16px;
@@ -16853,4 +16850,24 @@ p {
 }
 .section-navigation .menus a:hover {
   border-bottom: 2px solid #23B7E5;
+}
+.tag-collection {
+  display: inline-block;
+  margin: 0 18px 18px 0;
+  min-height: 32px;
+  background-color: #f7f7f7;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  vertical-align: top;
+  overflow: hidden;
+  color: #333;
+}
+.tag-collection img {
+  width: 32px;
+  height: 32px;
+}
+.tag-collection .name {
+  display: inline-block;
+  padding: 0 11px 0 6px;
+  font-size: 14px;
 }

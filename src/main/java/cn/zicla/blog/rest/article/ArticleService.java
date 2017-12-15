@@ -25,8 +25,6 @@ public class ArticleService extends BaseEntityService<Article> {
     @Autowired
     UserService userService;
 
-
-
     @Autowired
     SupportSessionDao supportSessionDao;
 
@@ -35,18 +33,17 @@ public class ArticleService extends BaseEntityService<Article> {
     }
 
     public Pager<Article> page(
-
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "20") Integer pageSize,
-            @RequestParam(required = false) Sort.Direction orderSort,
-            @RequestParam(required = false) Sort.Direction orderTop,
-            @RequestParam(required = false) Sort.Direction orderHit,
-            @RequestParam(required = false) Sort.Direction orderPrivacy,
-            @RequestParam(required = false) Sort.Direction orderReleaseTime,
-            @RequestParam(required = false) String userUuid,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String tag,
-            @RequestParam(required = false) String keyword
+            Integer page,
+            Integer pageSize,
+            Sort.Direction orderSort,
+            Sort.Direction orderTop,
+            Sort.Direction orderHit,
+            Sort.Direction orderPrivacy,
+            Sort.Direction orderReleaseTime,
+            String userUuid,
+            String title,
+            String tag,
+            String keyword
     ) {
 
         Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
