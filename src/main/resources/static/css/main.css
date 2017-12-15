@@ -16851,6 +16851,10 @@ p {
 .section-navigation .menus a:hover {
   border-bottom: 2px solid #23B7E5;
 }
+.article-content img {
+  max-width: 100%;
+  text-align: center;
+}
 .tag-collection {
   display: inline-block;
   margin: 0 18px 18px 0;

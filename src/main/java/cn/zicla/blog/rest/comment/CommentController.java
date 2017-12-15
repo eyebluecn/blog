@@ -8,6 +8,7 @@ import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.comment.*;
+import cn.zicla.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -48,9 +49,21 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.PUBLIC)
     public WebResult create(@Valid CommentForm form) {
-        return super.create(form);
+
+        Comment comment = new Comment();
+        User user = this.findUser();
+
+        //如果有登录。
+        if (this.findUser() != null) {
+            comment.setUserUuid(user.getUuid());
+        }
+
+        form.update(comment, user);
+
+        comment = commentDao.save(comment);
+        return success(comment);
     }
 
     @Override

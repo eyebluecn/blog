@@ -13,6 +13,9 @@ import javax.persistence.Entity;
 @Entity
 public class Comment extends BaseEntity {
 
+    //文章uui
+    private String articleUuid;
+
     //创建者
     private String userUuid;
 
