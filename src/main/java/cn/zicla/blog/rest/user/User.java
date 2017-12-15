@@ -20,6 +20,7 @@ import java.util.Date;
 @Entity
 public class User extends BaseEntity {
 
+    public static final String TAG = "user";
     private String username;
 
     @JsonIgnore

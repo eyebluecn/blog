@@ -59,7 +59,6 @@ public class UserController extends BaseEntityController<User, UserForm> {
     }
 
 
-
     @Override
     @Feature(FeatureType.USER_MANAGE)
     public WebResult create(@Valid UserForm form) {
@@ -153,7 +152,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
         log.info(user.getUsername() + " login from ip:" + ip);
 
         //Store user into session.
-        request.getSession().setAttribute(user.getTAG(), user);
+        request.getSession().setAttribute(User.TAG, user);
 
 
         SupportSession supportSession = new SupportSession(user.getUuid(), ip, new Date(System.currentTimeMillis() + SupportSession.EXPIRY * 1000));
@@ -247,7 +246,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
         response.addCookie(cookie);
 
         //清除session.
-        httpSession.removeAttribute(user.getTAG());
+        httpSession.removeAttribute(User.TAG);
         if (authentication != null) {
 
             SupportSession supportSession = supportSessionDao.findOne(authentication);

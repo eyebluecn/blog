@@ -165,7 +165,7 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
         HttpServletRequest request = attributes.getRequest();
         HttpSession httpSession = request.getSession(true);
 
-        Object userObject = httpSession.getAttribute(User.getTAG(User.class));
+        Object userObject = httpSession.getAttribute(User.TAG);
         if (userObject == null) {
             return null;
         }

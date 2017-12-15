@@ -57,7 +57,7 @@ public class UserService extends BaseEntityService<User> {
 
         //验证用户的身份，是否已经登录了。
         HttpSession httpSession = request.getSession();
-        User user = (User) httpSession.getAttribute(User.getTAG(User.class));
+        User user = (User) httpSession.getAttribute(User.TAG);
 
         if (user == null) {
 
@@ -89,7 +89,7 @@ public class UserService extends BaseEntityService<User> {
 
                         if (user != null) {
 
-                            httpSession.setAttribute(user.getTAG(), user);
+                            httpSession.setAttribute(User.TAG, user);
 
                             //更新该用户的登录信息
                             supportSession.setExpireTime(new Date(System.currentTimeMillis() + SupportSession.EXPIRY * 1000));
