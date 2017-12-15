@@ -9,6 +9,7 @@ import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.tank.TankService;
+import cn.zicla.blog.rest.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
     @Autowired
     TankService tankService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     ArticleDao articleDao;
@@ -74,6 +78,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     public WebResult detail(@PathVariable String uuid) {
         Article article = this.check(uuid);
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
+        article.setUser(userService.find(article.getUserUuid()));
         return success(article);
 
     }
@@ -113,6 +118,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
                 title,
                 tag,
                 keyword);
+
         return this.success(articlePager);
 
     }

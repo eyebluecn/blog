@@ -108,16 +108,16 @@ public class AppContextManager implements ApplicationContextAware {
     }
 
     //检出一个指定类型的实例。不考虑deleted字段。找不到抛异常。
-    public static <T extends BaseEntity> T checkDeeply(Class<T> clazz, String id) {
+    public static <T extends BaseEntity> T checkDeeply(Class<T> clazz, String uuid) {
 
-        if (id == null) {
+        if (uuid == null) {
             throw new UtilException("id必须指定");
         }
 
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
 
 
-        T entity = baseDao.findOne(id);
+        T entity = baseDao.findOne(uuid);
 
         if (entity == null) {
             throw new NotFoundException("您访问的内容不存在或者已经被删除");
@@ -128,13 +128,13 @@ public class AppContextManager implements ApplicationContextAware {
 
 
     //找出一个指定类型的实例。考虑deleted字段。找不到返回null
-    public static <T extends BaseEntity> T find(Class<T> clazz, String id) {
+    public static <T extends BaseEntity> T find(Class<T> clazz, String uuid) {
 
-        if (id == null) {
+        if (uuid == null) {
             return null;
         }
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-        T entity = baseDao.findOne(id);
+        T entity = baseDao.findOne(uuid);
         if (entity == null || entity.deleted) {
             return null;
         }
@@ -142,13 +142,13 @@ public class AppContextManager implements ApplicationContextAware {
     }
 
     //找出一个指定类型的实例，不考虑deleted字段。找不到返回null
-    public static <T extends BaseEntity> T findDeeply(Class<T> clazz, String id) {
+    public static <T extends BaseEntity> T findDeeply(Class<T> clazz, String uuid) {
 
-        if (id == null) {
+        if (uuid == null) {
             return null;
         }
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-        T entity = baseDao.findOne(id);
+        T entity = baseDao.findOne(uuid);
         if (entity == null) {
             return null;
         }

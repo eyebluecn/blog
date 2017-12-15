@@ -2,6 +2,7 @@ package cn.zicla.blog.rest.article;
 
 import cn.zicla.blog.rest.base.BaseEntity;
 import cn.zicla.blog.rest.tank.Tank;
+import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -33,8 +34,6 @@ public class Article extends BaseEntity {
     //封面图片Url
     private String posterUrl;
 
-    //作者
-    private String author;
 
     //摘要
     private String digest;
@@ -63,6 +62,9 @@ public class Article extends BaseEntity {
 
     @Transient
     private Tank posterTank;
+
+    @Transient
+    private User user;
 
 }
 

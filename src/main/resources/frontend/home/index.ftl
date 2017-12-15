@@ -13,7 +13,11 @@
         <#list articlePager.data as article>
         <div class="border-bottom mt20">
             <div>
-                <h3>${article.title}</h3>
+                <h3>
+                    <a href="/home/article/${article.uuid}">
+                        ${article.title}
+                    </a>
+                </h3>
             </div>
             <div>
                 <p>${article.createTime}</p>

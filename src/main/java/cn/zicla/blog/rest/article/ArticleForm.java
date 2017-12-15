@@ -36,9 +36,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
     //封面图片Url
     private String posterUrl;
 
-    //作者
-    private String author;
-
     //摘要
     private String digest;
 
@@ -81,7 +78,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
 
         article.setPosterTankUuid(posterTankUuid);
         article.setPosterUrl(posterUrl);
-        article.setAuthor(author);
         article.setDigest(digest);
         article.setIsMarkdown(isMarkdown);
 

@@ -9,23 +9,23 @@ public abstract class BaseService {
 
 
     //检出一个指定类型的实例。找不到抛异常。考虑deleted.
-    protected <T extends BaseEntity> T check(Class<T> clazz, String id) {
-        return AppContextManager.check(clazz, id);
+    protected <T extends BaseEntity> T check(Class<T> clazz, String uuid) {
+        return AppContextManager.check(clazz, uuid);
     }
 
     //检出一个指定类型的实例。找不到抛异常。不考虑deleted.
-    protected <T extends BaseEntity> T checkDeeply(Class<T> clazz, String id) {
-        return AppContextManager.checkDeeply(clazz, id);
+    protected <T extends BaseEntity> T checkDeeply(Class<T> clazz, String uuid) {
+        return AppContextManager.checkDeeply(clazz, uuid);
     }
 
     //找出一个指定类型的实例。找不到返回null 考虑deleted.
-    protected <T extends BaseEntity> T find(Class<T> clazz, String id) {
-        return AppContextManager.find(clazz, id);
+    protected <T extends BaseEntity> T find(Class<T> clazz, String uuid) {
+        return AppContextManager.find(clazz, uuid);
     }
 
     //找出一个指定类型的实例。找不到返回null 不考虑deleted.
-    protected <T extends BaseEntity> T findDeeply(Class<T> clazz, String id) {
-        return AppContextManager.findDeeply(clazz, id);
+    protected <T extends BaseEntity> T findDeeply(Class<T> clazz, String uuid) {
+        return AppContextManager.findDeeply(clazz, uuid);
     }
 
 

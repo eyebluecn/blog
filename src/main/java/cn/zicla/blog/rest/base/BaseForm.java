@@ -13,13 +13,13 @@ public abstract class BaseForm {
     protected String uuid;
 
     //检出一个指定类型的实例。找不到抛异常。
-    protected <T extends BaseEntity> T check(Class<T> clazz, String id) {
-        return AppContextManager.check(clazz, id);
+    protected <T extends BaseEntity> T check(Class<T> clazz, String uuid) {
+        return AppContextManager.check(clazz, uuid);
     }
 
     //找出一个指定类型的实例。找不到返回null
-    protected <T extends BaseEntity> T find(Class<T> clazz, String id) {
-        return AppContextManager.find(clazz, id);
+    protected <T extends BaseEntity> T find(Class<T> clazz, String uuid) {
+        return AppContextManager.find(clazz, uuid);
     }
 
 }

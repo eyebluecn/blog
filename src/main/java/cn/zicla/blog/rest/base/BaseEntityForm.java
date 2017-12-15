@@ -41,16 +41,16 @@ public abstract class BaseEntityForm<E extends BaseEntity> extends BaseForm {
      * 从数据库中检出一个当前泛型的实例。
      * 找不到抛异常。
      */
-    public E check(String id) {
+    public E check(String uuid) {
 
-        return AppContextManager.check(this.clazz, id);
+        return AppContextManager.check(this.clazz, uuid);
     }
 
     /**
      * 从数据库中找出一个当前泛型的实例。
      */
-    public E find(String id) {
-        return AppContextManager.find(this.clazz, id);
+    public E find(String uuid) {
+        return AppContextManager.find(this.clazz, uuid);
     }
 
 }
