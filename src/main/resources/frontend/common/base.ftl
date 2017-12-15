@@ -28,7 +28,7 @@
     <script src="/static/node_modules/toastr/build/toastr.min.js"></script>
 
 
-    <script src="/static/node_modules/vue/dist/vue.min.js"></script>
+
 
     <script src="/static/js/common/widget/NbPager.js"></script>
     <script src="/static/js/common/widget/NbTab.js"></script>

@@ -4,6 +4,10 @@
     </@layout.put>
     <@layout.put block="head" type="append">
 
+        <script src="/static/node_modules/vue/dist/vue.min.js"></script>
+
+        <script src="/static/js/home/article/detail.js"></script>
+
     </@layout.put>
 
     <@layout.put block="content" type="replace">
@@ -19,6 +23,12 @@
             <div class="row mt20">
                 <div class="col-xs-12">
                     <h2>写下你的评论</h2>
+                </div>
+
+                <div class="col-xs-12">
+                    <div id="comment-area">
+                        {{message}}
+                    </div>
                 </div>
             </div>
 

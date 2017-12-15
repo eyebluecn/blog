@@ -7,7 +7,6 @@ import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
-import cn.zicla.blog.rest.comment.*;
 import cn.zicla.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +93,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     }
 
 
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.PUBLIC)
     @RequestMapping("/page")
     public WebResult page(
 
