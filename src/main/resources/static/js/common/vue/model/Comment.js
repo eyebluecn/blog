@@ -26,7 +26,7 @@ function Comment() {
     this.report = null;
 
     //子评论
-    this.commentPager = new Pager(Comment, 8)
+    this.commentPager = new Pager(Comment, 10)
 }
 
 //继承Base的方法
@@ -64,6 +64,11 @@ Comment.prototype.getFilters = function () {
 Comment.prototype.refreshCommentPager = function () {
     var that = this;
     return function () {
+        that.commentPager.setFilterValue("orderSort", "DESC")
+        that.commentPager.setFilterValue("articleUuid", that.articleUuid)
+        that.commentPager.setFilterValue("floorUuid", that.uuid)
+        that.commentPager.setFilterValue("isFloor", false)
+        that.commentPager.setFilterValue("needSubPager", false)
         that.commentPager.httpFastPage()
     }
 }

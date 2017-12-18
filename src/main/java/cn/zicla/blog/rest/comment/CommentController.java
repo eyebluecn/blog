@@ -130,7 +130,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             pager.getData().forEach(comment -> {
                 comment.setCommentPager(commentService.page(
                         0,
-                        12,
+                        10,
                         Sort.Direction.DESC,
                         null,
                         articleUuid,

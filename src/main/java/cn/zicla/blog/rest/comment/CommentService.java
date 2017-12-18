@@ -1,26 +1,17 @@
 package cn.zicla.blog.rest.comment;
 
-import cn.zicla.blog.rest.base.Base;
 import cn.zicla.blog.rest.base.BaseEntityService;
 import cn.zicla.blog.rest.base.Pager;
-import cn.zicla.blog.rest.base.WebResult;
-import cn.zicla.blog.rest.core.Feature;
-import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
-import cn.zicla.blog.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.criteria.Predicate;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
