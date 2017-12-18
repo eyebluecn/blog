@@ -7,10 +7,10 @@
         <script src="/static/node_modules/vue/dist/vue.min.js"></script>
         <script src="/static/node_modules/vue-resource/dist/vue-resource.min.js"></script>
 
-        <script src="/static/js/vue/time.js"></script>
-        <script src="/static/js/vue/Base.js"></script>
-        <script src="/static/js/vue/BaseEntity.js"></script>
-        <script src="/static/js/home/article/Comment.js"></script>
+        <script src="/static/js/common/vue/util/Utils.js"></script>
+        <script src="/static/js/common/vue/base/Base.js"></script>
+        <script src="/static/js/common/vue/base/BaseEntity.js"></script>
+        <script src="/static/js/common/vue/model/Comment.js"></script>
 
         <script src="/static/js/home/article/detail.js"></script>
 

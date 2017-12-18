@@ -206,3 +206,23 @@ Base.prototype.httpPost = function (url, params, successCallback, errorCallback,
 
     })
 }
+
+
+//获取到当前类的单数标签。比如 Project便得到 project
+Base.prototype.getTAG = function () {
+
+    var className = this.constructor.name
+
+    return lowerCamel(className)
+}
+
+//获取到当前类的复数标签。比如 Project便得到 projects
+Base.prototype.getTAGS = function () {
+
+    return toPlural(this.getTAG())
+}
+
+//获取到当前实体的url前缀。
+Base.prototype.getUrlPrefix = function () {
+    return '/api' + lowerSlash(this.getTAG())
+}
