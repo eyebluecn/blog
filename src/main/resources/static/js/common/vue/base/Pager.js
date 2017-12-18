@@ -241,7 +241,8 @@ Pager.prototype.httpPage = function (params, successCallback, errorCallback) {
 
 Pager.prototype.render = function (obj) {
 
-    super.render(obj)
+    Base.prototype.render.call(this, obj);
+
     this.renderList('data', this.Clazz)
 
 }

@@ -1,11 +1,13 @@
 package cn.zicla.blog.rest.comment;
 
 import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.base.Pager;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -42,6 +44,11 @@ public class Comment extends BaseEntity {
 
     //举报内容
     private String report;
+
+
+    //如果当前comment是一个floor，那么它下面的pager.
+    @Transient
+    private Pager<Comment> commentPager;
 
 
 }

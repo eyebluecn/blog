@@ -36,3 +36,22 @@ Comment.prototype.render = function (obj) {
         BaseEntity.prototype.render.call(this, obj);
     }
 };
+
+//获取过滤器，必须每次动态生成，否则会造成filter逻辑混乱。
+Comment.prototype.getFilters = function () {
+    return [
+        new Filter('SORT', '按时间', 'orderSort'),
+        new Filter('INPUT', '用户Uuid', 'userUuid'),
+        new Filter('INPUT', '文章主体', 'articleUuid'),
+        new Filter('CHECK', '是否为楼层', 'isFloor'),
+        new Filter('INPUT', '楼层', 'floorUuid'),
+        new Filter('INPUT', '上一级', 'puuid'),
+        new Filter('INPUT', '用户名字', 'name'),
+        new Filter('INPUT', '邮箱', 'email'),
+        new Filter('INPUT', '内容', 'content'),
+        new Filter('CHECK', '是否被举报', 'isReport'),
+        new Filter('INPUT', '举报内容', 'report'),
+        new Filter('CHECK', '是否需要子评论', 'needSubPager')
+    ]
+};
+

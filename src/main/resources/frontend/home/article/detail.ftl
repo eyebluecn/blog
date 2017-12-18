@@ -49,10 +49,14 @@
                             </div>
                             <div class="tree-area">
 
+                                <div v-for="(comment,index) in pager.data">
+                                    {{comment.content}}
+                                </div>
+
                             </div>
 
                             <div class="pager-area">
-                                <nb-pager :pager="pager"/>
+                                <nb-pager :pager="pager" :callback="refresh"/>
                             </div>
 
 

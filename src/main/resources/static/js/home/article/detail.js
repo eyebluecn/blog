@@ -5,25 +5,34 @@ $(function () {
         data: {
             message: "Hello World1",
             pager: new Pager(Comment, 12),
-            comment: new Comment()
+            articleUuid: null
+        },
+
+        methods: {
+            refresh: function () {
+                var that = this
+
+                that.pager.setFilterValue("orderSort", "DESC")
+                that.pager.setFilterValue("articleUuid", that.articleUuid)
+                that.pager.setFilterValue("isFloor", true)
+                that.pager.setFilterValue("needSubPager", true)
+
+                //开始获取pager中的内容。
+                that.pager.httpFastPage();
+
+            }
         },
 
         mounted: function () {
             console.log("comment-area mounted")
+
             var that = this
 
-            //开始获取pager中的内容。
-            that.pager.httpFastPage();
+            var arr = window.location.pathname.split("/")
+            that.articleUuid = arr[arr.length - 1]
 
-            this.comment.httpGet("/api/comment/detail/0b39bd0e-d743-42e5-bdd0-5ec28de0b462", {}, function (response) {
-                console.log("成功了！");
-                that.comment.render(response.body.data)
-                console.log(that.comment)
+            that.refresh();
 
-            }, function (response) {
-                console.log(response)
-                console.log("失败了")
-            })
 
         }
     });

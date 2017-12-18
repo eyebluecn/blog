@@ -1,7 +1,7 @@
 <#-- 分页 -->
 <#macro NbPager>
 
-<script type="text/x-template" id="NbPager">
+<script type="text/x-template" id="nb-pager">
     <div>
         <div class="text-center" v-show="pager.loading">
             <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
@@ -237,6 +237,8 @@
         },
         mounted: function () {
             this.pageSize = this.pager.pageSize;
+
+            console.log("没有内容吗？ pager")
 
             if (!this.pager.offset) {
                 this.pager.offset = 3;
