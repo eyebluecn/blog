@@ -30,9 +30,9 @@
 
 
 
-    <script src="/static/js/common/widget/NbPager.js"></script>
-    <script src="/static/js/common/widget/NbTab.js"></script>
-    <script src="/static/js/common/widget/NbExpanding.js"></script>
+    <script src="/static/js/common/widget/FtlPager.js"></script>
+    <script src="/static/js/common/widget/FtlTab.js"></script>
+    <script src="/static/js/common/widget/FtlExpanding.js"></script>
 
 
     <script src="/static/js/init.js"></script>

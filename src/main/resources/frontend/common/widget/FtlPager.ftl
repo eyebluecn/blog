@@ -1,5 +1,5 @@
 <#-- 分页（Pager对象、链接URL、参数Map、最大页码显示数） -->
-<#macro NbPager pager baseUrl=baseUrl colOffset = 3>
+<#macro FtlPager pager baseUrl=baseUrl colOffset = 3>
     <#local pageNumber = pager.page+1 />
     <#local pageSize = pager.pageSize />
     <#local pageCount = pager.totalPages />

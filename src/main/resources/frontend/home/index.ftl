@@ -8,7 +8,7 @@
 
     <@layout.put block="content" type="replace">
 
-        <#import "../common/widget/NbPager.ftl" as NbPager>
+        <#import "../common/widget/FtlPager.ftl" as FtlPager>
 
 <div class="row">
     <div class="col-sm-8 mt40">
@@ -44,7 +44,7 @@
 </div>
 
     <div>
-        <@NbPager.NbPager pager=articlePager/>
+        <@FtlPager.FtlPager pager=articlePager/>
     </div>
 
     </@layout.put>

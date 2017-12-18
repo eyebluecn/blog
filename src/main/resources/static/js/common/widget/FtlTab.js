@@ -31,10 +31,10 @@ $(function () {
         var index = $(this).index();
 
         var $typeBar = $this.closest(".type-bar");
-        var $parentNbTab = $typeBar.closest(".nb-tabs");
+        var $parentFtlTab = $typeBar.closest(".nb-tabs");
 
         var $childTypes = $typeBar.find(".type");
-        var $nbTabPanels = $parentNbTab.find(".nb-tab-panel");
+        var $nbTabPanels = $parentFtlTab.find(".nb-tab-panel");
 
         $childTypes.removeClass("active");
         $nbTabPanels.removeClass("active");
