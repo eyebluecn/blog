@@ -3,7 +3,6 @@ $(function () {
     var vm = new Vue({
         el: '#comment-area',
         data: {
-            message: "Hello World1",
             pager: new Pager(Comment, 12),
             articleUuid: null
         },

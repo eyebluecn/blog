@@ -24,6 +24,9 @@ function Comment() {
     this.isReport = false;
     //举报内容
     this.report = null;
+
+    //子评论
+    this.commentPager = new Pager(Comment, 8)
 }
 
 //继承Base的方法
@@ -34,6 +37,9 @@ Comment.prototype.constructor = Comment;
 Comment.prototype.render = function (obj) {
     if (obj) {
         BaseEntity.prototype.render.call(this, obj);
+
+        this.renderEntity("commentPager", Pager)
+
     }
 };
 
@@ -55,3 +61,9 @@ Comment.prototype.getFilters = function () {
     ]
 };
 
+Comment.prototype.refreshCommentPager = function () {
+    var that = this;
+    return function () {
+        that.commentPager.httpFastPage()
+    }
+}

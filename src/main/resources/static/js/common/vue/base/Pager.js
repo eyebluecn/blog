@@ -17,6 +17,10 @@ function Pager(Clazz, pageSize, page) {
 
     //this field means whether add filter query to the URL.
     this.history = null
+
+    //供nb-pager使用的
+    this.offset = 3
+
     //list attributes.
     if (Clazz && (Clazz.prototype instanceof BaseEntity)) {
         this.Clazz = Clazz

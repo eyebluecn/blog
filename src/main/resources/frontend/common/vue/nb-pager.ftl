@@ -28,6 +28,7 @@
             </div>
         </div>
 
+
         <div v-if="showPagination" class="text-center">
             <nav>
                 <ul class="pagination mt20 mb0">
@@ -119,13 +120,19 @@
             },
             indicators: function () {
 
+                console.log("this.totalPages:" + this.totalPages)
+                console.log("this.totalPages:" + this.colSize)
+                console.log("this.pager.page:" + this.pager.page)
+                console.log("this.pager.page:" + this.pager.offset)
+
                 var arr = [];
                 //only one group. start from 1.
                 if (this.totalPages <= this.colSize) {
                     for (var i = 1; i < 1 + this.totalPages; i++) {
                         arr.push(i);
-
                     }
+
+
                 } else {
 
                     //many groups.

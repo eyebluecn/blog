@@ -18,6 +18,29 @@
   max-width: 100%;
   text-align: center;
 }
+#comment-area .tree-area .cell-area {
+  border-bottom: 1px solid #eeeeee;
+  padding: 15px 0;
+}
+#comment-area .tree-area .cell-area .reply-btn {
+  color: #888;
+  margin-right: 10px;
+}
+#comment-area .tree-area .cell-area .reply-btn:hover {
+  color: black;
+}
+#comment-area .tree-area .cell-area .reply-area {
+  border-left: 4px solid #eeeeee;
+  padding-left: 20px;
+}
+#comment-area .tree-area .cell-area .reply-area .sub-cell-area {
+  padding: 15px 0;
+  border-top: 1px solid #eeeeee;
+}
+#comment-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
+  border-top: none;
+  margin-top: 15px;
+}
 .tag-collection {
   display: inline-block;
   margin: 0 18px 18px 0;

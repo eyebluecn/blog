@@ -1,4 +1,3 @@
-
 /*******************************时间处理部分*************************************/
 //定义一个转换器
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -85,7 +84,7 @@ if (!Date.prototype.setISO8601) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd格式的字符串
-function simpleDate (d, fallback) {
+function simpleDate(d, fallback) {
     if (d instanceof Date) {
         return d.format('yyyy-MM-dd')
     } else if (d === null) {
@@ -96,7 +95,7 @@ function simpleDate (d, fallback) {
 }
 
 //将js的时间对象，转换成MM-dd格式的字符串
-function simpleMiniDate (d, fallback) {
+function simpleMiniDate(d, fallback) {
     if (d instanceof Date) {
         return d.format('MM-dd')
     } else if (d === null) {
@@ -107,7 +106,7 @@ function simpleMiniDate (d, fallback) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd HH:mm:ss格式的字符串
-function simpleDateTime (d, fallback) {
+function simpleDateTime(d, fallback) {
     if (d instanceof Date) {
         return d.format('yyyy-MM-dd HH:mm:ss')
     } else if (d === null) {
@@ -119,7 +118,7 @@ function simpleDateTime (d, fallback) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd HH:mm格式的字符串
-function simpleDateHourMinute (d, fallback) {
+function simpleDateHourMinute(d, fallback) {
     if (d instanceof Date) {
         return d.format('yyyy-MM-dd HH:mm')
     } else if (d === null) {
@@ -131,7 +130,7 @@ function simpleDateHourMinute (d, fallback) {
 }
 
 //将js的时间对象，转换成HH:mm:ss格式的字符串
-function simpleTime (d, fallback) {
+function simpleTime(d, fallback) {
 
     if (d instanceof Date) {
         return d.format('HH:mm:ss')
@@ -143,7 +142,7 @@ function simpleTime (d, fallback) {
 }
 
 //将js的时间对象，转换成HH:mm格式的字符串
-function simpleMinute (d, fallback) {
+function simpleMinute(d, fallback) {
 
     if (d instanceof Date) {
         return d.format('HH:mm')
@@ -155,7 +154,7 @@ function simpleMinute (d, fallback) {
 }
 
 //将js的时间对象，转换成dd格式的字符串
-function simpleDay (d, fallback) {
+function simpleDay(d, fallback) {
 
     if (d instanceof Date) {
         return d.format('dd')
@@ -167,7 +166,7 @@ function simpleDay (d, fallback) {
 }
 
 //将js的时间对象，转换成yyyy-MM格式的字符串
-function simpleYearAndMonth (d, fallback) {
+function simpleYearAndMonth(d, fallback) {
 
     if (d instanceof Date) {
         return d.format('yyyy-MM')
@@ -179,7 +178,7 @@ function simpleYearAndMonth (d, fallback) {
 }
 
 //将js的时间对象，转换成人性化的时间。当天：15:34 2017-04-03
-function humanTime (d, fallback) {
+function humanTime(d, fallback) {
 
     var now = new Date()
     if (d instanceof Date) {
@@ -197,7 +196,7 @@ function humanTime (d, fallback) {
 }
 
 //将时间戳转换成易读的格式
-function unixTimeStamp2simpleDate (timestamp) {
+function unixTimeStamp2simpleDate(timestamp) {
 
     if ((typeof timestamp) === 'number') {
         var unixTimestamp = new Date(timestamp)
@@ -212,7 +211,7 @@ function unixTimeStamp2simpleDate (timestamp) {
 }
 
 //将时间戳转换成易读的格式
-function unixTimeStamp2simpleDateTime (timestamp) {
+function unixTimeStamp2simpleDateTime(timestamp) {
 
     if ((typeof timestamp) === 'number') {
 
@@ -228,7 +227,7 @@ function unixTimeStamp2simpleDateTime (timestamp) {
 }
 
 //将java时间字符串转换成易读的格式
-function str2simpleDate (str) {
+function str2simpleDate(str) {
     if (!str) {
         return 'Invalid time'
     }
@@ -241,7 +240,7 @@ function str2simpleDate (str) {
 }
 
 //将java时间字符串转换成易读的格式
-function str2simpleDateTime (str) {
+function str2simpleDateTime(str) {
 
     if (!str) {
         return 'Invalid time'
@@ -254,7 +253,7 @@ function str2simpleDateTime (str) {
 }
 
 //将java时间字符串转换成易读的格式
-function str2DateTime (str) {
+function str2DateTime(str) {
 
     if (!str) {
         return 'Invalid time'
@@ -267,7 +266,7 @@ function str2DateTime (str) {
 }
 
 //将java时间字符串转化成js date
-function str2Date (str) {
+function str2Date(str) {
     if (!str) {
         return null
     }
@@ -302,7 +301,7 @@ function str2Date (str) {
 }
 
 //将时间戳转换成易读的格式
-function str2simpleTime (str) {
+function str2simpleTime(str) {
 
     if (!str) {
         return 'Invalid time'
@@ -313,7 +312,7 @@ function str2simpleTime (str) {
 }
 
 //将时间戳转换成毫秒形式
-function str2timeStamp (str) {
+function str2timeStamp(str) {
 
     if (!str) {
         return 'Invalid time'
@@ -324,7 +323,7 @@ function str2timeStamp (str) {
 }
 
 //将日期转换成相对于今天的星期几。昨天，明天，今天
-function date2Weekday (date) {
+function date2Weekday(date) {
     var today = new Date()
     var dateYear = date.getFullYear()
     var dateMonth = date.getMonth()
@@ -360,17 +359,17 @@ function date2Weekday (date) {
 }
 
 //返回前一天的日期
-function preDay (date) {
+function preDay(date) {
     return new Date(date.getTime() - 24 * 60 * 60 * 1000)
 }
 
 //返回后一天的日期
-function nextDay (date) {
+function nextDay(date) {
     return new Date(date.getTime() + 24 * 60 * 60 * 1000)
 }
 
 //这个是为了兼容pdf预览时pebble的过滤器。
-function date (d, format) {
+function date(d, format) {
 
     if (d instanceof Date) {
         return d.format(format)
@@ -383,7 +382,7 @@ function date (d, format) {
 
 /*******************************=字符串处理部分*************************************/
 
-function startWith (str, prefix) {
+function startWith(str, prefix) {
     if (typeof prefix === 'undefined' || prefix === null || prefix === '' || typeof str === 'undefined' || str === null || str.length === 0 || prefix.length > str.length) {
         return false
     }
@@ -391,7 +390,7 @@ function startWith (str, prefix) {
     return str.substr(0, prefix.length) === prefix
 }
 
-function endWith (str, suffix) {
+function endWith(str, suffix) {
     if (suffix === null || suffix === '' || str === null || str.length === 0 || suffix.length > str.length) {
         return false
     }
@@ -400,7 +399,7 @@ function endWith (str, suffix) {
 }
 
 //获取文件后缀名
-function getExtension (filename) {
+function getExtension(filename) {
 
     if (filename === null || filename === '') {
         return ''
@@ -414,7 +413,7 @@ function getExtension (filename) {
 }
 
 //一个字符串包含子字符串
-function containStr (father, child) {
+function containStr(father, child) {
 
     if (father === null || father === '') {
         return false
@@ -424,7 +423,7 @@ function containStr (father, child) {
 
 //把一个大小转变成方便读的格式
 //human readable file size
-function humanFileSize (bytes, si) {
+function humanFileSize(bytes, si) {
     var thresh = si ? 1024 : 1000
     if (Math.abs(bytes) < thresh) {
         return bytes + ' B'
@@ -441,7 +440,7 @@ function humanFileSize (bytes, si) {
 }
 
 //把数字转换成中文大写金额
-function numberCapital (num) {
+function numberCapital(num) {
     var strOutput = ''
     var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分'
     num += '00'
@@ -459,7 +458,7 @@ function numberCapital (num) {
 }
 
 //转换成首字母小写的驼峰法
-function lowerCamel (str) {
+function lowerCamel(str) {
 
     if (!str) {
         console.error('不能转换空的驼峰字符串。')
@@ -472,7 +471,7 @@ function lowerCamel (str) {
 }
 
 //转换成全部小写的使用 /分隔的字符串
-function lowerSlash (str) {
+function lowerSlash(str) {
     return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
         return '/' + letter.toLowerCase()
     }).replace(/\s+/g, '')
@@ -491,7 +490,7 @@ function lowerSlash (str) {
  4.以辅音字母+y结尾的名词,将y改变为i,再加-es.
  元音字母+y结尾的名词则直接加s
  */
-function toPlural (singular) {
+function toPlural(singular) {
 
     if (!singular) {
         console.error('不能转换空字符为复数形式。')
@@ -514,15 +513,6 @@ function toPlural (singular) {
     }
 
 }
-
-
-
-
-
-
-
-
-
 
 
 /*******************************=Util处理部分*************************************/
@@ -608,3 +598,7 @@ function removeLocalStorage(key) {
         console.error("not support localStorage.");
     }
 }
+
+
+//注册到vue过滤器中
+Vue.filter('simpleDateHourMinute', simpleDateHourMinute)
