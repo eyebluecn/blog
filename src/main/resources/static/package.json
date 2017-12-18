@@ -11,6 +11,7 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
+    "editor.md": "^1.5.0",
     "font-awesome": "^4.7.0",
     "iframe-resizer": "^3.5.14",
     "jquery": "^3.2.1",

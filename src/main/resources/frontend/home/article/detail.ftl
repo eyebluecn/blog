@@ -24,6 +24,32 @@
 
 
         <script src="/static/js/home/article/detail.js"></script>
+
+
+        <#--为了正常解析markdown文档-->
+        <link href="/static/node_modules/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
+        <script src="/static/node_modules/editor.md/lib/marked.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/prettify.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/raphael.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/underscore.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/sequence-diagram.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/flowchart.min.js"></script>
+        <script src="/static/node_modules/editor.md/lib/jquery.flowchart.min.js"></script>
+        <script src="/static/node_modules/editor.md/editormd.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var testEditormdView2 = editormd.markdownToHTML("article-content", {
+                    htmlDecode: "style,script,iframe",  // you can filter tags decode
+                    emoji: true,
+                    taskList: true,
+                    tex: true,  // 默认不解析
+                    flowChart: true,  // 默认不解析
+                    sequenceDiagram: true,  // 默认不解析
+                });
+            });
+        </script>
+
+
     </@layout.put>
 
     <@layout.put block="content" type="replace">
@@ -31,7 +57,7 @@
         <div class="row mt40 mb100">
             <div class="col-lg-10 col-lg-offset-1 col-lg-10 col-lg-offset-1">
 
-                <div class="article-content">
+                <div class="article-content" id="article-content">
                     ${article.html}
                 </div>
 
@@ -75,10 +101,11 @@
                                         </a>
                                     </div>
 
-                                    <#--评论回复区-->
+                                <#--评论回复区-->
                                     <div class="reply-area">
 
-                                        <div class="sub-cell-area" v-for="(subComment,subIndex) in comment.commentPager.data">
+                                        <div class="sub-cell-area"
+                                             v-for="(subComment,subIndex) in comment.commentPager.data">
                                             <div class="f15">
                                                 <span class="black">{{subComment.name}}: </span>
                                                 <span>{{subComment.content}} </span>
