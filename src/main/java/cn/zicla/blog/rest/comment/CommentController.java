@@ -92,7 +92,6 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         return super.sort(uuid1, sort1, uuid2, sort2);
     }
 
-
     @Feature(FeatureType.PUBLIC)
     @RequestMapping("/page")
     public WebResult page(
@@ -101,6 +100,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
             @RequestParam(required = false) String userUuid,
+            @RequestParam(required = false) String articleUuid,
             @RequestParam(required = false) Boolean isFloor,
             @RequestParam(required = false) String floorUuid,
             @RequestParam(required = false) String puuid,
@@ -122,6 +122,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         return this.success(((root, query, cb) -> {
             Predicate predicate = cb.equal(root.get(Comment_.deleted), false);
 
+            if (articleUuid != null) {
+                predicate = cb.and(predicate, cb.equal(root.get(Comment_.articleUuid), articleUuid));
+            }
             if (userUuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Comment_.userUuid), userUuid));
             }
