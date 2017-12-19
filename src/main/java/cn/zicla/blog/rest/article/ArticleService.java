@@ -1,5 +1,8 @@
 package cn.zicla.blog.rest.article;
 
+import cn.zicla.blog.config.exception.UtilException;
+import cn.zicla.blog.rest.agree.History;
+import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityService;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,6 +25,9 @@ public class ArticleService extends BaseEntityService<Article> {
 
     @Autowired
     ArticleDao articleDao;
+
+    @Autowired
+    HistoryDao historyDao;
 
     @Autowired
     UserService userService;
@@ -55,7 +62,6 @@ public class ArticleService extends BaseEntityService<Article> {
         if (orderSort != null) {
             sort = sort.and(new Sort(orderSort, Article_.sort.getName()));
         }
-
 
 
         if (orderHit != null) {
@@ -103,5 +109,39 @@ public class ArticleService extends BaseEntityService<Article> {
 
         return new Pager<>(page, pageSize, totalItems, list);
     }
+
+    //统计访问数量。
+    @Async
+    public void analysisHit(Article article, String ip) {
+
+        System.out.println("进来了analysisHit");
+
+        //为了测试多线程
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("睡觉完成了！");
+
+        int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.VISIT_ARTICLE, article.getUuid(), ip);
+        if (count > 0) {
+            //之前就已经访问过了，忽略。
+            return;
+        }
+
+        History history = new History();
+        history.setType(History.Type.VISIT_ARTICLE);
+        history.setEntityUuid(article.getUuid());
+        history.setIp(ip);
+        historyDao.save(history);
+
+
+        article.setHit(article.getHit() + 1);
+        articleDao.save(article);
+
+    }
+
 
 }

@@ -161,20 +161,19 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     //给某条评论点赞。
     @Feature(FeatureType.PUBLIC)
-    public WebResult agree(@RequestParam String commentUuid, HttpServletRequest request,
-                           HttpServletResponse response) {
+    public WebResult agree(@RequestParam String commentUuid) {
 
         Comment comment = this.check(commentUuid);
 
-        String ip = NetworkUtil.getIpAddress(request);
-        int count = historyDao.countByTypeAndCommentUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
+        String ip = getCurrentRequestIp();
+        int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
         if (count > 0) {
             throw new UtilException("请勿重复点赞！");
         }
 
         History history = new History();
         history.setType(History.Type.AGREE_COMMENT);
-        history.setCommentUuid(commentUuid);
+        history.setEntityUuid(commentUuid);
         history.setIp(ip);
         historyDao.save(history);
 

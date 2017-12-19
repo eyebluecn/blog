@@ -15,11 +15,8 @@ import javax.persistence.Enumerated;
 @Entity
 public class History extends BaseEntity {
 
-    //文章uuid
-    private String articleUuid;
-
-    //评论uuid
-    private String commentUuid;
+    //主体uuid
+    private String entityUuid;
 
     //ip
     private String ip;

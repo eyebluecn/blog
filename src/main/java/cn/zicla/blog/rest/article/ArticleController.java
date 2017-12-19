@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,12 +82,18 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         return super.edit(form);
     }
 
+
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
         Article article = this.check(uuid);
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
         article.setUser(userService.find(article.getUserUuid()));
+
+        //统计文章点击数量。
+        articleService.analysisHit(article, this.getCurrentRequestIp());
+
+
         return success(article);
 
     }
@@ -133,21 +142,19 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     //给某篇文章点赞。
     @Feature(FeatureType.PUBLIC)
     public WebResult agree(
-            @RequestParam String articleUuid,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+            @RequestParam String articleUuid) {
 
         Article article = this.check(articleUuid);
 
-        String ip = NetworkUtil.getIpAddress(request);
-        int count = historyDao.countByTypeAndArticleUuidAndIp(History.Type.AGREE_ARTICLE, articleUuid, ip);
+        String ip = getCurrentRequestIp();
+        int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, articleUuid, ip);
         if (count > 0) {
             throw new UtilException("请勿重复点赞！");
         }
 
         History history = new History();
         history.setType(History.Type.AGREE_ARTICLE);
-        history.setCommentUuid(articleUuid);
+        history.setEntityUuid(articleUuid);
         history.setIp(ip);
         historyDao.save(history);
 

@@ -4,6 +4,7 @@ import cn.zicla.blog.config.AppContextManager;
 import cn.zicla.blog.config.exception.LoginException;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.JsonUtil;
+import cn.zicla.blog.util.NetworkUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -186,6 +187,18 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
         }
         return user;
 
+    }
+
+    //获取到当前这一次的request
+    protected HttpServletRequest getCurrentHttpServletRequest() {
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        return attributes.getRequest();
+    }
+
+    //获取到当前这次请求的ip
+    protected String getCurrentRequestIp() {
+        return NetworkUtil.getIpAddress(getCurrentHttpServletRequest());
     }
 
 }
