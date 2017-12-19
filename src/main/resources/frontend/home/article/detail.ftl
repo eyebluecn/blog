@@ -24,6 +24,9 @@
         <#include "../../common/vue/nb-pager.ftl">
         <@NbPager/>
 
+        <#include "../../common/vue/nb-expanding.ftl">
+        <@NbExpanding/>
+
         <#include "../../common/vue/nb-comment-panel.ftl">
         <@NbCommentPanel/>
 
@@ -146,12 +149,13 @@
                                                       :callback="comment.refreshCommentPager()"/>
                                         </div>
 
-                                        <div class="mt10" v-if="replyModel
+                                        <nb-expanding>
+                                            <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
-                                            <nb-comment-panel :comment="replyComment" @success="replyCreateSuccess"/>
-                                        </div>
-
+                                                <nb-comment-panel :comment="replyComment" @success="replyCreateSuccess"/>
+                                            </div>
+                                        </nb-expanding>
 
                                     </div>
 

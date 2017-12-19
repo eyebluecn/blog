@@ -1,5 +1,6 @@
 $(function () {
 
+
     var vm = new Vue({
         el: '#comment-area',
         data: {
@@ -40,6 +41,12 @@ $(function () {
             //准备回复
             prepareReply: function (comment) {
                 var that = this
+
+
+                if (that.replyModel && comment.uuid === that.repliedComment.uuid) {
+                    that.replyModel = false
+                    return
+                }
 
                 that.repliedComment.render(comment)
                 that.replyModel = true

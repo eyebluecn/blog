@@ -11,7 +11,6 @@ import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.user.User;
-import cn.zicla.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -157,7 +154,6 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         return this.success(pager);
     }
-
 
     //给某条评论点赞。
     @Feature(FeatureType.PUBLIC)

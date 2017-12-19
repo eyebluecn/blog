@@ -8,6 +8,7 @@ import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.tag.Tag;
 import cn.zicla.blog.rest.tag.TagService;
+import cn.zicla.blog.util.NetworkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -86,6 +87,10 @@ public class HomeController extends FrontendBaseController {
     ) {
 
         Article article = articleService.check(uuid);
+
+        //统计文章点击数量。
+        articleService.analysisHit(article, NetworkUtil.getIpAddress(request));
+
 
         model.addAttribute("article", article);
 
