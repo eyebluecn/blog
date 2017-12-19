@@ -1,5 +1,8 @@
 package cn.zicla.blog.rest.comment;
 
+import cn.zicla.blog.config.exception.UtilException;
+import cn.zicla.blog.rest.agree.History;
+import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
@@ -8,6 +11,7 @@ import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.user.User;
+import cn.zicla.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -29,6 +35,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    HistoryDao historyDao;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -148,5 +157,32 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         return this.success(pager);
     }
+
+
+    //给某条评论点赞。
+    @Feature(FeatureType.PUBLIC)
+    public WebResult agree(@RequestParam String commentUuid, HttpServletRequest request,
+                           HttpServletResponse response) {
+
+        Comment comment = this.check(commentUuid);
+
+        String ip = NetworkUtil.getIpAddress(request);
+        int count = historyDao.countByTypeAndCommentUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
+        if (count > 0) {
+            throw new UtilException("请勿重复点赞！");
+        }
+
+        History history = new History();
+        history.setType(History.Type.AGREE_COMMENT);
+        history.setCommentUuid(commentUuid);
+        history.setIp(ip);
+        historyDao.save(history);
+
+        comment.setAgree(comment.getAgree() + 1);
+        commentDao.save(comment);
+
+        return success("点赞成功!");
+    }
+
 
 }

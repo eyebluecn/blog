@@ -13,7 +13,7 @@ import javax.persistence.Enumerated;
 @Data
 @NoArgsConstructor
 @Entity
-public class Agree extends BaseEntity {
+public class History extends BaseEntity {
 
     //文章uuid
     private String articleUuid;
@@ -21,17 +21,21 @@ public class Agree extends BaseEntity {
     //评论uuid
     private String commentUuid;
 
-    //点赞时的ip
+    //ip
     private String ip;
 
-    //点赞类型
+    //历史类型
     @Enumerated(EnumType.STRING)
-    private Type type = Type.COMMENT;
+    private Type type = Type.VISIT_ARTICLE;
 
-    //性别
+    //类型
     public enum Type {
-        ARTICLE,
-        COMMENT
+        //给文章点赞
+        AGREE_ARTICLE,
+        //给评论点赞
+        AGREE_COMMENT,
+        //访问文章
+        VISIT_ARTICLE
     }
 
 

@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class AgreeService extends BaseEntityService<Agree> {
+public class HistoryService extends BaseEntityService<History> {
 
     @Autowired
-    AgreeDao userDao;
+    HistoryDao userDao;
 
 
-    public AgreeService() {
-        super(Agree.class);
+    public HistoryService() {
+        super(History.class);
     }
 
 }
