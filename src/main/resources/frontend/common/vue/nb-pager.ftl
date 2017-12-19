@@ -120,11 +120,6 @@
             },
             indicators: function () {
 
-                console.log("this.totalPages:" + this.totalPages)
-                console.log("this.totalPages:" + this.colSize)
-                console.log("this.pager.page:" + this.pager.page)
-                console.log("this.pager.page:" + this.pager.offset)
-
                 var arr = [];
                 //only one group. start from 1.
                 if (this.totalPages <= this.colSize) {
@@ -244,8 +239,6 @@
         },
         mounted: function () {
             this.pageSize = this.pager.pageSize;
-
-            console.log("没有内容吗？ pager")
 
             if (!this.pager.offset) {
                 this.pager.offset = 3;

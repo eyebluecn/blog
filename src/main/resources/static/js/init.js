@@ -35,6 +35,9 @@ $(function () {
         var $this = $(this);
         toastr.info($this.data("toastr"));
     });
+    console.log("有没有来过？")
+    console.log(toastr)
+    console.log(toastr.options)
 
     //跳转到某个链接
     var $hrefs = $("[data-href]");

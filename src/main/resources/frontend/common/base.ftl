@@ -19,6 +19,7 @@
 
 
     <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
 
     <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>

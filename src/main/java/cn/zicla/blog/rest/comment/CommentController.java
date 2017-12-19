@@ -136,7 +136,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                         articleUuid,
                         false,
                         comment.getUuid(),
-                        comment.getUuid(),
+                        null,
                         null,
                         null,
                         null,

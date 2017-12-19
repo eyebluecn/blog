@@ -31,6 +31,7 @@ public class CommentForm extends BaseEntityForm<Comment> {
     private String name;
 
     //评论者邮箱
+    @NotNull
     private String email;
 
     //评论内容

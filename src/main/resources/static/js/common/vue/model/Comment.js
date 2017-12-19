@@ -72,3 +72,76 @@ Comment.prototype.refreshCommentPager = function () {
         that.commentPager.httpFastPage()
     }
 }
+
+//创建评论
+Comment.prototype.httpCreate = function (successCallback, errorCallback) {
+    var that = this;
+
+    //参数验证。
+    if (!that.articleUuid) {
+        that.errorMessage = "articleUuid必填";
+        return
+    }
+    if (!that.isFloor) {
+        if (!that.floorUuid) {
+            that.errorMessage = "floorUuid必填";
+            return
+        }
+    }
+    if (!that.name) {
+        that.errorMessage = "请填上您的昵称";
+        return
+    }
+    if (!that.email) {
+        that.errorMessage = "请填上您的邮箱";
+        return
+    }
+    if (!that.content) {
+        that.errorMessage = "请填上您的评论内容";
+        return
+    }
+
+    //向本地进行持久化。
+    this.saveNameAndEmail();
+
+    var form = {
+        articleUuid: that.articleUuid,
+        isFloor: that.isFloor,
+        floorUuid: that.floorUuid,
+        puuid: that.puuid,
+        name: that.name,
+        email: that.email,
+        content: that.content
+    }
+
+    that.httpPost("/api/comment/create", form, function (response) {
+        that.render(response.data.data);
+
+        if (typeof successCallback === "function") {
+            successCallback(response);
+        }
+
+    }, function (response) {
+
+        if (typeof errorCallback === "function") {
+            errorCallback(response);
+        }
+
+    });
+
+
+}
+
+
+//从本地加载昵称和邮箱。
+Comment.prototype.loadNameAndEmail = function () {
+    this.name = readLocalStorage("CommentName")
+    this.email = readLocalStorage("CommentEmail")
+}
+
+//向本地保存Name和Email。
+Comment.prototype.saveNameAndEmail = function () {
+    saveToLocalStorage("CommentName", this.name)
+    saveToLocalStorage("CommentEmail", this.email)
+
+}

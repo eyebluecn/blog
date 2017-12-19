@@ -4,29 +4,34 @@
     </@layout.put>
     <@layout.put block="head" type="append">
 
+    <#--首先引用vue-->
         <script src="/static/node_modules/vue/dist/vue.min.js"></script>
         <script src="/static/node_modules/vue-resource/dist/vue-resource.min.js"></script>
 
+    <#--然后引用通用库-->
         <script src="/static/js/common/vue/util/Utils.js"></script>
+    <#--再引用父类-->
         <script src="/static/js/common/vue/base/Base.js"></script>
         <script src="/static/js/common/vue/base/BaseEntity.js"></script>
+    <#--再引用基础共用件-->
         <script src="/static/js/common/vue/base/Filter.js"></script>
         <script src="/static/js/common/vue/base/Pager.js"></script>
+    <#--再引入自定义类-->
         <script src="/static/js/common/vue/model/Comment.js"></script>
 
 
-    <#--引入vue需要的NbPager-->
+    <#--再引入自定义组件-->
         <#include "../../common/vue/nb-pager.ftl">
         <@NbPager/>
 
-        <#include "../../common/vue/nb-simple.ftl">
-        <@NbSimple/>
+        <#include "../../common/vue/nb-comment-panel.ftl">
+        <@NbCommentPanel/>
 
 
         <script src="/static/js/home/article/detail.js"></script>
 
 
-        <#--为了正常解析markdown文档-->
+    <#--为了正常解析markdown文档-->
         <link href="/static/node_modules/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
         <script src="/static/node_modules/editor.md/lib/marked.min.js"></script>
         <script src="/static/node_modules/editor.md/lib/prettify.min.js"></script>
@@ -63,12 +68,20 @@
 
                 <div class="row mt20">
 
-
                     <div class="col-xs-12">
                         <div id="comment-area">
-
+                            <div class="title-area">
+                                <span class="total">
+                                    欢迎评论
+                                </span>
+                            </div>
                             <div class="input-area">
-                                <h2>写下你的评论</h2>
+                                <nb-comment-panel :comment="floorComment" @success="floorCreateSuccess"/>
+                            </div>
+                            <div class="title-area">
+                                <span class="total">
+                                    共{{pager.totalItems}}条评论
+                                </span>
                             </div>
                             <div class="tree-area">
 
@@ -92,7 +105,8 @@
                                         {{comment.content}}
                                     </div>
                                     <div class="">
-                                        <a class="reply-btn" href="#">
+                                        <a class="reply-btn" href="javascript:void(0)"
+                                           @click.stop.prevent="prepareReply(comment)">
                                             <i class="fa fa-comment-o"></i> 回复
                                         </a>
 
@@ -115,7 +129,8 @@
                                                     {{subComment.createTime | simpleDateHourMinute}}
                                                 </span>
 
-                                                <a class="reply-btn" href="#">
+                                                <a class="reply-btn" href="javascript:void(0)"
+                                                   @click.stop.prevent="prepareReply(subComment)">
                                                     <i class="fa fa-comment-o"></i> 回复
                                                 </a>
                                                 <a class="reply-btn" href="#">
@@ -129,6 +144,12 @@
                                         <div v-if="comment.commentPager.totalItems">
                                             <nb-pager :pager="comment.commentPager"
                                                       :callback="comment.refreshCommentPager()"/>
+                                        </div>
+
+                                        <div class="mt10" v-if="replyModel
+                                        && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
+                                        || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
+                                            <nb-comment-panel :comment="replyComment" @success="replyCreateSuccess"/>
                                         </div>
 
 
