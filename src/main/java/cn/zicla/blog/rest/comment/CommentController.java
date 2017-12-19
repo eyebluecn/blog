@@ -3,6 +3,8 @@ package cn.zicla.blog.rest.comment;
 import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.agree.History;
 import cn.zicla.blog.rest.agree.HistoryDao;
+import cn.zicla.blog.rest.agree.History_;
+import cn.zicla.blog.rest.article.Article_;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
@@ -20,7 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -132,9 +139,17 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                 report
         );
 
+        List<String> commentUuids = new ArrayList<>();
+
+        pager.getData().forEach(comment1 -> {
+            commentUuids.add(comment1.getUuid());
+        });
+
+
         if (isFloor != null && isFloor && needSubPager != null && needSubPager) {
             pager.getData().forEach(comment -> {
-                comment.setCommentPager(commentService.page(
+
+                Pager<Comment> subPager = commentService.page(
                         0,
                         10,
                         Sort.Direction.DESC,
@@ -148,20 +163,76 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                         null,
                         null,
                         null
-                ));
+                );
+
+                subPager.getData().forEach(comment1 -> {
+                    commentUuids.add(comment1.getUuid());
+                });
+
+
+                comment.setCommentPager(subPager);
             });
         }
+
+
+        if (commentUuids.size() > 0) {
+            //一口气查询所有的comment点赞情况。
+            String ip = getCurrentRequestIp();
+            System.out.println(ip);
+            List<History> histories = historyDao.findAll((root, query, cb) -> {
+                Predicate predicate = cb.equal(root.get(History_.deleted), false);
+
+                predicate = cb.and(predicate, cb.equal(root.get(History_.type), History.Type.AGREE_COMMENT));
+
+                predicate = cb.and(predicate, cb.equal(root.get(History_.ip), ip));
+
+                Predicate orPredicates = null;
+                for (String commentUuid : commentUuids) {
+                    if (orPredicates == null) {
+                        orPredicates = cb.equal(root.get(History_.entityUuid), commentUuid);
+
+                    } else {
+                        orPredicates = cb.or(orPredicates, cb.equal(root.get(History_.entityUuid), commentUuid));
+                    }
+                }
+                predicate = cb.and(predicate, orPredicates);
+
+                return predicate;
+
+            });
+
+            Set<String> uuidSet = histories.stream().map(History::getEntityUuid).collect(Collectors.toSet());
+
+            //依次检查每个comment的情况。
+            pager.getData().forEach(comment -> {
+                if (uuidSet.contains(comment.getUuid())) {
+                    comment.setAgreed(true);
+                }
+
+                if (comment.getCommentPager() != null) {
+                    comment.getCommentPager().getData().forEach(comment1 -> {
+                        if (uuidSet.contains(comment1.getUuid())) {
+                            comment1.setAgreed(true);
+                        }
+                    });
+                }
+            });
+        }
+
 
         return this.success(pager);
     }
 
     //给某条评论点赞。
+    @RequestMapping("/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult agree(@RequestParam String commentUuid) {
 
         Comment comment = this.check(commentUuid);
 
+
         String ip = getCurrentRequestIp();
+        System.out.println(ip);
         int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
         if (count > 0) {
             throw new UtilException("请勿重复点赞！");
@@ -181,6 +252,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
 
     //取消点赞。
+    @RequestMapping("/cancel/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult cancelAgree(@RequestParam String commentUuid) {
 

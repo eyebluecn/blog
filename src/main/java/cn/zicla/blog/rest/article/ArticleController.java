@@ -141,6 +141,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
 
     //给某篇文章点赞。
+    @RequestMapping("/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult agree(
             @RequestParam String articleUuid) {
@@ -167,6 +168,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     }
 
     //取消点赞。
+    @RequestMapping("/cancel/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult cancelAgree(@RequestParam String articleUuid) {
 

@@ -114,16 +114,7 @@ public class ArticleService extends BaseEntityService<Article> {
     @Async
     public void analysisHit(Article article, String ip) {
 
-        System.out.println("进来了analysisHit");
 
-        //为了测试多线程
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("睡觉完成了！");
 
         int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.VISIT_ARTICLE, article.getUuid(), ip);
         if (count > 0) {

@@ -69,6 +69,10 @@ public class Article extends BaseEntity {
     @Transient
     private User user;
 
+    //当前用户是否已经对这篇文章点赞了
+    @Transient
+    private boolean agreed;
+
 }
 
 
