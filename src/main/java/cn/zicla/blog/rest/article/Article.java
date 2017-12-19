@@ -53,6 +53,9 @@ public class Article extends BaseEntity {
     //是否置顶
     private Boolean top = false;
 
+    //点赞
+    private Integer agree = 0;
+
     //点击数量
     private Integer hit = 1;
 

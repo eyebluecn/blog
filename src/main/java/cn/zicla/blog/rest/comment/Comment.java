@@ -22,7 +22,7 @@ public class Comment extends BaseEntity {
     private String userUuid;
 
     //是否是楼层评论
-    private Boolean isFloor;
+    private Boolean isFloor = true;
 
     //如果不是楼层评论，那么应该附着的楼层uuid
     private String floorUuid;
@@ -40,10 +40,16 @@ public class Comment extends BaseEntity {
     private String content;
 
     //是否被举报
-    private Boolean isReport;
+    private Boolean isReport = false;
 
     //举报内容
     private String report;
+
+    //点赞
+    private Integer agree = 0;
+
+    //评论时的ip
+    private String ip;
 
 
     //如果当前comment是一个floor，那么它下面的pager.
