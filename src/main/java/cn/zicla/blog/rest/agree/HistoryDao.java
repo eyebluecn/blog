@@ -8,5 +8,6 @@ public interface HistoryDao extends BaseEntityDao<History> {
 
     int countByTypeAndEntityUuidAndIp(History.Type type, String entityUuid, String ip);
 
+    History findTopByTypeAndEntityUuidAndIp(History.Type type, String entityUuid, String ip);
 
 }

@@ -6,8 +6,7 @@
             v-on:before-enter="beforeEnter"
             v-on:enter="enter"
             v-on:leave="leave"
-            v-bind:css="false"
-    >
+            v-bind:css="false">
         <slot></slot>
     </transition>
 </script>

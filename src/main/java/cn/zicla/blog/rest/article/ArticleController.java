@@ -6,6 +6,7 @@ import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
+import cn.zicla.blog.rest.comment.Comment;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
@@ -164,4 +165,25 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         return success("点赞成功!");
     }
+
+    //取消点赞。
+    @Feature(FeatureType.PUBLIC)
+    public WebResult cancelAgree(@RequestParam String articleUuid) {
+
+        Article article = this.check(articleUuid);
+
+
+        String ip = getCurrentRequestIp();
+        History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, articleUuid, ip);
+        if (history == null) {
+            throw new UtilException("您没有点赞过这篇文章，操作失败！");
+        }
+
+        historyDao.delete(history);
+        article.setAgree(article.getAgree() - 1);
+        articleDao.save(article);
+
+        return success("取消点赞成功!");
+    }
+
 }

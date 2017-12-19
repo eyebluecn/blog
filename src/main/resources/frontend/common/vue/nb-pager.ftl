@@ -9,7 +9,7 @@
 
         <div v-show="!pager.loading && pager.isEmpty() && !pager.errorMessage">
             <div class="italic text-center">
-                没有符合条件的项目
+                {{emptyhint}}
             </div>
         </div>
 
@@ -100,6 +100,11 @@
             callback: {
                 type: Function,
                 required: true
+            },
+            emptyhint: {
+                type: String,
+                required: false,
+                "default": "没有符合条件的项目"
             }
         },
         computed: {
@@ -191,7 +196,6 @@
                     return;
                 }
 
-
                 if (newVal) {
                     newVal = parseInt(newVal);
                 } else {
@@ -243,6 +247,10 @@
             if (!this.pager.offset) {
                 this.pager.offset = 3;
             }
+
+            console.log("emptyHing")
+            console.log(this.emptyhint)
+
         }
     })
 </script>

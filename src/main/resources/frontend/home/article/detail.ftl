@@ -146,7 +146,9 @@
 
                                         <div v-if="comment.commentPager.totalItems">
                                             <nb-pager :pager="comment.commentPager"
-                                                      :callback="comment.refreshCommentPager()"/>
+                                                      :callback="comment.refreshCommentPager()"
+                                                      :emptyhint="'还没有评论，赶紧来抢沙发吧！'"
+                                            />
                                         </div>
 
                                         <nb-expanding>
@@ -165,7 +167,7 @@
                             </div>
 
                             <div class="pager-area">
-                                <nb-pager :pager="pager" :callback="refresh"/>
+                                <nb-pager :pager="pager" :callback="refresh" :emptyhint="'还没有评论，赶紧来抢沙发吧！'"/>
                             </div>
 
 

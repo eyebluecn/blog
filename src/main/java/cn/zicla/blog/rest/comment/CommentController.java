@@ -180,4 +180,24 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     }
 
 
+    //取消点赞。
+    @Feature(FeatureType.PUBLIC)
+    public WebResult cancelAgree(@RequestParam String commentUuid) {
+
+        Comment comment = this.check(commentUuid);
+
+        String ip = getCurrentRequestIp();
+        History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
+        if (history == null) {
+            throw new UtilException("您没有点赞过这条评论，操作失败！");
+        }
+
+        historyDao.delete(history);
+        comment.setAgree(comment.getAgree() - 1);
+        commentDao.save(comment);
+
+        return success("取消点赞成功!");
+    }
+
+
 }

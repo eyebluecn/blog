@@ -52,6 +52,10 @@ public class Comment extends BaseEntity {
     private String ip;
 
 
+    //用户对于这个评论是否已经点赞了。
+    @Transient
+    private boolean isAgreed = false;
+
     //如果当前comment是一个floor，那么它下面的pager.
     @Transient
     private Pager<Comment> commentPager;
