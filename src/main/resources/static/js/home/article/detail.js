@@ -2,7 +2,7 @@ $(function () {
 
 
     var vm = new Vue({
-        el: '#comment-area',
+        el: '#interactive-area',
         data: {
             pager: new Pager(Comment, 12),
             //作为顶级评论
@@ -12,7 +12,11 @@ $(function () {
             //准备的评论
             replyComment: new Comment(),
             replyModel: false,
-            articleUuid: null
+            articleUuid: null,
+            //文章原本的点赞数
+            articleAgree: 0,
+            //当前用户对于文章的点赞情况
+            articleAgreed: false
         },
         methods: {
             refresh: function () {
@@ -38,7 +42,6 @@ $(function () {
                 this.refresh();
 
                 toastr.info("评论成功！");
-
 
                 //清空里面的老数据。
                 that.floorComment.content = null
@@ -70,7 +73,6 @@ $(function () {
             },
             replyCreateSuccess: function () {
 
-                console.log("难道没来！")
                 var that = this
 
                 that.refresh()
@@ -81,12 +83,37 @@ $(function () {
                 //清空里面的老数据。
                 that.replyComment.content = null
                 that.replyModel = false
+            },
+            //赞文章
+            agreeArticle: function () {
+                var that = this
+                var base = new Base()
+                base.httpPost("/api/article/agree", {"articleUuid": that.articleUuid}, function (response) {
+
+                    that.articleAgree++
+                    that.articleAgreed = true
+
+
+                    that.$refs.articleAgreeBtn.blur();
+
+                });
+            },
+            articleCancelAgree: function () {
+                var that = this
+                var base = new Base()
+                base.httpPost("/api/article/cancel/agree", {"articleUuid": that.articleUuid}, function (response) {
+
+                    that.articleAgree--
+                    that.articleAgreed = false
+
+                    that.$refs.articleCancelAgreeBtn.blur();
+
+                });
             }
 
         },
 
         mounted: function () {
-            console.log("comment-area mounted")
 
             var that = this
 
@@ -96,6 +123,10 @@ $(function () {
 
             that.floorComment.articleUuid = that.articleUuid
             that.floorComment.isFloor = true
+
+            var $articleAppendix = $(".article-appendix");
+            that.articleAgree = parseInt($articleAppendix.data("agree"));
+            that.articleAgreed = $articleAppendix.data("agreed") === "true" || $articleAppendix.data("agreed") === true;
 
         }
     });

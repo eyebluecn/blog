@@ -72,7 +72,7 @@
                 <div class="article-info">
                     <div class="media">
                         <div class="pull-left">
-                            <img class="img-circle w60 h60" src="/static/img/avatar.png"/>
+                            <img class="img-circle w50 h50" src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
                         </div>
                         <div class="media-body">
                             <div class="author">
@@ -86,7 +86,7 @@
                                     字数 ${article.words}
                                 </span>
                                 <span class="mr10">
-                                    点击 ${article.hit}
+                                    阅读 ${article.hit}
                                 </span>
                                 <span class="mr10">
                                     评论 ${article.commentNum}
@@ -104,164 +104,203 @@
                     ${article.html}
                 </div>
 
-                <div class="row mt20">
 
-                    <div class="col-xs-12">
-                        <div id="comment-area">
-                            <div class="title-area">
+                <div id="interactive-area">
+                    <div class="article-appendix" data-agree="${article.agree}"
+                         data-agreed="${article.agreed?string('true','false')}">
+
+
+                        <button ref="articleAgreeBtn" class="btn btn-danger btn-lg btn-rounded btn-outline article-agree-btn"
+                           @click.stop.prevent="agreeArticle"
+                           v-if="!articleAgreed">
+                            <i class="fa fa-thumbs-o-up"></i>
+                            <span v-if="articleAgree>0">
+                                                {{articleAgree}}人赞
+                                            </span>
+                            <span v-else>
+                                                赞
+                                            </span>
+
+                        </button>
+
+                        <button ref="articleCancelAgreeBtn" class="btn btn-danger btn-lg btn-rounded article-agree-btn"
+                           @click.stop.prevent="articleCancelAgree"
+                           v-if="articleAgreed">
+                            <i class="fa fa-thumbs-up"></i>
+                            <span v-if="articleAgree>0">
+                                                {{articleAgree}}人赞
+                                            </span>
+                            <span v-else>
+                                                赞
+                                            </span>
+                        </button>
+
+
+                    </div>
+
+
+                    <div class="row mt20">
+
+                        <div class="col-xs-12">
+                            <div id="comment-area">
+
+
+                                <div class="title-area">
                                 <span class="total">
                                     欢迎评论
                                 </span>
-                            </div>
-                            <div class="input-area">
-                                <nb-comment-panel :comment="floorComment" @success="floorCreateSuccess"/>
-                            </div>
-                            <div class="title-area">
+                                </div>
+                                <div class="input-area">
+                                    <nb-comment-panel :comment="floorComment" @success="floorCreateSuccess"/>
+                                </div>
+                                <div class="title-area">
                                 <span class="total">
                                     共${article.commentNum}条评论和回复
                                 </span>
-                            </div>
-                            <div class="tree-area">
+                                </div>
+                                <div class="tree-area">
 
-                                <div class="cell-area" v-for="(comment,index) in pager.data">
+                                    <div class="cell-area" v-for="(comment,index) in pager.data">
 
-                                    <div class="media">
-                                        <div class="pull-left">
-                                            <img class="img-circle img-sm" src="/static/img/avatar.png"/>
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="f14 black">
-                                                {{comment.name}}
+                                        <div class="media">
+                                            <div class="pull-left">
+                                                <img class="img-circle img-sm" src="/static/img/avatar.png"/>
                                             </div>
-                                            <div>
-                                                {{comment.createTime | simpleDateHourMinute}}
+                                            <div class="media-body">
+                                                <div class="f14 black">
+                                                    {{comment.name}}
+                                                </div>
+                                                <div>
+                                                    {{comment.createTime | simpleDateHourMinute}}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="mv10 f15 color-333">
-                                        {{comment.content}}
-                                    </div>
-                                    <div class="">
+                                        <div class="mv10 f15 color-333">
+                                            {{comment.content}}
+                                        </div>
+                                        <div class="">
 
-                                        <a class="reply-btn" href="javascript:void(0)"
-                                           @click.stop.prevent="agree(comment)"
-                                           v-if="!comment.agreed">
-                                            <i class="fa fa-thumbs-o-up"></i>
-                                            <span v-if="comment.agree>0">
+                                            <a class="inter-btn" href="javascript:void(0)"
+                                               @click.stop.prevent="agree(comment)"
+                                               v-if="!comment.agreed">
+                                                <i class="fa fa-thumbs-o-up"></i>
+                                                <span v-if="comment.agree>0">
                                                 {{comment.agree}}人赞
                                             </span>
-                                            <span v-else>
+                                                <span v-else>
                                                 赞
                                             </span>
 
-                                        </a>
+                                            </a>
 
-                                        <a class="reply-btn" href="javascript:void(0)"
-                                           @click.stop.prevent="cancelAgree(comment)"
-                                           v-if="comment.agreed">
-                                            <i class="fa fa-thumbs-up text-primary"></i>
-                                            <span v-if="comment.agree>0">
+                                            <a class="inter-btn" href="javascript:void(0)"
+                                               @click.stop.prevent="cancelAgree(comment)"
+                                               v-if="comment.agreed">
+                                                <i class="fa fa-thumbs-up text-primary"></i>
+                                                <span v-if="comment.agree>0">
                                                 {{comment.agree}}人赞
                                             </span>
-                                            <span v-else>
+                                                <span v-else>
                                                 赞
                                             </span>
-                                        </a>
+                                            </a>
 
-                                        <a class="reply-btn" href="javascript:void(0)"
-                                           @click.stop.prevent="prepareReply(comment)">
-                                            <i class="fa fa-comment-o"></i> 回复
-                                        </a>
+                                            <a class="inter-btn" href="javascript:void(0)"
+                                               @click.stop.prevent="prepareReply(comment)">
+                                                <i class="fa fa-comment-o"></i> 回复
+                                            </a>
 
-                                        <a class="reply-btn" href="#">
-                                            <i class="fa fa-bug"></i> 举报
-                                        </a>
-                                    </div>
+                                            <a class="inter-btn" href="#">
+                                                <i class="fa fa-bug"></i> 举报
+                                            </a>
+                                        </div>
 
-                                <#--评论回复区-->
-                                    <div class="reply-area">
+                                    <#--评论回复区-->
+                                        <div class="reply-area">
 
-                                        <div class="sub-cell-area"
-                                             v-for="(subComment,subIndex) in comment.commentPager.data">
-                                            <div class="f15">
-                                                <span class="black">{{subComment.name}}: </span>
-                                                <span>{{subComment.content}} </span>
-                                            </div>
-                                            <div class="f12">
+                                            <div class="sub-cell-area"
+                                                 v-for="(subComment,subIndex) in comment.commentPager.data">
+                                                <div class="f15">
+                                                    <span class="black">{{subComment.name}}: </span>
+                                                    <span>{{subComment.content}} </span>
+                                                </div>
+                                                <div class="f12">
                                                 <span class="mr5">
                                                     {{subComment.createTime | simpleDateHourMinute}}
                                                 </span>
 
-                                                <a class="reply-btn" href="javascript:void(0)"
-                                                   @click.stop.prevent="agree(subComment)"
-                                                   v-if="!subComment.agreed">
-                                                    <i class="fa fa-thumbs-o-up"></i>
-                                                    <span v-if="subComment.agree>0">
+                                                    <a class="inter-btn" href="javascript:void(0)"
+                                                       @click.stop.prevent="agree(subComment)"
+                                                       v-if="!subComment.agreed">
+                                                        <i class="fa fa-thumbs-o-up"></i>
+                                                        <span v-if="subComment.agree>0">
                                                 {{subComment.agree}}人赞
                                             </span>
-                                                    <span v-else>
+                                                        <span v-else>
                                                 赞
                                             </span>
 
-                                                </a>
+                                                    </a>
 
-                                                <a class="reply-btn" href="javascript:void(0)"
-                                                   @click.stop.prevent="cancelAgree(subComment)"
-                                                   v-if="subComment.agreed">
-                                                    <i class="fa fa-thumbs-up text-primary"></i>
-                                                    <span v-if="subComment.agree>0">
+                                                    <a class="inter-btn" href="javascript:void(0)"
+                                                       @click.stop.prevent="cancelAgree(subComment)"
+                                                       v-if="subComment.agreed">
+                                                        <i class="fa fa-thumbs-up text-primary"></i>
+                                                        <span v-if="subComment.agree>0">
                                                 {{subComment.agree}}人赞
                                             </span>
-                                                    <span v-else>
+                                                        <span v-else>
                                                 赞
                                             </span>
-                                                </a>
+                                                    </a>
 
-                                                <a class="reply-btn" href="javascript:void(0)"
-                                                   @click.stop.prevent="prepareReply(subComment)">
-                                                    <i class="fa fa-comment-o"></i> 回复
-                                                </a>
-                                                <a class="reply-btn" href="#">
-                                                    <i class="fa fa-bug"></i> 举报
-                                                </a>
+                                                    <a class="inter-btn" href="javascript:void(0)"
+                                                       @click.stop.prevent="prepareReply(subComment)">
+                                                        <i class="fa fa-comment-o"></i> 回复
+                                                    </a>
+                                                    <a class="inter-btn" href="#">
+                                                        <i class="fa fa-bug"></i> 举报
+                                                    </a>
+
+                                                </div>
 
                                             </div>
 
-                                        </div>
+                                            <div v-if="comment.commentPager.totalItems">
+                                                <nb-pager :pager="comment.commentPager"
+                                                          :callback="comment.refreshCommentPager()"
+                                                          :emptyhint="'还没有评论，赶紧来抢沙发吧！'"
+                                                />
+                                            </div>
 
-                                        <div v-if="comment.commentPager.totalItems">
-                                            <nb-pager :pager="comment.commentPager"
-                                                      :callback="comment.refreshCommentPager()"
-                                                      :emptyhint="'还没有评论，赶紧来抢沙发吧！'"
-                                            />
-                                        </div>
-
-                                        <nb-expanding>
-                                            <div class="mt10" v-show="replyModel
+                                            <nb-expanding>
+                                                <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
-                                                <nb-comment-panel :comment="replyComment"
-                                                                  @success="replyCreateSuccess"/>
-                                            </div>
-                                        </nb-expanding>
+                                                    <nb-comment-panel :comment="replyComment"
+                                                                      @success="replyCreateSuccess"/>
+                                                </div>
+                                            </nb-expanding>
+
+                                        </div>
+
 
                                     </div>
 
-
                                 </div>
 
-                            </div>
+                                <div class="pager-area">
+                                    <nb-pager :pager="pager" :callback="refresh" :emptyhint="'还没有评论，赶紧来抢沙发吧！'"/>
+                                </div>
 
-                            <div class="pager-area">
-                                <nb-pager :pager="pager" :callback="refresh" :emptyhint="'还没有评论，赶紧来抢沙发吧！'"/>
-                            </div>
 
+                            </div>
 
                         </div>
-
                     </div>
                 </div>
+
 
             </div>
         </div>

@@ -72,6 +72,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         form.update(comment, user);
 
+        comment.setIp(getCurrentRequestIp());
         comment = commentDao.save(comment);
         return success(comment);
     }

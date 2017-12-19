@@ -29,12 +29,16 @@
   font-weight: 700;
   line-height: 1.3;
 }
+.page-detail .article-info {
+  border-top: 1px solid #eeeeee;
+  padding-top: 20px;
+}
 .page-detail .article-info .author {
   font-size: 20px;
-  margin-top: 5px;
 }
-.page-detail .article-info .mix {
-  margin-top: 10px;
+.page-detail .article-content {
+  margin-top: 40px;
+  padding: 0 !important;
 }
 .page-detail .article-content img {
   max-width: 100%;
@@ -46,38 +50,42 @@
   border-radius: 4px;
   background: #eeeeee;
 }
-.page-detail #comment-area .title-area {
-  border-bottom: 1px solid #eeeeee;
-  padding: 10px 0;
+.page-detail #interactive-area .article-appendix {
+  padding: 20px 0 40px 0;
+  border-top: 1px solid #eee;
 }
-.page-detail #comment-area .title-area .total {
-  font-weight: bold;
-  font-size: 18px;
-}
-.page-detail #comment-area .tree-area .cell-area {
-  border-bottom: 1px solid #eeeeee;
-  padding: 15px 0;
-}
-.page-detail #comment-area .tree-area .cell-area .reply-btn {
+.page-detail #interactive-area .inter-btn {
   color: #888;
   margin-right: 10px;
 }
-.page-detail #comment-area .tree-area .cell-area .reply-btn:hover {
+.page-detail #interactive-area .inter-btn:hover {
   color: black;
 }
-.page-detail #comment-area .tree-area .cell-area .reply-area {
+.page-detail #interactive-area .title-area {
+  border-bottom: 1px solid #eeeeee;
+  padding: 10px 0;
+}
+.page-detail #interactive-area .title-area .total {
+  font-weight: bold;
+  font-size: 18px;
+}
+.page-detail #interactive-area .tree-area .cell-area {
+  border-bottom: 1px solid #eeeeee;
+  padding: 15px 0;
+}
+.page-detail #interactive-area .tree-area .cell-area .reply-area {
   border-left: 4px solid #eeeeee;
   padding-left: 20px;
 }
-.page-detail #comment-area .tree-area .cell-area .reply-area .sub-cell-area {
+.page-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area {
   padding: 15px 0;
   border-top: 1px solid #eeeeee;
 }
-.page-detail #comment-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
+.page-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
   border-top: none;
   margin-top: 15px;
 }
-.page-detail #comment-area .pager-area {
+.page-detail #interactive-area .pager-area {
   margin-top: 10px;
 }
 .page-index {

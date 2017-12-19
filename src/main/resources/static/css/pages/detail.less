@@ -15,16 +15,20 @@
   }
 
   .article-info {
+    border-top: 1px solid #eeeeee;
+    padding-top: 20px;
     .author {
       font-size: 20px;
-      margin-top: 5px;
     }
     .mix {
-      margin-top: 10px;
     }
   }
 
   .article-content {
+
+    margin-top: 40px;
+
+    padding: 0 !important;
     img {
       max-width: 100%;
       text-align: center;
@@ -40,7 +44,20 @@
     background: #eeeeee;
   }
 
-  #comment-area {
+  #interactive-area {
+
+    .article-appendix {
+      padding: 20px 0 40px 0;
+      border-top: 1px solid #eee;
+    }
+
+    .inter-btn {
+      color: #888;
+      margin-right: 10px;
+      &:hover {
+        color: black;
+      }
+    }
 
     .title-area {
       border-bottom: 1px solid #eeeeee;
@@ -56,13 +73,6 @@
         border-bottom: 1px solid #eeeeee;
         padding: 15px 0;
 
-        .reply-btn {
-          color: #888;
-          margin-right: 10px;
-          &:hover {
-            color: black;
-          }
-        }
         .reply-area {
           border-left: 4px solid #eeeeee;
           padding-left: 20px;

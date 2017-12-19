@@ -248,9 +248,6 @@
                 this.pager.offset = 3;
             }
 
-            console.log("emptyHing")
-            console.log(this.emptyhint)
-
         }
     })
 </script>

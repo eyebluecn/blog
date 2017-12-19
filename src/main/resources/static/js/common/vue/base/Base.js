@@ -92,7 +92,7 @@ Base.prototype.defaultErrorHandler = function (response, errorCallback) {
     if (typeof errorCallback === 'function') {
         errorCallback(response)
     } else {
-        console.error("错误，没有定义默认处理方法：", msg)
+        toastr.error(msg);
     }
 }
 
