@@ -56,6 +56,9 @@ public class Article extends BaseEntity {
     //点赞
     private Integer agree = 0;
 
+    //字数
+    private Integer words = 0;
+
     //点击数量
     private Integer hit = 1;
 
@@ -72,6 +75,13 @@ public class Article extends BaseEntity {
     //当前用户是否已经对这篇文章点赞了
     @Transient
     private boolean agreed;
+
+
+
+    //评论数量
+    @Transient
+    private Integer commentNum = 0;
+
 
 }
 

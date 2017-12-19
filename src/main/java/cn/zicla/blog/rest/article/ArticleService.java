@@ -5,6 +5,8 @@ import cn.zicla.blog.rest.agree.History;
 import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityService;
 import cn.zicla.blog.rest.base.Pager;
+import cn.zicla.blog.rest.comment.CommentDao;
+import cn.zicla.blog.rest.comment.CommentService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.tank.TankService;
 import cn.zicla.blog.rest.user.UserService;
@@ -35,6 +37,9 @@ public class ArticleService extends BaseEntityService<Article> {
 
     @Autowired
     TankService tankService;
+
+    @Autowired
+    CommentDao commentDao;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -123,6 +128,10 @@ public class ArticleService extends BaseEntityService<Article> {
 
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
         article.setUser(userService.find(article.getUserUuid()));
+
+        //评论数量
+        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(uuid));
+
 
         //统计文章点击数量。
         this.analysisHit(article, ip);

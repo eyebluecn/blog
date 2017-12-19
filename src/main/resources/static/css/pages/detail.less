@@ -1,63 +1,90 @@
-.article-content {
-  img {
-    max-width: 100%;
-    text-align: center;
+
+.page-detail {
+  background: white;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 4px;
+
+  .article-title {
+    word-break: break-all;
+    margin: 20px 0;
+    font-size: 28px;
+    color: black;
+    font-weight: 700;
+    line-height: 1.3;
   }
 
-}
-
-//评论区表单
-.nb-comment-panel-area {
-  padding: 20px;
-  border: 1px solid #eeeeee;
-  border-radius: 4px;
-  background: #eeeeee;
-}
-
-#comment-area {
-
-  .title-area {
-    border-bottom: 1px solid #eeeeee;
-    padding: 10px 0;
-    .total {
-      font-weight: bold;
-      font-size: 18px;
+  .article-info {
+    .author {
+      font-size: 20px;
+      margin-top: 5px;
+    }
+    .mix {
+      margin-top: 10px;
     }
   }
-  .tree-area {
-    .cell-area {
 
+  .article-content {
+    img {
+      max-width: 100%;
+      text-align: center;
+    }
+
+  }
+
+  //评论区表单
+  .nb-comment-panel-area {
+    padding: 20px;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    background: #eeeeee;
+  }
+
+  #comment-area {
+
+    .title-area {
       border-bottom: 1px solid #eeeeee;
-      padding: 15px 0;
-
-      .reply-btn {
-        color: #888;
-        margin-right: 10px;
-        &:hover {
-          color: black;
-        }
+      padding: 10px 0;
+      .total {
+        font-weight: bold;
+        font-size: 18px;
       }
-      .reply-area {
-        border-left: 4px solid #eeeeee;
-        padding-left: 20px;
+    }
+    .tree-area {
+      .cell-area {
 
-        .sub-cell-area {
-          padding: 15px 0;
-          border-top: 1px solid #eeeeee;
+        border-bottom: 1px solid #eeeeee;
+        padding: 15px 0;
 
-          &:first-child {
-            border-top: none;
-            margin-top: 15px;
+        .reply-btn {
+          color: #888;
+          margin-right: 10px;
+          &:hover {
+            color: black;
+          }
+        }
+        .reply-area {
+          border-left: 4px solid #eeeeee;
+          padding-left: 20px;
+
+          .sub-cell-area {
+            padding: 15px 0;
+            border-top: 1px solid #eeeeee;
+
+            &:first-child {
+              border-top: none;
+              margin-top: 15px;
+
+            }
 
           }
 
         }
-
       }
-    }
 
-  }
-  .pager-area {
-    margin-top: 10px;
+    }
+    .pager-area {
+      margin-top: 10px;
+    }
   }
 }

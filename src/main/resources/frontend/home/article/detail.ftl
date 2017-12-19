@@ -62,9 +62,44 @@
 
     <@layout.put block="content" type="replace">
 
-        <div class="row mt40 mb100">
+    <div class="page-detail">
+        <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-lg-10 col-lg-offset-1">
 
+                <div class="article-title">
+                    ${article.title}
+                </div>
+                <div class="article-info">
+                    <div class="media">
+                        <div class="pull-left">
+                            <img class="img-circle w60 h60" src="/static/img/avatar.png"/>
+                        </div>
+                        <div class="media-body">
+                            <div class="author">
+                                ${article.user.username}
+                            </div>
+                            <div class="mix">
+                                <span class="mr10">
+                                    ${article.releaseTime?string("yyyy-MM-dd HH:mm")}
+                                </span>
+                                <span class="mr10">
+                                    字数 ${article.words}
+                                </span>
+                                <span class="mr10">
+                                    点击 ${article.hit}
+                                </span>
+                                <span class="mr10">
+                                    评论 ${article.commentNum}
+                                </span>
+                                <span class="mr10">
+                                    点赞 ${article.agree}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
                 <div class="article-content" id="article-content">
                     ${article.html}
                 </div>
@@ -83,7 +118,7 @@
                             </div>
                             <div class="title-area">
                                 <span class="total">
-                                    共{{pager.totalItems}}条评论
+                                    共${article.commentNum}条评论和回复
                                 </span>
                             </div>
                             <div class="tree-area">
@@ -230,6 +265,8 @@
 
             </div>
         </div>
+    </div>
+
 
 
 

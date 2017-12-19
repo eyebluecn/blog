@@ -1,5 +1,6 @@
 .section-navigation {
   border-bottom: 1px solid #eeeeee;
+  background: white;
   height: 60px;
 }
 .section-navigation .logo {

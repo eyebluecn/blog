@@ -51,6 +51,9 @@ public class ArticleForm extends BaseEntityForm<Article> {
     @Size(min = 1, max = 100000, message = "html必填并且最长100000字")
     private String html;
 
+    //文章字数
+    @NotNull
+    private Integer words;
 
     //是否是私有文章
     private Boolean privacy = false;
@@ -90,7 +93,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
 
         article.setMarkdown(markdown);
         article.setHtml(html);
-
+        article.setWords(words);
         article.setPrivacy(privacy);
         article.setTop(top);
         article.setReleaseTime(releaseTime);

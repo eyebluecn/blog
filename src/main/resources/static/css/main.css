@@ -16766,7 +16766,7 @@ body {
   font-family: "微软雅黑", Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif, "open sans";
   font-size: 13px;
   color: #676a6c;
-  background-color: white;
+  background-color: #f3f3f4;
 }
 html img,
 body img {
@@ -16838,6 +16838,7 @@ p {
 }
 .section-navigation {
   border-bottom: 1px solid #eeeeee;
+  background: white;
   height: 60px;
 }
 .section-navigation .logo {
@@ -16852,51 +16853,78 @@ p {
 .section-navigation .menus a:hover {
   border-bottom: 2px solid #23B7E5;
 }
-.article-content img {
+.page-detail {
+  background: white;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 4px;
+}
+.page-detail .article-title {
+  word-break: break-all;
+  margin: 20px 0;
+  font-size: 28px;
+  color: black;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.page-detail .article-info .author {
+  font-size: 20px;
+  margin-top: 5px;
+}
+.page-detail .article-info .mix {
+  margin-top: 10px;
+}
+.page-detail .article-content img {
   max-width: 100%;
   text-align: center;
 }
-.nb-comment-panel-area {
+.page-detail .nb-comment-panel-area {
   padding: 20px;
   border: 1px solid #eeeeee;
   border-radius: 4px;
   background: #eeeeee;
 }
-#comment-area .title-area {
+.page-detail #comment-area .title-area {
   border-bottom: 1px solid #eeeeee;
   padding: 10px 0;
 }
-#comment-area .title-area .total {
+.page-detail #comment-area .title-area .total {
   font-weight: bold;
   font-size: 18px;
 }
-#comment-area .tree-area .cell-area {
+.page-detail #comment-area .tree-area .cell-area {
   border-bottom: 1px solid #eeeeee;
   padding: 15px 0;
 }
-#comment-area .tree-area .cell-area .reply-btn {
+.page-detail #comment-area .tree-area .cell-area .reply-btn {
   color: #888;
   margin-right: 10px;
 }
-#comment-area .tree-area .cell-area .reply-btn:hover {
+.page-detail #comment-area .tree-area .cell-area .reply-btn:hover {
   color: black;
 }
-#comment-area .tree-area .cell-area .reply-area {
+.page-detail #comment-area .tree-area .cell-area .reply-area {
   border-left: 4px solid #eeeeee;
   padding-left: 20px;
 }
-#comment-area .tree-area .cell-area .reply-area .sub-cell-area {
+.page-detail #comment-area .tree-area .cell-area .reply-area .sub-cell-area {
   padding: 15px 0;
   border-top: 1px solid #eeeeee;
 }
-#comment-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
+.page-detail #comment-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
   border-top: none;
   margin-top: 15px;
 }
-#comment-area .pager-area {
+.page-detail #comment-area .pager-area {
   margin-top: 10px;
 }
-.tag-collection {
+.page-index {
+  background: white;
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 4px;
+}
+.page-index .tag-collection {
   display: inline-block;
   margin: 0 18px 18px 0;
   min-height: 32px;
@@ -16907,11 +16935,11 @@ p {
   overflow: hidden;
   color: #333;
 }
-.tag-collection img {
+.page-index .tag-collection img {
   width: 32px;
   height: 32px;
 }
-.tag-collection .name {
+.page-index .tag-collection .name {
   display: inline-block;
   padding: 0 11px 0 6px;
   font-size: 14px;

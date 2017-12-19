@@ -88,7 +88,8 @@ public class HomeController extends FrontendBaseController {
 
         String ip = NetworkUtil.getIpAddress(request);
 
-        model.addAttribute("article", articleService.detail(uuid, ip));
+        Article article = articleService.detail(uuid, ip);
+        model.addAttribute("article", article);
 
         return "home/article/detail";
     }

@@ -10,8 +10,9 @@
 
         <#import "../common/widget/FtlPager.ftl" as FtlPager>
 
-<div class="row">
-    <div class="col-sm-8 mt40">
+    <div class="page-index">
+        <div class="row">
+            <div class="col-sm-8">
 
             <#list articlePager.data as article>
                 <div class="border-bottom mt20">
@@ -27,8 +28,8 @@
                     </div>
                 </div>
             </#list>
-    </div>
-    <div class="col-sm-4 mt60">
+            </div>
+            <div class="col-sm-4 mt60">
 
             <#list tagPager.data as tag>
 
@@ -40,11 +41,13 @@
 
             </#list>
 
-    </div>
-</div>
+            </div>
+        </div>
 
-    <div>
+        <div>
         <@FtlPager.FtlPager pager=articlePager/>
+        </div>
+
     </div>
 
     </@layout.put>
