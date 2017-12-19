@@ -86,13 +86,9 @@ public class HomeController extends FrontendBaseController {
             @PathVariable String uuid
     ) {
 
-        Article article = articleService.check(uuid);
+        String ip = NetworkUtil.getIpAddress(request);
 
-        //统计文章点击数量。
-        articleService.analysisHit(article, NetworkUtil.getIpAddress(request));
-
-
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleService.detail(uuid, ip));
 
         return "home/article/detail";
     }

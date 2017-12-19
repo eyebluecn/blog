@@ -108,6 +108,32 @@
                                         {{comment.content}}
                                     </div>
                                     <div class="">
+
+                                        <a class="reply-btn" href="javascript:void(0)"
+                                           @click.stop.prevent="agree(comment)"
+                                           v-if="!comment.agreed">
+                                            <i class="fa fa-thumbs-o-up"></i>
+                                            <span v-if="comment.agree>0">
+                                                {{comment.agree}}人赞
+                                            </span>
+                                            <span v-else>
+                                                赞
+                                            </span>
+
+                                        </a>
+
+                                        <a class="reply-btn" href="javascript:void(0)"
+                                           @click.stop.prevent="cancelAgree(comment)"
+                                           v-if="comment.agreed">
+                                            <i class="fa fa-thumbs-up text-primary"></i>
+                                            <span v-if="comment.agree>0">
+                                                {{comment.agree}}人赞
+                                            </span>
+                                            <span v-else>
+                                                赞
+                                            </span>
+                                        </a>
+
                                         <a class="reply-btn" href="javascript:void(0)"
                                            @click.stop.prevent="prepareReply(comment)">
                                             <i class="fa fa-comment-o"></i> 回复
@@ -133,6 +159,31 @@
                                                 </span>
 
                                                 <a class="reply-btn" href="javascript:void(0)"
+                                                   @click.stop.prevent="agree(subComment)"
+                                                   v-if="!subComment.agreed">
+                                                    <i class="fa fa-thumbs-o-up"></i>
+                                                    <span v-if="subComment.agree>0">
+                                                {{subComment.agree}}人赞
+                                            </span>
+                                                    <span v-else>
+                                                赞
+                                            </span>
+
+                                                </a>
+
+                                                <a class="reply-btn" href="javascript:void(0)"
+                                                   @click.stop.prevent="cancelAgree(subComment)"
+                                                   v-if="subComment.agreed">
+                                                    <i class="fa fa-thumbs-up text-primary"></i>
+                                                    <span v-if="subComment.agree>0">
+                                                {{subComment.agree}}人赞
+                                            </span>
+                                                    <span v-else>
+                                                赞
+                                            </span>
+                                                </a>
+
+                                                <a class="reply-btn" href="javascript:void(0)"
                                                    @click.stop.prevent="prepareReply(subComment)">
                                                     <i class="fa fa-comment-o"></i> 回复
                                                 </a>
@@ -155,7 +206,8 @@
                                             <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
-                                                <nb-comment-panel :comment="replyComment" @success="replyCreateSuccess"/>
+                                                <nb-comment-panel :comment="replyComment"
+                                                                  @success="replyCreateSuccess"/>
                                             </div>
                                         </nb-expanding>
 

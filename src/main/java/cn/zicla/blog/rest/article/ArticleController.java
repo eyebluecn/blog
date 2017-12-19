@@ -87,15 +87,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
-        Article article = this.check(uuid);
-        article.setPosterTank(tankService.find(article.getPosterTankUuid()));
-        article.setUser(userService.find(article.getUserUuid()));
-
-        //统计文章点击数量。
-        articleService.analysisHit(article, this.getCurrentRequestIp());
 
 
-        return success(article);
+        return success(articleService.detail(uuid, getCurrentRequestIp()));
 
     }
 

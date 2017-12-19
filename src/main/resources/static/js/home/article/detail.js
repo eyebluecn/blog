@@ -27,6 +27,12 @@ $(function () {
                 that.pager.httpFastPage();
 
             },
+            agree: function (comment) {
+                comment.httpAgree();
+            },
+            cancelAgree: function (comment) {
+                comment.httpCancelAgree();
+            },
             floorCreateSuccess: function () {
                 var that = this
                 this.refresh();

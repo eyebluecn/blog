@@ -6,6 +6,7 @@ import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityService;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
+import cn.zicla.blog.rest.tank.TankService;
 import cn.zicla.blog.rest.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ArticleService extends BaseEntityService<Article> {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TankService tankService;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -110,10 +114,31 @@ public class ArticleService extends BaseEntityService<Article> {
         return new Pager<>(page, pageSize, totalItems, list);
     }
 
+
+    //获取一篇文章的详情。
+    public Article detail(String uuid, String ip) {
+
+
+        Article article = this.check(uuid);
+
+        article.setPosterTank(tankService.find(article.getPosterTankUuid()));
+        article.setUser(userService.find(article.getUserUuid()));
+
+        //统计文章点击数量。
+        this.analysisHit(article, ip);
+
+        //查看当前用户的点赞与否情况。
+        History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, uuid, ip);
+        if (history != null) {
+            article.setAgreed(true);
+        }
+        return article;
+    }
+
+
     //统计访问数量。
     @Async
     public void analysisHit(Article article, String ip) {
-
 
 
         int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.VISIT_ARTICLE, article.getUuid(), ip);

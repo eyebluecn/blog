@@ -25,6 +25,12 @@ function Comment() {
     //举报内容
     this.report = null;
 
+    //评论时的ip
+    this.ip = null;
+
+    //用户对于这个评论是否已经点赞了。
+    this.agreed = false;
+
     //子评论
     this.commentPager = new Pager(Comment, 10)
 }
@@ -130,6 +136,50 @@ Comment.prototype.httpCreate = function (successCallback, errorCallback) {
     });
 
 
+}
+
+//点赞。
+Comment.prototype.httpAgree = function (successCallback, errorCallback) {
+
+    var that = this
+    that.httpPost("/api/comment/agree", {"commentUuid": that.uuid}, function (response) {
+
+        that.agree++
+        that.agreed = true
+
+        if (typeof successCallback === "function") {
+            successCallback(response);
+        }
+
+    }, function (response) {
+
+        if (typeof errorCallback === "function") {
+            errorCallback(response);
+        }
+
+    });
+}
+
+//取消点赞。
+Comment.prototype.httpCancelAgree = function (successCallback, errorCallback) {
+
+    var that = this
+    that.httpPost("/api/comment/cancel/agree", {"commentUuid": that.uuid}, function (response) {
+
+        that.agree--
+        that.agreed = false
+
+        if (typeof successCallback === "function") {
+            successCallback(response);
+        }
+
+    }, function (response) {
+
+        if (typeof errorCallback === "function") {
+            errorCallback(response);
+        }
+
+    });
 }
 
 
