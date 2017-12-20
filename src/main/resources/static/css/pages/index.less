@@ -5,8 +5,26 @@
 
   background: white;
   margin-top: 40px;
-  padding: 20px;
   border-radius: 4px;
+
+  .article-cell {
+
+    border-bottom: 1px solid #eeeeee;
+    padding: 20px;
+
+    .title {
+      a {
+        font-size: 18px;
+        font-weight: bold;
+        color: #555;
+        &:hover {
+          color: #000;
+          text-decoration: underline;
+        }
+      }
+    }
+
+  }
 
   .tag-collection {
     display: inline-block;

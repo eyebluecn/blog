@@ -15,16 +15,17 @@
             <div class="col-sm-8">
 
             <#list articlePager.data as article>
-                <div class="border-bottom mt20">
-                    <div>
-                        <h3>
-                            <a href="/home/article/${article.uuid}">
-                                ${article.title}
-                            </a>
-                        </h3>
+                <div class="article-cell">
+                    <div class="title">
+                        <a href="/home/article/${article.uuid}">
+                            ${article.title}
+                        </a>
+                    </div>
+                    <div class="digest">
+                        ${article.digest}
                     </div>
                     <div>
-                        <p>${article.createTime?string("yyyy-MM-dd HH:mm")}</p>
+                        <div>${article.createTime?string("yyyy-MM-dd HH:mm")}</div>
                     </div>
                 </div>
             </#list>
