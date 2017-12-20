@@ -43,7 +43,33 @@
 
 }
 
+.container{
+  .menuExpand > ul {
+    list-style: none;
+    padding:0;
+    background: #fff;
+    & > li{
+      border-bottom: 1px solid #eeeeee;
+      font-size:15px;
+      & > a{
+        height: 40px;
+        line-height: 40px;
+        color: #2b2b2b;
+        display: block;
+        padding: 0 20px;
+        &:hover{
+          color: #fff !important;
+          background: @brand-primary;
+        }
+      }
 
+    }
+  }
+
+  [data-expanding-show="false"] {
+    display: none;
+  }
+}
 
 .section-footer {
   position: absolute;

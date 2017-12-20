@@ -54,13 +54,15 @@
                         </span>
                     </a>
 
-
-                    <span class="menus">
+                    <div class="menus hidden-xs">
                         <a href="/">首页</a>
                         <a href="#">关于</a>
                         <a href="#">联系我们</a>
-                    </span>
+                    </div>
+                    <div class="visible-xs pull-right">
+                        <em class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></em>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,6 +70,13 @@
 
     <div class="container mb120">
         <div class="row">
+            <div data-expanding-id="menuSlide" data-expanding-show="false" class="menuExpand hidden-sm hidden-md hidden-lg">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </div>
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                 <@layout.block name="content"></@layout.block>
             </div>
@@ -79,14 +88,7 @@
 
 
     <div class="section-footer">
-        <div>
-            <button class="btn btn-primary" data-expanding-target="demoSlide">
-                我是触发开关
-            </button>
-        </div>
-        <div data-expanding-id="demoSlide" data-expanding-show="true">
-            这里是用来收缩的区域
-        </div>
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
