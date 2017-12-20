@@ -12,12 +12,15 @@
 @import "./global/miscellaneous.less";
 @import "./global/responsive.less";
 
+html{
+  position: relative;
+}
 html, body {
   font-family: "微软雅黑", Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif, "open sans";
   font-size: 13px;
   color: @text-color;
   background-color: #f3f3f4;
-
+  min-height: 100%;
   img {
     max-width: 100%;
   }
@@ -26,7 +29,7 @@ html, body {
 
 //列表单元格的样式。
 .nb-app {
-
+  height: 100%;
   //media-body下的p字体大小
   .media-body {
     p {

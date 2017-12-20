@@ -16759,16 +16759,23 @@ table.shoping-cart-table tr td:last-child {
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.3);
 }
+html {
+  position: relative;
+}
 html,
 body {
   font-family: "微软雅黑", Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif, "open sans";
   font-size: 13px;
   color: #676a6c;
   background-color: #f3f3f4;
+  min-height: 100%;
 }
 html img,
 body img {
   max-width: 100%;
+}
+.nb-app {
+  height: 100%;
 }
 .nb-app .media-body p {
   font-size: 13px;

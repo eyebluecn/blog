@@ -16761,16 +16761,23 @@ table.shoping-cart-table tr td:last-child {
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.3);
 }
+html {
+  position: relative;
+}
 html,
 body {
   font-family: "微软雅黑", Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif, "open sans";
   font-size: 13px;
   color: #676a6c;
   background-color: #f3f3f4;
+  min-height: 100%;
 }
 html img,
 body img {
   max-width: 100%;
+}
+.nb-app {
+  height: 100%;
 }
 .nb-app .media-body p {
   font-size: 13px;
@@ -16866,7 +16873,13 @@ p {
   border-bottom: 2px solid #23B7E5;
 }
 .section-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
   border-top: 1px solid #eeeeee;
+  box-sizing: border-box;
   background: white;
   text-align: center;
   padding: 30px 0;
