@@ -125,7 +125,7 @@
                         沪ICP备 05049
                     </div>
                     <div>
-                        Proudly powered by <a href="#"><img class="w30" src="/static/img/eyeblue.png"/> 蓝眼博客</a>
+                        Powered by <a href="#"><img class="w30" src="/static/img/eyeblue.png"/> 蓝眼博客</a>
                     </div>
                 </div>
             </div>

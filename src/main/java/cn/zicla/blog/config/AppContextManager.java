@@ -92,7 +92,7 @@ public class AppContextManager implements ApplicationContextAware {
     public static <T extends BaseEntity> T check(Class<T> clazz, String uuid) {
 
         if (uuid == null) {
-            throw new UtilException("id必须指定");
+            throw new UtilException("uuid必须指定");
         }
 
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);

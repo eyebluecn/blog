@@ -9,6 +9,7 @@ import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSession;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
+import cn.zicla.blog.rest.tank.TankService;
 import cn.zicla.blog.rest.user.knock.UserKnock;
 import cn.zicla.blog.rest.user.knock.UserKnockService;
 import cn.zicla.blog.util.NetworkUtil;
@@ -42,6 +43,9 @@ public class UserController extends BaseEntityController<User, UserForm> {
     UserDao userDao;
 
     @Autowired
+    TankService tankService;
+
+    @Autowired
     SupportSessionDao supportSessionDao;
 
     @Autowired
@@ -53,16 +57,27 @@ public class UserController extends BaseEntityController<User, UserForm> {
     @Autowired
     SupportCaptchaService supportCaptchaService;
 
-
     public UserController() {
         super(User.class);
     }
 
-
     @Override
     @Feature(FeatureType.USER_MANAGE)
     public WebResult create(@Valid UserForm form) {
-        return super.create(form);
+
+        //检查email的重复性。
+        User operator = checkUser();
+        User user = form.create(operator);
+
+        //邮箱不能重复
+        int count = userDao.countByEmail(user.getEmail());
+        if (count > 0) {
+            throw new UtilException("邮箱" + user.getEmail() + "已经存在，请使用其他邮箱。");
+        }
+
+        user = userDao.save(user);
+
+        return success(user);
     }
 
     @Override
@@ -72,15 +87,39 @@ public class UserController extends BaseEntityController<User, UserForm> {
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult edit(@Valid UserForm form) {
-        return super.edit(form);
+
+        //检查email的重复性。
+        User operator = checkUser();
+
+        User user = this.check(form.getUuid());
+
+        String oldEmail = user.getEmail();
+        form.update(user, operator);
+        String newEmail = user.getEmail();
+
+        if (!oldEmail.equals(newEmail)) {
+            //邮箱变更了时就要检查唯一性。
+            int count = userDao.countByEmail(newEmail);
+            if (count > 0) {
+                throw new UtilException("邮箱" + newEmail + "已经存在，请使用其他邮箱。");
+            }
+        }
+
+        user = userDao.save(user);
+
+        return success(user);
+
+
     }
 
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
-        return super.detail(uuid);
+        User user = this.check(uuid);
+        user.setAvatar(tankService.find(uuid));
+        return success(user);
     }
 
     @Override
@@ -258,6 +297,51 @@ public class UserController extends BaseEntityController<User, UserForm> {
         }
 
         return success();
+    }
+
+
+    /**
+     * 用户自己修改密码
+     */
+    @Feature(FeatureType.USER_MINE)
+    @RequestMapping(value = "/change/password")
+    public WebResult changePassword(String oldPassword, String newPassword) {
+
+        User user = checkUser();
+
+        if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UtilException("旧密码错误！");
+        }
+
+        if (newPassword.length() < 6) {
+            throw new UtilException("密码位数不能低于6位");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userDao.save(user);
+
+        return success();
+    }
+
+
+    /**
+     * 管理员重置某个用户的密码
+     */
+    @Feature(FeatureType.USER_MANAGE)
+    @RequestMapping(value = "/reset/password")
+    public WebResult resetPassword(String userUuid, String newPassword) {
+
+        User user = this.check(userUuid);
+
+        if (newPassword.length() < 6) {
+            throw new UtilException("密码位数不能低于6位");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userDao.save(user);
+
+        return success();
+
     }
 
 

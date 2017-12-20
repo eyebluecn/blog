@@ -2,6 +2,7 @@ package cn.zicla.blog.rest.user;
 
 import cn.zicla.blog.rest.base.BaseEntity;
 import cn.zicla.blog.rest.core.FeatureType;
+import cn.zicla.blog.rest.tank.Tank;
 import cn.zicla.blog.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,13 +23,14 @@ import java.util.Date;
 public class User extends BaseEntity {
 
     public static final String TAG = "user";
+
     private String username;
 
     @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.ADMIN;
+    private Role role = Role.USER;
 
     private String email;
 
@@ -53,6 +56,9 @@ public class User extends BaseEntity {
     @JsonIgnore
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date lastTime;
+
+    @Transient
+    private Tank avatar;
 
     public boolean hasPermission(FeatureType featureType) {
 

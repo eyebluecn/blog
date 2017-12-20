@@ -8,4 +8,7 @@ public interface UserDao extends BaseEntityDao<User> {
 
 
     User findByEmailAndDeletedFalse(String email);
+
+    int countByEmail(String email);
+
 }
