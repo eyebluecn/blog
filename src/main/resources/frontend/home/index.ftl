@@ -22,7 +22,7 @@
                         </a>
                     </div>
                     <div class="digest">
-                        ${article.digest}
+                        ${article.digest!""}
                     </div>
                     <div>
                         <div>${article.createTime?string("yyyy-MM-dd HH:mm")}</div>
