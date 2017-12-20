@@ -76,12 +76,9 @@ public class Article extends BaseEntity {
     @Transient
     private boolean agreed;
 
-
-
     //评论数量
     @Transient
     private Integer commentNum = 0;
-
 
 }
 

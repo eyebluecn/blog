@@ -7,8 +7,10 @@ import cn.zicla.blog.rest.base.BaseEntityService;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.comment.CommentDao;
 import cn.zicla.blog.rest.comment.CommentService;
+import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.tank.TankService;
+import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.rest.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +59,26 @@ public class ArticleService extends BaseEntityService<Article> {
             Sort.Direction orderPrivacy,
             Sort.Direction orderReleaseTime,
             String userUuid,
+            Boolean privacy,
             String title,
             String tag,
-            String keyword
+            String keyword,
+            User operator
     ) {
+
+        //验证权限。超级管理员可以查看所有人的私有文章。普通用户只能查看自己的私有文章。
+        if (privacy == null || privacy) {
+            if (operator == null) {
+                //没有权限却想查看别人，那么就强制不给看。
+                privacy = false;
+            } else if (!operator.hasPermission(FeatureType.USER_MANAGE)) {
+                if (userUuid == null || !userUuid.equals(operator.getUuid())) {
+                    //没有权限却想查看别人，那么就强制不给看。
+                    privacy = false;
+                }
+            }
+        }
+
 
         Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
 
@@ -87,6 +105,8 @@ public class ArticleService extends BaseEntityService<Article> {
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 
+
+        Boolean finalPrivacy = privacy;
         Page<Article> pageData = getDao().findAll(((root, query, cb) -> {
             Predicate predicate = cb.equal(root.get(Article_.deleted), false);
 
@@ -95,6 +115,9 @@ public class ArticleService extends BaseEntityService<Article> {
             }
             if (title != null) {
                 predicate = cb.and(predicate, cb.like(root.get(Article_.title), "%" + title + "%"));
+            }
+            if (finalPrivacy != null) {
+                predicate = cb.and(predicate, cb.equal(root.get(Article_.privacy), finalPrivacy));
             }
             if (tag != null) {
                 predicate = cb.and(predicate, cb.like(root.get(Article_.tags), "%" + tag + "%"));

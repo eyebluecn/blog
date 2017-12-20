@@ -54,6 +54,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
+                false,
+                null,
                 null,
                 null,
                 null);

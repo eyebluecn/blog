@@ -39,6 +39,9 @@ public class PreferenceController extends BaseEntityController<Preference, Prefe
 
         preferenceDao.save(preference);
 
+        preference.setLogoTank(tankService.find(preference.getLogoTankUuid()));
+        preference.setFaviconTank(tankService.find(preference.getFaviconTankUuid()));
+
         return success(preference);
     }
 

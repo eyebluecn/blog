@@ -6,14 +6,13 @@ import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
-import cn.zicla.blog.rest.comment.Comment;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
 import cn.zicla.blog.rest.tank.TankService;
+import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.rest.user.UserService;
-import cn.zicla.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,12 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -66,20 +60,32 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult create(@Valid ArticleForm form) {
         return super.create(form);
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult del(@PathVariable String uuid) {
+
+        //判断文章是否是自己的方可删除。
+        Article article = this.check(uuid);
+
+        //验证权限
+        checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
+
         return super.del(uuid);
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult edit(@Valid ArticleForm form) {
+
+        Article article = this.check(form.getUuid());
+        //验证权限
+        checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
+
         return super.edit(form);
     }
 
@@ -87,7 +93,6 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
-
 
         return success(articleService.detail(uuid, getCurrentRequestIp()));
 
@@ -103,7 +108,6 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.USER_MANAGE)
     @RequestMapping("/page")
     public WebResult page(
-
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
@@ -112,10 +116,13 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
             @RequestParam(required = false) Sort.Direction orderPrivacy,
             @RequestParam(required = false) Sort.Direction orderReleaseTime,
             @RequestParam(required = false) String userUuid,
+            @RequestParam(required = false) Boolean privacy,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String tag,
             @RequestParam(required = false) String keyword
     ) {
+
+        User operator = checkUser();
 
         Pager<Article> articlePager = articleService.page(page,
                 pageSize,
@@ -125,9 +132,11 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
                 orderPrivacy,
                 orderReleaseTime,
                 userUuid,
+                privacy,
                 title,
                 tag,
-                keyword);
+                keyword,
+                operator);
 
         return this.success(articlePager);
 

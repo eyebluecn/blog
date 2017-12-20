@@ -2,7 +2,11 @@ package cn.zicla.blog.rest.base;
 
 import cn.zicla.blog.config.AppContextManager;
 import cn.zicla.blog.config.exception.LoginException;
+import cn.zicla.blog.config.exception.UnauthorizedException;
+import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.user.User;
+import cn.zicla.blog.rest.user.UserDao;
+import cn.zicla.blog.rest.user.UserService;
 import cn.zicla.blog.util.JsonUtil;
 import cn.zicla.blog.util.NetworkUtil;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -199,6 +204,27 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     //获取到当前这次请求的ip
     protected String getCurrentRequestIp() {
         return NetworkUtil.getIpAddress(getCurrentHttpServletRequest());
+    }
+
+
+    //判断自己对于当前实体是否有权限 没有权限直接抛出异常。
+    //管理者权限，个人权限
+    protected void checkMineEntityPermission(FeatureType manageFeature, FeatureType mineFeature, String entityUserUuid) {
+        UserService userService = AppContextManager.getBean(UserService.class);
+        User entityUser = userService.check(entityUserUuid);
+        //如果有管理权限。
+        if (entityUser.hasPermission(manageFeature)) {
+            return;
+        }
+        //如果只有查看自己的权限。
+        else if (entityUser.hasPermission(mineFeature)) {
+            //必须确保查看的对象属于自己。
+            if (Objects.equals(entityUserUuid, checkUser().getUuid())) {
+                return;
+            }
+        }
+        //如果什么都没有。
+        throw new UnauthorizedException();
     }
 
 }
