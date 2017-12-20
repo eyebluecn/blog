@@ -58,7 +58,9 @@
                     <span class="menus">
                         <a href="/">首页</a>
                         <a href="#">关于</a>
+                        <a href="#">联系我们</a>
                     </span>
+
                 </div>
             </div>
         </div>
@@ -74,7 +76,17 @@
     </div>
 
 
+
+
     <div class="section-footer">
+        <div>
+            <button class="btn btn-primary" data-expanding-target="demoSlide">
+                我是触发开关
+            </button>
+        </div>
+        <div data-expanding-id="demoSlide" data-expanding-show="true">
+            这里是用来收缩的区域
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
