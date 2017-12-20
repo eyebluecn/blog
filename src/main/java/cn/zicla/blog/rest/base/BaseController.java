@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 
 public abstract class BaseController {
 
-
-
     protected WebResult error() {
         return new WebResult(ResultCode.UTIL_EXCEPTION, "出错了");
     }
@@ -93,9 +91,6 @@ public abstract class BaseController {
         webResult.setData(map);
         return webResult;
     }
-
-
-
 
     //对page和pageSize进行验证
     public PageRequest getPageRequest(int page, int pageSize, Sort sort) {

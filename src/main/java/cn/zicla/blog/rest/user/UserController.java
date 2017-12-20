@@ -95,6 +95,10 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
         User user = this.check(form.getUuid());
 
+        //验证权限
+        checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, user.getUuid());
+
+
         String oldEmail = user.getEmail();
         form.update(user, operator);
         String newEmail = user.getEmail();

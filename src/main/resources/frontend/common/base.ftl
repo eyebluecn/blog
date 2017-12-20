@@ -15,7 +15,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="shortcut icon" type="image/x-icon" href="${preference.name!"/static/img/favicon.ico"}">
+    <link rel="shortcut icon" type="image/x-icon" href="${preference.faviconUrl!"/static/img/favicon.ico"}">
 
     <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
@@ -53,23 +53,23 @@
                         </span>
                     </a>
                     <div class="menus hidden-xs">
-                    <#if preference.menuName1??>
+                    <#if preference.menuName1?? && preference.menuName1!="">
                         <a href="${preference.menuUrl1!""}"
                            target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a>
                     </#if>
-                    <#if preference.menuName2??>
+                    <#if preference.menuName2?? && preference.menuName2!="">
                         <a href="${preference.menuUrl2!""}"
                            target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a>
                     </#if>
-                    <#if preference.menuName3??>
+                    <#if preference.menuName3?? && preference.menuName3!="">
                         <a href="${preference.menuUrl3!""}"
                            target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a>
                     </#if>
-                    <#if preference.menuName4??>
+                    <#if preference.menuName4?? && preference.menuName4!="">
                         <a href="${preference.menuUrl4!""}"
                            target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a>
                     </#if>
-                    <#if preference.menuName5??>
+                    <#if preference.menuName5?? && preference.menuName5!="">
                         <a href="${preference.menuUrl5!""}"
                            target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
                     </#if>
@@ -88,20 +88,30 @@
             <div data-expanding-id="menuSlide" data-expanding-show="false"
                  class="menuExpand hidden-sm hidden-md hidden-lg">
                 <ul>
-                    <#if preference.menuName1??>
-                    <li><a href="${preference.menuUrl1!""}" target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a></li>
+                    <#if preference.menuName1?? && preference.menuName1!="">
+                    <li><a href="${preference.menuUrl1!""}"
+                           target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a>
+                    </li>
                     </#if>
-                    <#if preference.menuName2??>
-                    <li><a href="${preference.menuUrl2!""}" target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a></li>
+                    <#if preference.menuName2?? && preference.menuName2!="">
+                    <li><a href="${preference.menuUrl2!""}"
+                           target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a>
+                    </li>
                     </#if>
-                    <#if preference.menuName3??>
-                    <li><a href="${preference.menuUrl3!""}" target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a></li>
+                    <#if preference.menuName3?? && preference.menuName3!="">
+                    <li><a href="${preference.menuUrl3!""}"
+                           target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a>
+                    </li>
                     </#if>
-                    <#if preference.menuName4??>
-                    <li><a href="${preference.menuUrl4!""}" target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a></li>
+                    <#if preference.menuName4?? && preference.menuName4!="">
+                    <li><a href="${preference.menuUrl4!""}"
+                           target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a>
+                    </li>
                     </#if>
-                    <#if preference.menuName5??>
-                    <li><a href="${preference.menuUrl5!""}" target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a></li>
+                    <#if preference.menuName5?? && preference.menuName5!="">
+                    <li><a href="${preference.menuUrl5!""}"
+                           target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
+                    </li>
                     </#if>
                 </ul>
             </div>

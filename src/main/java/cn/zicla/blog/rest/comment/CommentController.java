@@ -4,7 +4,8 @@ import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.agree.History;
 import cn.zicla.blog.rest.agree.HistoryDao;
 import cn.zicla.blog.rest.agree.History_;
-import cn.zicla.blog.rest.article.Article_;
+import cn.zicla.blog.rest.article.Article;
+import cn.zicla.blog.rest.article.ArticleService;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
@@ -39,6 +40,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    ArticleService articleService;
 
     @Autowired
     HistoryDao historyDao;
@@ -78,17 +82,29 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult del(@PathVariable String uuid) {
-        Comment entity = this.check(uuid);
-        commentDao.delete(entity);
+        Comment comment = this.check(uuid);
+        Article article = articleService.check(comment.getArticleUuid());
+
+        //验证权限
+        checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
+
+        commentDao.delete(comment);
 
         return success();
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult edit(@Valid CommentForm form) {
+        Comment comment = this.check(form.getUuid());
+        Article article = articleService.check(comment.getArticleUuid());
+
+        //验证权限
+        checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
+
+
         return super.edit(form);
     }
 
