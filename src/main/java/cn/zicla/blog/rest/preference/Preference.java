@@ -15,8 +15,6 @@ import javax.persistence.Transient;
 @Entity
 public class Preference extends BaseEntity {
 
-    public static final String DEFAULT_UUID = "11111111-1111-1111-1111-111111111111";
-
     //网站名称
     private String name;
 
@@ -51,8 +49,6 @@ public class Preference extends BaseEntity {
     //默认的一个appPreference.
     public static Preference create() {
         Preference preference = new Preference();
-
-        preference.setUuid(DEFAULT_UUID);
 
         preference.setName("蓝眼博客");
         preference.setLogoUrl("/static/img/logo.png");
