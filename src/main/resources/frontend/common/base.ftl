@@ -49,7 +49,12 @@
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                     <a href="/">
                         <img src="/static/img/logo.png" class="logo"/>
+                        <span class="site-title">
+                            蓝眼博客
+                        </span>
                     </a>
+
+
                     <span class="menus">
                         <a href="/">首页</a>
                         <a href="#">关于</a>

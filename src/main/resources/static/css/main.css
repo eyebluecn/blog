@@ -16844,6 +16844,16 @@ p {
 .section-navigation .logo {
   height: 60px;
 }
+.section-navigation .site-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  display: inline-block;
+  margin-top: 5px;
+}
+.section-navigation .menus {
+  float: right;
+}
 .section-navigation .menus a {
   line-height: 60px;
   font-size: 16px;
