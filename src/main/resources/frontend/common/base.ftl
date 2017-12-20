@@ -72,6 +72,23 @@
         </div>
     </div>
 
+
+    <div class="section-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div>
+                        沪ICP备 05049 CopyRight 2017©蓝眼博客 版权所有
+                    </div>
+                    <div>
+                        Proudly powered by <a href="#">蓝眼博客</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 </body>

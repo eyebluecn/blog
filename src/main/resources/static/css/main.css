@@ -16849,7 +16849,9 @@ p {
   font-weight: bold;
   color: black;
   display: inline-block;
-  margin-top: 5px;
+  margin-left: 15px;
+  vertical-align: middle;
+  line-height: 60px;
 }
 .section-navigation .menus {
   float: right;
@@ -16862,6 +16864,12 @@ p {
 }
 .section-navigation .menus a:hover {
   border-bottom: 2px solid #23B7E5;
+}
+.section-footer {
+  border-top: 1px solid #eeeeee;
+  background: white;
+  text-align: center;
+  padding: 30px 0;
 }
 .page-detail {
   background: white;
