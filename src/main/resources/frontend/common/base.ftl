@@ -15,7 +15,13 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="shortcut icon" type="image/x-icon" href="${preference.faviconUrl!"/static/img/favicon.ico"}">
+
+    <#if preference.faviconUrl?? && preference.faviconUrl!="">
+        <link rel="shortcut icon" type="image/x-icon" href="${preference.faviconUrl}">
+    <#else>
+        <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+    </#if>
+
 
     <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
