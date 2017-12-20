@@ -49,9 +49,17 @@ public class PreferenceForm extends BaseEntityForm<Preference> {
 
 
         preference.setName(name);
-        preference.setLogoUrl(logoUrl);
+        if (logoUrl != null && !logoUrl.equals("")) {
+            preference.setLogoUrl(logoUrl);
+        } else {
+            preference.setLogoUrl(null);
+        }
         preference.setLogoTankUuid(logoTankUuid);
-        preference.setFaviconUrl(faviconUrl);
+        if (faviconUrl != null && !faviconUrl.equals("")) {
+            preference.setFaviconUrl(faviconUrl);
+        } else {
+            preference.setFaviconUrl(null);
+        }
         preference.setFaviconTankUuid(faviconTankUuid);
         preference.setMenuName1(menuName1);
         preference.setMenuUrl1(menuUrl1);

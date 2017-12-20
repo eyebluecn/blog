@@ -1,7 +1,11 @@
 package cn.zicla.blog.frontend.base;
 
+import cn.zicla.blog.config.AppContextManager;
 import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.frontend.home.HomeController;
+import cn.zicla.blog.rest.base.BaseEntityDao;
+import cn.zicla.blog.rest.preference.Preference;
+import cn.zicla.blog.rest.preference.PreferenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -98,15 +102,21 @@ public class FrontendAspect {
         model.addAttribute("requestParams", requestParams);
 
 
-        //设置templateURL /home/index 即 home/index
+        //设置templateURL /home/index 即 home/index 在前端pager中非常有用。
         String requestUri = request.getRequestURI();
         model.addAttribute("baseUrl", requestUri);
+
 
     }
 
     /***********用户登录信息***********/
 
     private void initLoginInfo(JoinPoint joinPoint, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+        //设置网站偏好信息。
+        PreferenceService preferenceService = AppContextManager.getBean(PreferenceService.class);
+        model.addAttribute("preference", preferenceService.fetch());
+
 
     }
 

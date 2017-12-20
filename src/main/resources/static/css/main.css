@@ -17137,12 +17137,15 @@ p {
   float: right;
 }
 .section-navigation .menus a {
+  display: inline-block;
   line-height: 60px;
+  height: 60px;
   font-size: 16px;
   color: #555;
   margin-left: 15px;
 }
 .section-navigation .menus a:hover {
+  color: #23B7E5;
   border-bottom: 2px solid #23B7E5;
 }
 .container .menuExpand > ul {
@@ -17213,6 +17216,9 @@ p {
   border: 1px solid #eeeeee;
   border-radius: 4px;
   background: #eeeeee;
+}
+.page-detail #interactive-area {
+  margin-top: 20px;
 }
 .page-detail #interactive-area .article-appendix {
   padding: 20px 0 40px 0;

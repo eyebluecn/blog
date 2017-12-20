@@ -4,7 +4,7 @@
     <title>
 
     <@layout.block name="title">
-        个人博客
+        ${preference.name}
     </@layout.block>
 
     </title>
@@ -15,8 +15,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
-
+    <link rel="shortcut icon" type="image/x-icon" href="${preference.name!"/static/img/favicon.ico"}">
 
     <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
@@ -48,16 +47,32 @@
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                     <a href="/">
-                        <img src="/static/img/logo.png" class="logo"/>
+                        <img src="${preference.logoUrl!"/static/img/logo.png"}" class="logo"/>
                         <span class="site-title">
-                            蓝眼博客
+                        ${preference.name}
                         </span>
                     </a>
-
                     <div class="menus hidden-xs">
-                        <a href="/">首页</a>
-                        <a href="#">关于</a>
-                        <a href="#">联系我们</a>
+                    <#if preference.menuName1??>
+                        <a href="${preference.menuUrl1!""}"
+                           target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a>
+                    </#if>
+                    <#if preference.menuName2??>
+                        <a href="${preference.menuUrl2!""}"
+                           target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a>
+                    </#if>
+                    <#if preference.menuName3??>
+                        <a href="${preference.menuUrl3!""}"
+                           target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a>
+                    </#if>
+                    <#if preference.menuName4??>
+                        <a href="${preference.menuUrl4!""}"
+                           target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a>
+                    </#if>
+                    <#if preference.menuName5??>
+                        <a href="${preference.menuUrl5!""}"
+                           target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
+                    </#if>
                     </div>
                     <div class="visible-xs pull-right">
                         <em class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></em>
@@ -70,11 +85,24 @@
 
     <div class="container mb120">
         <div class="row">
-            <div data-expanding-id="menuSlide" data-expanding-show="false" class="menuExpand hidden-sm hidden-md hidden-lg">
+            <div data-expanding-id="menuSlide" data-expanding-show="false"
+                 class="menuExpand hidden-sm hidden-md hidden-lg">
                 <ul>
-                    <li><a href="/">首页</a></li>
-                    <li><a href="#">关于</a></li>
-                    <li><a href="#">联系我们</a></li>
+                    <#if preference.menuName1??>
+                    <li><a href="${preference.menuUrl1!""}" target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a></li>
+                    </#if>
+                    <#if preference.menuName2??>
+                    <li><a href="${preference.menuUrl2!""}" target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a></li>
+                    </#if>
+                    <#if preference.menuName3??>
+                    <li><a href="${preference.menuUrl3!""}" target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a></li>
+                    </#if>
+                    <#if preference.menuName4??>
+                    <li><a href="${preference.menuUrl4!""}" target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a></li>
+                    </#if>
+                    <#if preference.menuName5??>
+                    <li><a href="${preference.menuUrl5!""}" target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a></li>
+                    </#if>
                 </ul>
             </div>
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
@@ -83,8 +111,6 @@
         </div>
 
     </div>
-
-
 
 
     <div class="section-footer">
