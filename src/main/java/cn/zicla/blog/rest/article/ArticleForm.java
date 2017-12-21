@@ -9,7 +9,6 @@ import cn.zicla.blog.util.ValidationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.ValidationUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +36,8 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private String posterUrl;
 
     //摘要
+    @NotNull
+    @Size(min = 1, max = 500, message = "摘要必填并且最长500字")
     private String digest;
 
     //是否是markdown格式

@@ -22,7 +22,6 @@
         <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
     </#if>
 
-
     <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
@@ -81,7 +80,7 @@
                     </#if>
                     </div>
                     <div class="visible-xs pull-right">
-                        <em class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></em>
+                        <i class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></i>
 
                     </div>
                 </div>
@@ -135,11 +134,13 @@
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                     <div>
-                        CopyRight 2017©蓝眼博客 版权所有
+                    ${preference.footerLine1}
                     </div>
                     <div>
-                        沪ICP备 05049
+                    ${preference.footerLine2}
                     </div>
+
+                    <!-- 开源不易，请不要移除掉这行代码，谢谢 ^_^ -->
                     <div>
                         Powered by <a href="#"><img class="w30" src="/static/img/eyeblue.png"/> 蓝眼博客</a>
                     </div>

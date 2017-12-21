@@ -137,7 +137,12 @@ public class ArticleService extends BaseEntityService<Article> {
         long totalItems = pageData.getTotalElements();
         List<Article> list = pageData.getContent();
 
-        list.forEach(article -> article.setUser(userService.find(article.getUserUuid())));
+
+        list.forEach(article -> {
+            //评论数量
+            article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+            article.setUser(userService.find(article.getUserUuid()));
+        });
 
         return new Pager<>(page, pageSize, totalItems, list);
     }

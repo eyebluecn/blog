@@ -149,6 +149,9 @@
   border-bottom: 1px solid #eeeeee;
   padding: 20px;
 }
+.page-index .article-cell .title {
+  margin-bottom: 10px;
+}
 .page-index .article-cell .title a {
   font-size: 18px;
   font-weight: bold;

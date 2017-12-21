@@ -16,17 +16,56 @@
 
             <#list articlePager.data as article>
                 <div class="article-cell">
-                    <div class="title">
-                        <a href="/home/article/${article.uuid}">
-                            ${article.title}
-                        </a>
+                    <div class="media">
+                        <div class="pull-left">
+                            <img class="img-circle w40 h40" src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+                        </div>
+                        <div class="media-body">
+                            <div class="f16">
+                                ${article.user.username}
+                            </div>
+                            <div class="mix">
+                                <span class="mr10">
+                                    ${article.releaseTime?string("yyyy-MM-dd HH:mm")}
+                                </span>
+                                <span class="mr10">
+                                    字数 ${article.words}
+                                </span>
+                                <span class="mr10">
+                                    阅读 ${article.hit}
+                                </span>
+                                <span class="mr10">
+                                    评论 ${article.commentNum}
+                                </span>
+                                <span class="mr10">
+                                    点赞 ${article.agree}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="digest">
-                        ${article.digest!""}
+
+                    <div class="media">
+                        <#if article.posterUrl?? && article.posterUrl!="">
+                        <div class="pull-right">
+                            <a href="/home/article/${article.uuid}">
+                                <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100"/>
+                            </a>
+                        </div>
+                        </#if>
+
+                        <div class="media-body">
+                            <div class="title">
+                                <a href="/home/article/${article.uuid}">
+                                    ${article.title}
+                                </a>
+                            </div>
+                            <div class="digest">
+                                ${article.digest!""}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div>${article.createTime?string("yyyy-MM-dd HH:mm")}</div>
-                    </div>
+
+
                 </div>
             </#list>
             </div>
