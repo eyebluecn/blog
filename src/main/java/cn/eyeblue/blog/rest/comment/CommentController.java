@@ -11,6 +11,8 @@ import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.histroy.History;
 import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.histroy.History_;
+import cn.eyeblue.blog.rest.report.Report;
+import cn.eyeblue.blog.rest.report.ReportDao;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.user.User;
@@ -46,6 +48,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     @Autowired
     HistoryDao historyDao;
+
+    @Autowired
+    ReportDao reportDao;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -229,8 +234,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                 }
             });
         }
-
-
+        
         return this.success(pager);
     }
 
@@ -293,19 +297,19 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         String ip = getCurrentRequestIp();
 
-        int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.REPORT_COMMENT, commentUuid, ip);
+        int count = reportDao.countByTypeAndEntityUuidAndIp(Report.Type.REPORT_COMMENT, commentUuid, ip);
         if (count > 0) {
             throw new UtilException("您已经举报过该条评论，请勿重复操作！");
         }
 
-        History history = new History();
-        history.setEntityUuid(commentUuid);
-        history.setEntityName(comment.getName());
-        history.setType(History.Type.REPORT_COMMENT);
-        history.setIp(ip);
-        history.setHandled(false);
-        history.setContent(content);
-        historyDao.save(history);
+        Report report = new Report();
+        report.setEntityUuid(commentUuid);
+        report.setEntityName(comment.getName());
+        report.setType(Report.Type.REPORT_COMMENT);
+        report.setIp(ip);
+        report.setHandled(false);
+        report.setContent(content);
+        reportDao.save(report);
 
         return success("举报成功!");
     }

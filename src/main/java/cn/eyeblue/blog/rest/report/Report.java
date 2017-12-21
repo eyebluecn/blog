@@ -1,6 +1,7 @@
-package cn.eyeblue.blog.rest.histroy;
+package cn.eyeblue.blog.rest.report;
 
 import cn.eyeblue.blog.rest.base.BaseEntity;
+import cn.eyeblue.blog.rest.histroy.History;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.Enumerated;
 @Data
 @NoArgsConstructor
 @Entity
-public class History extends BaseEntity {
+public class Report extends BaseEntity {
 
     //主体uuid
     private String entityUuid;
@@ -26,16 +27,20 @@ public class History extends BaseEntity {
 
     //历史类型
     @Enumerated(EnumType.STRING)
-    private Type type = Type.VISIT_ARTICLE;
+    private Type type = Type.REPORT_COMMENT;
+
+    //如果是举报内容的话，是否有处理
+    private Boolean handled = false;
+
+    //举报内容。
+    private String content;
 
     //类型
     public enum Type {
-        //给文章点赞
-        AGREE_ARTICLE,
-        //给评论点赞
-        AGREE_COMMENT,
-        //访问文章
-        VISIT_ARTICLE
+        //举报文章
+        REPORT_ARTICLE,
+        //举报评论
+        REPORT_COMMENT
     }
 
 
