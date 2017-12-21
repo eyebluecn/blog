@@ -62,7 +62,7 @@ public class ArticleService extends BaseEntityService<Article> {
             Sort.Direction orderTop,
             Sort.Direction orderHit,
             Sort.Direction orderPrivacy,
-            Sort.Direction orderReleaseTime,
+            Sort.Direction orderCreateTime,
             String userUuid,
             Boolean privacy,
             String title,
@@ -104,8 +104,8 @@ public class ArticleService extends BaseEntityService<Article> {
             sort = sort.and(new Sort(orderPrivacy, Article_.privacy.getName()));
         }
 
-        if (orderReleaseTime != null) {
-            sort = sort.and(new Sort(orderReleaseTime, Article_.releaseTime.getName()));
+        if (orderCreateTime != null) {
+            sort = sort.and(new Sort(orderCreateTime, Article_.createTime.getName()));
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
