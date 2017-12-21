@@ -82,8 +82,13 @@
   border-top: 1px solid #eeeeee;
   padding-top: 20px;
 }
-.page-article-detail .article-info .author {
+.page-article-detail .article-info .author a {
   font-size: 20px;
+  color: #555;
+}
+.page-article-detail .article-info .author a:hover {
+  color: #000;
+  text-decoration: underline;
 }
 .page-article-detail .article-content {
   margin-top: 40px;

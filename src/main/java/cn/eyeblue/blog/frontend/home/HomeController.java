@@ -135,11 +135,11 @@ public class HomeController extends FrontendBaseController {
 
         Object obj = articleDao.analysisTotal(author.getUuid());
         Object[] list = (Object[]) obj;
-        author.setArticleNum((Integer) list[0]);
-        author.setArticleAgreeNum((Long) list[1]);
-        author.setArticleWords((Long) list[2]);
-        author.setArticleHit((Long) list[3]);
-        author.setCommentNum((Long) list[4]);
+        author.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(uuid));
+        author.setArticleAgreeNum((Long) list[0]);
+        author.setArticleWords((Long) list[1]);
+        author.setArticleHit((Long) list[2]);
+        author.setCommentNum((Long) list[3]);
 
         model.addAttribute("author", author);
 

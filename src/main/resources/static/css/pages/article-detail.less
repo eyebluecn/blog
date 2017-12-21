@@ -18,7 +18,15 @@
     border-top: 1px solid #eeeeee;
     padding-top: 20px;
     .author {
-      font-size: 20px;
+      a {
+        font-size: 20px;
+        color: #555;
+        &:hover {
+          color: #000;
+          text-decoration: underline;
+        }
+      }
+
     }
     .mix {
     }
@@ -35,7 +43,6 @@
     }
 
   }
-
 
   #interactive-area {
 

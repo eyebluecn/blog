@@ -17,8 +17,9 @@ public interface ArticleDao extends BaseEntityDao<Article> {
 
 
     //统计某人的文章各种参数总和。+0是奇技淫巧，把字符串转成数字。
-    @Query(value = "select sum(a.uuid)+0 as num, sum(a.agree) as agree,sum(a.words) as words,sum(a.hit) as hit,sum(a.commentNum) as commentNum from Article a where a.deleted = false and a.privacy=false and a.userUuid=:userUuid")
+    @Query(value = "select sum(a.agree) as agree,sum(a.words) as words,sum(a.hit) as hit,sum(a.commentNum) as commentNum from Article a where a.privacy=false and a.userUuid=:userUuid and a.deleted = false")
     Object analysisTotal(@Param("userUuid") String userUuid);
 
+    int countByUserUuidAndPrivacyFalseAndDeletedFalse(String userUuid);
 
 }

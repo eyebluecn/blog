@@ -69,9 +69,10 @@
 
     <div class="page-article-detail">
 
-        <#--为了让微信抓住封面图-->
+    <#--为了让微信抓住封面图-->
         <#if article.posterUrl?? && article.posterUrl!="">
-            <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200" class="hidden"/>
+            <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"
+                 class="hidden"/>
         </#if>
 
         <div class="row">
@@ -83,11 +84,16 @@
                 <div class="article-info">
                     <div class="media">
                         <div class="pull-left">
-                            <img class="img-circle w50 h50" src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+                            <a href="/home/user/${article.user.uuid}">
+                                <img class="img-circle w50 h50"
+                                     src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+                            </a>
                         </div>
                         <div class="media-body">
                             <div class="author">
-                                ${article.user.username}
+                                <a href="/home/user/${article.user.uuid}">
+                                    ${article.user.username}
+                                </a>
                             </div>
                             <div class="mix">
                                 <span class="mr10">
@@ -127,9 +133,10 @@
                          data-agreed="${article.agreed?string('true','false')}">
 
 
-                        <button ref="articleAgreeBtn" class="btn btn-danger btn-lg btn-rounded btn-outline article-agree-btn"
-                           @click.stop.prevent="agreeArticle"
-                           v-if="!articleAgreed">
+                        <button ref="articleAgreeBtn"
+                                class="btn btn-danger btn-lg btn-rounded btn-outline article-agree-btn"
+                                @click.stop.prevent="agreeArticle"
+                                v-if="!articleAgreed">
                             <i class="fa fa-thumbs-o-up"></i>
                             <span v-if="articleAgree>0">
                                                 {{articleAgree}}人赞
@@ -141,8 +148,8 @@
                         </button>
 
                         <button ref="articleCancelAgreeBtn" class="btn btn-danger btn-lg btn-rounded article-agree-btn"
-                           @click.stop.prevent="articleCancelAgree"
-                           v-if="articleAgreed">
+                                @click.stop.prevent="articleCancelAgree"
+                                v-if="articleAgreed">
                             <i class="fa fa-thumbs-up"></i>
                             <span v-if="articleAgree>0">
                                                 {{articleAgree}}人赞
@@ -307,10 +314,9 @@
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
                                                     <nb-report-panel :comment="reportComment"
-                                                                      @success="reportSuccess"/>
+                                                                     @success="reportSuccess"/>
                                                 </div>
                                             </nb-expanding>
-
 
 
                                         </div>

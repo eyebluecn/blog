@@ -13,13 +13,16 @@
 
     <div class="page-user-detail">
         <div class="row">
-            <div class="col-sm-4 mt20">
+            <div class="col-sm-4">
 
                 <div class="p15">
 
                     <div class="text-center">
                         <div>
-                            <img class="img-circle w100 h100" src="${author.avatarUrl!"/static/img/avatar.png"}"/>
+                            <a href="${author.avatarUrl!"/static/img/avatar.png"}" target="_blank">
+                                <img class="img-circle w100 h100" src="${author.avatarUrl!"/static/img/avatar.png"}"/>
+                            </a>
+
                         </div>
                         <div class="f18 bold mv15">
                             ${author.username}
@@ -71,7 +74,7 @@
             <div class="col-sm-8">
 
             <#list articlePager.data as article>
-                <@FtlArticleCell.FtlArticleCell article=article/>
+                <@FtlArticleCell.FtlArticleCell article=article showUser=false/>
             </#list>
             </div>
 
