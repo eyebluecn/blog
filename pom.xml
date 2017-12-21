@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.zicla</groupId>
+    <groupId>cn.eyeblue</groupId>
     <artifactId>blog</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>blog</name>
-    <description>Personal blog project</description>
+    <description>Eyeblue blog.</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

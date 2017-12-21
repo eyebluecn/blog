@@ -9,10 +9,10 @@
     <!-- 每天产生一个文件 -->
     <appender name="CANGOWIN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
-        <file>${FILE_PATH}/zicla_blog.log</file>
+        <file>${FILE_PATH}/eyeblue_blog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 文件名称 -->
-            <fileNamePattern>${FILE_PATH}/zicla_blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${FILE_PATH}/eyeblue_blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 文件最大保存历史数量 -->
             <MaxHistory>100</MaxHistory>
             <maxFileSize>50MB</maxFileSize>
@@ -24,7 +24,7 @@
     </appender>
 
 
-    <logger name="cn.zicla" level="info"/>
+    <logger name="cn.eyeblue" level="info"/>
     <logger name="org.springframework" level="info"/>
     <logger name="org.hibernate" level="info"/>
     <logger name="org.apache" level="info"/>

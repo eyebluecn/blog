@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="cn.zicla" level="debug"/>
+    <logger name="cn.eyeblue" level="debug"/>
     <logger name="org.springframework" level="info"/>
     <logger name="org.hibernate" level="info"/>
     <logger name="org.apache" level="info"/>
