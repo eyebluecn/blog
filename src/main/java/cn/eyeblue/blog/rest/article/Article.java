@@ -61,6 +61,9 @@ public class Article extends BaseEntity {
     //点击数量
     private Integer hit = 1;
 
+    //评论数量
+    private Integer commentNum = 0;
+
     //是否接受评论的邮件通知
     private Boolean needNotify = true;
 
@@ -74,14 +77,19 @@ public class Article extends BaseEntity {
     @Transient
     private boolean agreed;
 
-    //评论数量
-    @Transient
-    private Integer commentNum = 0;
-
     //标签数组对象
     @Transient
     private List<Tag> tagArray;
 
+
+    @Data
+    public static class Analysis {
+        private Integer num;
+        private Integer agree;
+        private Integer hit;
+        private Integer words;
+        private Integer commentNum;
+    }
 }
 
 

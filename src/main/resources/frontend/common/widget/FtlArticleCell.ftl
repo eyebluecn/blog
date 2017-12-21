@@ -3,11 +3,16 @@
 <div class="article-cell">
     <div class="media">
         <div class="pull-left">
-            <img class="img-circle w40 h40" src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+            <a href="/home/user/${article.user.uuid}">
+                <img class="img-circle w40 h40" src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+            </a>
         </div>
         <div class="media-body">
             <div class="f16">
-                ${article.user.username}
+                <a class="author-name" href="/home/user/${article.user.uuid}">
+                    ${article.user.username}
+                </a>
+
             </div>
             <div class="mix">
                                 <span class="mr10">

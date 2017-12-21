@@ -2,6 +2,7 @@ package cn.eyeblue.blog.rest.comment;
 
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.article.Article;
+import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.article.ArticleService;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
@@ -39,6 +40,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    ArticleDao articleDao;
 
     @Autowired
     CommentDao commentDao;
@@ -88,6 +92,11 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         comment.setIp(getCurrentRequestIp());
         comment = commentDao.save(comment);
 
+        //重新统计该文章评论数量
+        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+        articleDao.save(article);
+
+
         String host = getCurrentHttpServletRequest().getHeader("Host");
         articleService.emailComment(article, comment, host);
 
@@ -104,6 +113,11 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
 
         commentDao.delete(comment);
+
+        //重新统计该文章评论数量
+        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+        articleDao.save(article);
+
 
         return success();
     }

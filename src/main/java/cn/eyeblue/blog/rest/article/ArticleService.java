@@ -147,8 +147,6 @@ public class ArticleService extends BaseEntityService<Article> {
 
 
         list.forEach(article -> {
-            //评论数量
-            article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
             //作者
             article.setUser(userService.find(article.getUserUuid()));
             //标签装点
@@ -167,9 +165,6 @@ public class ArticleService extends BaseEntityService<Article> {
 
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
         article.setUser(userService.find(article.getUserUuid()));
-
-        //评论数量
-        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(uuid));
 
         //装点标签
         article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));

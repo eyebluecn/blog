@@ -60,6 +60,28 @@ public class User extends BaseEntity {
     @Transient
     private Tank avatar;
 
+    //总共的文章数量
+    @Transient
+    private int articleNum;
+
+    //总共收到的点赞数
+    @Transient
+    private long articleAgreeNum;
+
+    //总共文章字数
+    @Transient
+    private long articleWords;
+
+    //总阅读量
+    @Transient
+    private long articleHit;
+
+    //总共收到的评论
+    @Transient
+    private long commentNum;
+
+
+
     public boolean hasPermission(FeatureType featureType) {
 
         if (this.role == Role.ADMIN) {

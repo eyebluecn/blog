@@ -1,12 +1,18 @@
 @import "../common/global/variables.less";
 
-
 //文章单元格样式。
 .article-cell {
 
   border-bottom: 1px solid #eeeeee;
   padding: 20px 20px 10px 20px;
 
+  .author-name {
+    color: #555;
+    &:hover {
+      color: #000;
+      text-decoration: underline;
+    }
+  }
   .title {
     margin-bottom: 10px;
     a {
@@ -26,7 +32,20 @@
 
 }
 
+//热门文章单元格式
+.hot-article {
 
+  margin: 10px 0;
+  color: #8590a6;
+  a {
+    color: #175199;
+    font-size: 14px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}
 
 //标签样式
 .tag-collection {
@@ -59,7 +78,6 @@
   }
 }
 
-
 //评论区表单
 .nb-comment-panel-area {
   padding: 20px;
@@ -67,6 +85,7 @@
   border-radius: 4px;
   background: #eeeeee;
 }
+
 //举报区表单
 .nb-report-panel-area {
   padding: 20px;

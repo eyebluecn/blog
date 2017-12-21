@@ -2,6 +2,13 @@
   border-bottom: 1px solid #eeeeee;
   padding: 20px 20px 10px 20px;
 }
+.article-cell .author-name {
+  color: #555;
+}
+.article-cell .author-name:hover {
+  color: #000;
+  text-decoration: underline;
+}
 .article-cell .title {
   margin-bottom: 10px;
 }
@@ -16,6 +23,17 @@
 }
 .article-cell .digest {
   margin-bottom: 10px;
+}
+.hot-article {
+  margin: 10px 0;
+  color: #8590a6;
+}
+.hot-article a {
+  color: #175199;
+  font-size: 14px;
+}
+.hot-article a:hover {
+  text-decoration: underline;
 }
 .tag-collection {
   display: inline-block;

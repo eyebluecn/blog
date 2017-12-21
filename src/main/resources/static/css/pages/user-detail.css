@@ -1,0 +1,18 @@
+.page-user-detail {
+  background: white;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 4px;
+}
+.page-user-detail .achievement-cell {
+  margin: 5px 0;
+}
+.page-user-detail .achievement-cell i {
+  font-size: 18px;
+  color: #bdcadb;
+}
+.page-user-detail .achievement-cell span {
+  color: #555;
+  margin-left: 10px;
+  font-size: 16px;
+}

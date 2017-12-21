@@ -17182,13 +17182,13 @@ p {
   text-align: center;
   padding: 15px 0;
 }
-.page-detail {
+.page-article-detail {
   background: white;
   margin: 40px 0;
   padding: 20px;
   border-radius: 4px;
 }
-.page-detail .article-title {
+.page-article-detail .article-title {
   word-break: break-all;
   margin: 20px 0;
   font-size: 28px;
@@ -17196,65 +17196,90 @@ p {
   font-weight: 700;
   line-height: 1.3;
 }
-.page-detail .article-info {
+.page-article-detail .article-info {
   border-top: 1px solid #eeeeee;
   padding-top: 20px;
 }
-.page-detail .article-info .author {
+.page-article-detail .article-info .author {
   font-size: 20px;
 }
-.page-detail .article-content {
+.page-article-detail .article-content {
   margin-top: 40px;
   padding: 0 !important;
 }
-.page-detail .article-content img {
+.page-article-detail .article-content img {
   max-width: 100%;
   text-align: center;
 }
-.page-detail #interactive-area {
+.page-article-detail #interactive-area {
   margin-top: 20px;
 }
-.page-detail #interactive-area .article-appendix {
+.page-article-detail #interactive-area .article-appendix {
   padding: 20px 0 40px 0;
   border-top: 1px solid #eee;
 }
-.page-detail #interactive-area .inter-btn {
+.page-article-detail #interactive-area .inter-btn {
   color: #888;
   margin-right: 10px;
 }
-.page-detail #interactive-area .inter-btn:hover {
+.page-article-detail #interactive-area .inter-btn:hover {
   color: black;
 }
-.page-detail #interactive-area .title-area {
+.page-article-detail #interactive-area .title-area {
   border-bottom: 1px solid #eeeeee;
   padding: 10px 0;
 }
-.page-detail #interactive-area .title-area .total {
+.page-article-detail #interactive-area .title-area .total {
   font-weight: bold;
   font-size: 18px;
 }
-.page-detail #interactive-area .tree-area .cell-area {
+.page-article-detail #interactive-area .tree-area .cell-area {
   border-bottom: 1px solid #eeeeee;
   padding: 15px 0;
 }
-.page-detail #interactive-area .tree-area .cell-area .reply-area {
+.page-article-detail #interactive-area .tree-area .cell-area .reply-area {
   border-left: 4px solid #eeeeee;
   padding-left: 20px;
 }
-.page-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area {
+.page-article-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area {
   padding: 15px 0;
   border-top: 1px solid #eeeeee;
 }
-.page-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
+.page-article-detail #interactive-area .tree-area .cell-area .reply-area .sub-cell-area:first-child {
   border-top: none;
   margin-top: 15px;
 }
-.page-detail #interactive-area .pager-area {
+.page-article-detail #interactive-area .pager-area {
   margin-top: 10px;
+}
+.page-user-detail {
+  background: white;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 4px;
+}
+.page-user-detail .achievement-cell {
+  margin: 5px 0;
+}
+.page-user-detail .achievement-cell i {
+  font-size: 18px;
+  color: #bdcadb;
+}
+.page-user-detail .achievement-cell span {
+  color: #555;
+  margin-left: 10px;
+  font-size: 16px;
 }
 .article-cell {
   border-bottom: 1px solid #eeeeee;
   padding: 20px 20px 10px 20px;
+}
+.article-cell .author-name {
+  color: #555;
+}
+.article-cell .author-name:hover {
+  color: #000;
+  text-decoration: underline;
 }
 .article-cell .title {
   margin-bottom: 10px;
@@ -17270,6 +17295,17 @@ p {
 }
 .article-cell .digest {
   margin-bottom: 10px;
+}
+.hot-article {
+  margin: 10px 0;
+  color: #8590a6;
+}
+.hot-article a {
+  color: #175199;
+  font-size: 14px;
+}
+.hot-article a:hover {
+  text-decoration: underline;
 }
 .tag-collection {
   display: inline-block;
@@ -17318,15 +17354,4 @@ p {
 }
 .page-index .hot-area {
   padding: 15px;
-}
-.page-index .hot-area .hot-article {
-  margin: 10px 0;
-  color: #8590a6;
-}
-.page-index .hot-area .hot-article a {
-  color: #175199;
-  font-size: 14px;
-}
-.page-index .hot-area .hot-article a:hover {
-  text-decoration: underline;
 }

@@ -9,6 +9,7 @@
         <#import "../common/widget/FtlPager.ftl" as FtlPager>
         <#import "../common/widget/FtlTag.ftl" as FtlTag>
         <#import "../common/widget/FtlArticleCell.ftl" as FtlArticleCell>
+        <#import "../common/widget/FtlHotArticles.ftl" as FtlHotArticles>
 
     <div class="page-index">
         <div class="row">
@@ -20,21 +21,15 @@
             </div>
             <div class="col-sm-4 mt20">
 
-                <div class="hot-area">
+                <div class="p15">
                     <div>
                         热门推荐
                     </div>
 
-                    <#list hotArticlePager.data as article>
-                        <div class="hot-article">
-                            <a href="/home/article/${article.uuid}">
-                                ${article.title}
-                            </a>
-                            ${article.hit}阅读
-                        </div>
-                    </#list>
-                </div>
+                        <@FtlHotArticles.FtlHotArticles articles=hotArticlePager.data/>
 
+
+                </div>
 
 
             </div>

@@ -67,7 +67,7 @@
     <@layout.put block="content" type="replace">
         <#import "../../common/widget/FtlTag.ftl" as FtlTag>
 
-    <div class="page-detail">
+    <div class="page-article-detail">
 
         <#--为了让微信抓住封面图-->
         <#if article.posterUrl?? && article.posterUrl!="">
