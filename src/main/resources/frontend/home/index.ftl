@@ -16,7 +16,7 @@
             <div class="col-sm-8">
 
             <#list articlePager.data as article>
-                <@FtlArticleCell.FtlArticleCell article=article/>
+                <@FtlArticleCell.FtlArticleCell article=article showUser=true activeTagUuid=""/>
             </#list>
             </div>
             <div class="col-sm-4 mt20">

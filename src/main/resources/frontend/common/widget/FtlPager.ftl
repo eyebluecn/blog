@@ -1,5 +1,5 @@
 <#-- 分页（Pager对象、链接URL、参数Map、最大页码显示数） -->
-<#macro FtlPager pager baseUrl=baseUrl colOffset = 3>
+<#macro FtlPager pager baseUrl=baseUrl colOffset = 3 emptyHint="没有符合条件的项目">
     <#local pageNumber = pager.page+1 />
     <#local pageSize = pager.pageSize />
     <#local pageCount = pager.totalPages />
@@ -53,7 +53,7 @@
 
     <#if (pageCount == 0) || (pageNumber > pageCount)>
     <div class="italic text-center">
-        没有符合条件的项目
+        ${emptyHint}
     </div>
     </#if>
 

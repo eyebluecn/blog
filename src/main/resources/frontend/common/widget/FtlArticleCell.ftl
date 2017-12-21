@@ -1,5 +1,5 @@
 <#-- 标签样式 -->
-<#macro FtlArticleCell article showUser=true>
+<#macro FtlArticleCell article showUser=true activeTagUuid="">
 <div class="article-cell">
     <#if showUser>
             <div class="media">
@@ -57,7 +57,7 @@
             </div>
             <div>
                                 <#list article.tagArray as tag>
-                                    <@FtlTag.FtlTag tag=tag/>
+                                    <@FtlTag.FtlTag tag=tag active=(activeTagUuid==tag.uuid)/>
                                 </#list>
             </div>
         </div>

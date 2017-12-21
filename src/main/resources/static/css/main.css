@@ -17231,7 +17231,6 @@ p {
   color: black;
 }
 .page-article-detail #interactive-area .title-area {
-  border-bottom: 1px solid #eeeeee;
   padding: 10px 0;
 }
 .page-article-detail #interactive-area .title-area .total {
@@ -17239,7 +17238,7 @@ p {
   font-size: 18px;
 }
 .page-article-detail #interactive-area .tree-area .cell-area {
-  border-bottom: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
   padding: 15px 0;
 }
 .page-article-detail #interactive-area .tree-area .cell-area .reply-area {
@@ -17262,18 +17261,6 @@ p {
   margin: 40px 0;
   padding: 20px;
   border-radius: 4px;
-}
-.page-user-detail .achievement-cell {
-  margin: 5px 0;
-}
-.page-user-detail .achievement-cell i {
-  font-size: 18px;
-  color: #bdcadb;
-}
-.page-user-detail .achievement-cell span {
-  color: #555;
-  margin-left: 10px;
-  font-size: 16px;
 }
 .article-cell {
   border-bottom: 1px solid #eeeeee;
@@ -17301,6 +17288,19 @@ p {
 .article-cell .digest {
   margin-bottom: 10px;
 }
+.achievement-cell {
+  margin: 5px 0;
+}
+.achievement-cell i {
+  width: 20px;
+  font-size: 18px;
+  color: #bdcadb;
+}
+.achievement-cell span {
+  color: #555;
+  margin-left: 10px;
+  font-size: 16px;
+}
 .hot-article {
   margin: 10px 0;
   color: #8590a6;
@@ -17319,13 +17319,13 @@ p {
   height: 16px;
   background-color: #f7f7f7;
   border: 1px solid #dcdcdc;
+  color: #333;
   border-radius: 8px 2px 2px 8px;
   vertical-align: top;
   overflow: hidden;
-  color: #333;
   box-sizing: content-box;
 }
-.tag-collection :hover {
+.tag-collection:hover {
   color: #23B7E5;
 }
 .tag-collection img {
@@ -17339,6 +17339,26 @@ p {
   font-size: 12px;
   line-height: 15px;
   vertical-align: top;
+}
+.tag-collection.lg {
+  height: 24px;
+  border-radius: 12px 2px 2px 12px;
+}
+.tag-collection.lg img {
+  width: 24px;
+  height: 24px;
+}
+.tag-collection.lg .name {
+  font-size: 16px;
+  line-height: 23px;
+}
+.tag-collection.active {
+  background-color: #23B7E5;
+  border: 1px solid #1ab394;
+  color: white;
+}
+.tag-collection.active:hover {
+  background-color: #1797be;
 }
 .nb-comment-panel-area {
   padding: 20px;

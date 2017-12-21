@@ -32,6 +32,23 @@
 
 }
 
+//用户成就栏
+.achievement-cell {
+
+  margin: 5px 0;
+  i {
+    width: 20px;
+    font-size: 18px;
+    color: #bdcadb;
+  }
+  span {
+    color: #555;
+    margin-left: 10px;
+    font-size: 16px;
+  }
+
+}
+
 //热门文章单元格式
 .hot-article {
 
@@ -49,24 +66,28 @@
 
 //标签样式
 .tag-collection {
+
+  @height: 16px;
+
   display: inline-block;
   margin: 0 10px 10px 0;
   padding: 0 5px 0 0;
-  height: 16px;
+  height: @height;
   background-color: #f7f7f7;
   border: 1px solid #dcdcdc;
-  border-radius: 8px 2px 2px 8px;
+  color: #333;
+  border-radius: @height/2 2px 2px @height/2;
   vertical-align: top;
   overflow: hidden;
-  color: #333;
   box-sizing: content-box;
 
-  :hover {
+  &:hover {
     color: @brand-primary;
   }
+
   img {
-    width: 16px;
-    height: 16px;
+    width: @height;
+    height: @height;
     border-radius: 50%;
     vertical-align: top;
   }
@@ -76,6 +97,33 @@
     line-height: 15px;
     vertical-align: top;
   }
+
+  &.lg {
+    @height: 24px;
+
+    height: @height;
+    border-radius: @height/2 2px 2px @height/2;
+
+    img {
+      width: @height;
+      height: @height;
+    }
+    .name {
+      font-size: 16px;
+      line-height: (@height - 1px);
+    }
+
+  }
+
+  &.active {
+    background-color: @brand-primary;
+    border: 1px solid @brand-success;
+    color: white;
+    &:hover {
+      background-color: darken(@brand-primary, 10%);
+    }
+  }
+
 }
 
 //评论区表单

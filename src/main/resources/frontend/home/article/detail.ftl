@@ -38,6 +38,7 @@
         <script src="/static/js/home/article/detail.js"></script>
 
 
+    <#if article.isMarkdown>
     <#--为了正常解析markdown文档-->
         <link href="/static/node_modules/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
         <script src="/static/node_modules/editor.md/lib/marked.min.js"></script>
@@ -60,6 +61,8 @@
                 });
             });
         </script>
+
+    </#if>
 
 
     </@layout.put>

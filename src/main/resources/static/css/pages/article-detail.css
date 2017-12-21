@@ -47,7 +47,6 @@
   color: black;
 }
 .page-article-detail #interactive-area .title-area {
-  border-bottom: 1px solid #eeeeee;
   padding: 10px 0;
 }
 .page-article-detail #interactive-area .title-area .total {
@@ -55,7 +54,7 @@
   font-size: 18px;
 }
 .page-article-detail #interactive-area .tree-area .cell-area {
-  border-bottom: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
   padding: 15px 0;
 }
 .page-article-detail #interactive-area .tree-area .cell-area .reply-area {

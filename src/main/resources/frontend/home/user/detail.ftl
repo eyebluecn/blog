@@ -10,6 +10,7 @@
         <#import "../../common/widget/FtlTag.ftl" as FtlTag>
         <#import "../../common/widget/FtlArticleCell.ftl" as FtlArticleCell>
         <#import "../../common/widget/FtlHotArticles.ftl" as FtlHotArticles>
+        <#import "../../common/widget/FtlUserAchievement.ftl" as FtlUserAchievement>
 
     <div class="page-user-detail">
         <div class="row">
@@ -17,56 +18,27 @@
 
                 <div class="p15">
 
-                    <div class="text-center">
-                        <div>
-                            <a href="${author.avatarUrl!"/static/img/avatar.png"}" target="_blank">
-                                <img class="img-circle w100 h100" src="${author.avatarUrl!"/static/img/avatar.png"}"/>
-                            </a>
-
-                        </div>
-                        <div class="f18 bold mv15">
-                            ${author.username}
-                        </div>
-
+                    <div>
+                    <@FtlUserAchievement.FtlUserAchievement user=author/>
                     </div>
 
-
+                    <div class="mt20 mb15">
+                        TA的文章分类
+                    </div>
                     <div>
-
-                        <div class="achievement-cell">
-                            <i class="fa fa-pencil-square"></i>
-                            <span>撰写了 ${author.articleNum} 篇文章</span>
-                        </div>
-
-                        <div class="achievement-cell">
-                            <i class="fa fa-font"></i>
-                            <span>总共有 ${author.articleWords} 字</span>
-                        </div>
-
-                        <div class="achievement-cell">
-                            <i class="fa fa-book"></i>
-                            <span>被阅读 ${author.articleHit} 次</span>
-                        </div>
-
-                        <div class="achievement-cell">
-                            <i class="fa fa-thumbs-o-up"></i>
-                            <span>获得了 ${author.articleAgreeNum} 次赞</span>
-                        </div>
-
-                        <div class="achievement-cell">
-                            <i class="fa fa-commenting-o"></i>
-                            <span>共收到 ${author.commentNum} 条评论</span>
-                        </div>
-
-
-
+                    <#list tagPager.data as tag>
+                        <@FtlTag.FtlTag tag=tag size="lg" active=(tagUuid==tag.uuid)/>
+                    </#list>
                     </div>
 
                     <div class="mt20">
                         TA的热门文章
                     </div>
+                    <div>
 
                         <@FtlHotArticles.FtlHotArticles articles=hotArticlePager.data/>
+                    </div>
+
                 </div>
 
             </div>
@@ -74,15 +46,14 @@
             <div class="col-sm-8">
 
             <#list articlePager.data as article>
-                <@FtlArticleCell.FtlArticleCell article=article showUser=false/>
+                <@FtlArticleCell.FtlArticleCell article=article showUser=false activeTagUuid=tagUuid/>
             </#list>
+
+                <@FtlPager.FtlPager pager=articlePager emptyHint="该分类下暂无文章"/>
             </div>
 
         </div>
 
-        <div>
-        <@FtlPager.FtlPager pager=articlePager/>
-        </div>
 
     </div>
 

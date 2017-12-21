@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/home")
@@ -74,8 +71,8 @@ public class HomeController extends FrontendBaseController {
 
         //准备热门文章分页了。
         Pager<Article> hotArticlePager = articleService.page(
-                page,
-                pageSize,
+                0,
+                10,
                 null,
                 null,
                 Sort.Direction.DESC,
@@ -120,28 +117,40 @@ public class HomeController extends FrontendBaseController {
      * 用户详情
      */
     @Feature(FeatureType.PUBLIC)
-    @RequestMapping("/user/{uuid}")
+    @RequestMapping("/user/{userUuid}")
     public String userDetail(
             Model model,
             HttpServletRequest request,
             HttpServletResponse response,
-            @PathVariable String uuid,
+            @PathVariable String userUuid,
+            @RequestParam(required = false) String tagUuid,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "15") Integer pageSize
     ) {
 
         //准备用户详情。
-        User author = userService.check(uuid);
+        User author = userService.check(userUuid);
 
         Object obj = articleDao.analysisTotal(author.getUuid());
         Object[] list = (Object[]) obj;
-        author.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(uuid));
+        author.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(userUuid));
         author.setArticleAgreeNum((Long) list[0]);
         author.setArticleWords((Long) list[1]);
         author.setArticleHit((Long) list[2]);
         author.setCommentNum((Long) list[3]);
 
         model.addAttribute("author", author);
+
+
+        //用户的文章分类。
+        Pager<Tag> tagPager = tagService.page(
+                0,
+                50,
+                Sort.Direction.DESC,
+                userUuid,
+                null);
+        model.addAttribute("tagPager", tagPager);
+
 
         //准备文章分页了。
         Pager<Article> articlePager = articleService.page(
@@ -152,23 +161,23 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                uuid,
+                userUuid,
                 false,
                 null,
-                null,
+                tagUuid,
                 null,
                 null);
 
         //准备热门文章分页了。
         Pager<Article> hotArticlePager = articleService.page(
-                page,
-                pageSize,
+                0,
+                10,
                 null,
                 null,
                 Sort.Direction.DESC,
                 null,
                 null,
-                uuid,
+                userUuid,
                 false,
                 null,
                 null,
@@ -177,6 +186,13 @@ public class HomeController extends FrontendBaseController {
 
         model.addAttribute("articlePager", articlePager);
         model.addAttribute("hotArticlePager", hotArticlePager);
+
+
+        //准备tag详情
+        if (tagUuid == null) {
+            tagUuid = "";
+        }
+        model.addAttribute("tagUuid", tagUuid);
 
         return "home/user/detail";
     }

@@ -183,6 +183,15 @@ Comment.prototype.httpCancelAgree = function (successCallback, errorCallback) {
 //点赞。
 Comment.prototype.httpReport = function (content, successCallback, errorCallback) {
 
+    if (!content) {
+        this.errorMessage = "请输入举报内容";
+        if (typeof errorCallback === "function") {
+            errorCallback("请输入举报内容");
+        }
+        return
+    }
+    this.errorMessage = null;
+
     var that = this
     that.httpPost("/api/comment/report", {
         "commentUuid": that.uuid,
