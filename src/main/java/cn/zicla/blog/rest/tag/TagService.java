@@ -76,7 +76,7 @@ public class TagService extends BaseEntityService<Tag> {
         List<Tag> tags = getTagsByUuids(tagUuids);
         for (Tag tag : tags) {
             if (!operator.getUuid().equals(tag.getUserUuid())) {
-                throw new UtilException("标签" + tag.getName() + "不属于您！");
+                throw new UtilException("标签【" + tag.getName() + "】不属于您！");
             }
         }
         return tags;
