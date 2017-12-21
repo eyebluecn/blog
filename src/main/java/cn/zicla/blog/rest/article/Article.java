@@ -63,10 +63,6 @@ public class Article extends BaseEntity {
     //点击数量
     private Integer hit = 1;
 
-    //发布日期
-    @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
-    private Date releaseTime;
-
     @Transient
     private Tank posterTank;
 

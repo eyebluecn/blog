@@ -27,7 +27,7 @@
                             </div>
                             <div class="mix">
                                 <span class="mr10">
-                                    ${article.releaseTime?string("yyyy-MM-dd HH:mm")}
+                                    ${article.createTime?string("yyyy-MM-dd HH:mm")}
                                 </span>
                                 <span class="mr10">
                                     字数 ${article.words}

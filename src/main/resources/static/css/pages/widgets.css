@@ -1,0 +1,28 @@
+.tag-collection {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 0 5px 0 0;
+  height: 16px;
+  background-color: #f7f7f7;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  vertical-align: top;
+  overflow: hidden;
+  color: #333;
+  box-sizing: content-box;
+}
+.tag-collection :hover {
+  color: #23B7E5;
+}
+.tag-collection img {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  vertical-align: top;
+}
+.tag-collection .name {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  vertical-align: top;
+}

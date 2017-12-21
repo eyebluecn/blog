@@ -2,7 +2,6 @@ package cn.zicla.blog.rest.article;
 
 import cn.zicla.blog.config.AppContextManager;
 import cn.zicla.blog.config.exception.UtilException;
-import cn.zicla.blog.rest.base.BaseEntity;
 import cn.zicla.blog.rest.base.BaseEntityForm;
 import cn.zicla.blog.rest.tag.Tag;
 import cn.zicla.blog.rest.tag.TagService;
@@ -99,8 +98,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setWords(words);
         article.setPrivacy(privacy);
         article.setTop(top);
-        article.setReleaseTime(releaseTime);
-
 
         //tag比较复杂，后面统一设置。
         List<String> tagUuids = JsonUtil.toStringList(tags);

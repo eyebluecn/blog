@@ -107,6 +107,13 @@
             <version>0.4.RELEASE</version>
         </dependency>
 
+        <!--发送邮件-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
 
         <!--测试包-->
         <dependency>

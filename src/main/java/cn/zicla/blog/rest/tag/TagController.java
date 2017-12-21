@@ -1,11 +1,11 @@
 package cn.zicla.blog.rest.tag;
 
 import cn.zicla.blog.config.exception.UtilException;
-import cn.zicla.blog.rest.article.Article;
-import cn.zicla.blog.rest.base.Base;
 import cn.zicla.blog.rest.base.BaseEntityController;
 import cn.zicla.blog.rest.base.Pager;
 import cn.zicla.blog.rest.base.WebResult;
+import cn.zicla.blog.rest.common.MailService;
+import cn.zicla.blog.rest.common.NotificationResult;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.captcha.SupportCaptchaService;
@@ -14,7 +14,6 @@ import cn.zicla.blog.rest.tank.TankService;
 import cn.zicla.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -48,6 +45,9 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
 
     @Autowired
     SupportCaptchaService supportCaptchaService;
+
+    @Autowired
+    MailService mailService;
 
 
     public TagController() {
@@ -146,6 +146,16 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
 
         return this.success(tagPager);
 
+    }
+
+    @Feature(FeatureType.PUBLIC)
+    @RequestMapping("/test")
+    public WebResult test() {
+
+        //mailService.textSend("lish516@126.com", "你好啊，今天" + System.currentTimeMillis(), "现在时刻是 now date = " + System.currentTimeMillis());
+
+        NotificationResult notificationResult = mailService.htmlSend("lish516@126.com", "你好啊，今天" + System.currentTimeMillis(), "<h1>您的文章" + System.currentTimeMillis() + "有新的评论</h1>");
+        return success();
     }
 
 }
