@@ -1,7 +1,5 @@
 <@layout.extends name="/common/base.ftl">
-    <@layout.put block="title" type="replace">
-    个人博客 | 博客首页
-    </@layout.put>
+
     <@layout.put block="head" type="append">
 
     </@layout.put>

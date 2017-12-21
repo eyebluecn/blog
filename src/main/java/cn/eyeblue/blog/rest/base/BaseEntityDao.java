@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @NoRepositoryBean
-public interface BaseEntityDao<T extends cn.eyeblue.blog.rest.base.BaseEntity> extends CrudRepository<T, String> {
+public interface BaseEntityDao<T extends BaseEntity> extends CrudRepository<T, String> {
 
     /**
      * 按照分页的方式获取列表

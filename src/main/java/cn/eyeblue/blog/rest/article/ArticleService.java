@@ -1,7 +1,7 @@
 package cn.eyeblue.blog.rest.article;
 
-import cn.eyeblue.blog.rest.agree.History;
-import cn.eyeblue.blog.rest.agree.HistoryDao;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.comment.CommentDao;

@@ -1,4 +1,4 @@
-package cn.eyeblue.blog.rest.agree;
+package cn.eyeblue.blog.rest.histroy;
 
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import lombok.Data;
@@ -25,6 +25,12 @@ public class History extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Type type = Type.VISIT_ARTICLE;
 
+    //如果是举报内容的话，是否有处理
+    private Boolean handled = false;
+
+    //举报内容。
+    private String content;
+
     //类型
     public enum Type {
         //给文章点赞
@@ -32,7 +38,11 @@ public class History extends BaseEntity {
         //给评论点赞
         AGREE_COMMENT,
         //访问文章
-        VISIT_ARTICLE
+        VISIT_ARTICLE,
+        //举报文章
+        REPORT_ARTICLE,
+        //举报评论
+        REPORT_COMMENT
     }
 
 

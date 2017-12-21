@@ -1,4 +1,4 @@
-package cn.eyeblue.blog.rest.agree;
+package cn.eyeblue.blog.rest.histroy;
 
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ public class HistoryService extends BaseEntityService<History> {
 
     @Autowired
     HistoryDao userDao;
-
 
     public HistoryService() {
         super(History.class);

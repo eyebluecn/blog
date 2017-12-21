@@ -1,8 +1,8 @@
 package cn.eyeblue.blog.rest.comment;
 
 import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.agree.History;
-import cn.eyeblue.blog.rest.agree.HistoryDao;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.agree.History_;
 import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleService;
@@ -286,6 +286,32 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         commentDao.save(comment);
 
         return success("取消点赞成功!");
+    }
+
+
+    //举报某条评论。
+    @RequestMapping("/report")
+    @Feature(FeatureType.PUBLIC)
+    public WebResult report(@RequestParam String commentUuid, @RequestParam String content) {
+
+        Comment comment = this.check(commentUuid);
+
+        String ip = getCurrentRequestIp();
+
+        int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.REPORT_COMMENT, commentUuid, ip);
+        if (count > 0) {
+            throw new UtilException("您已经举报过该条评论，请勿重复操作！");
+        }
+
+        History history = new History();
+        history.setType(History.Type.REPORT_COMMENT);
+        history.setEntityUuid(commentUuid);
+        history.setIp(ip);
+        history.setHandled(false);
+        history.setContent(content);
+        historyDao.save(history);
+
+        return success("举报成功!");
     }
 
 

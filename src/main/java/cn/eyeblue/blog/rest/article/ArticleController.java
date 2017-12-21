@@ -1,8 +1,8 @@
 package cn.eyeblue.blog.rest.article;
 
 import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.agree.History;
-import cn.eyeblue.blog.rest.agree.HistoryDao;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;

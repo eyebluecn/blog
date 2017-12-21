@@ -39,12 +39,6 @@ public class Comment extends BaseEntity {
     //评论内容
     private String content;
 
-    //是否被举报
-    private Boolean isReport = false;
-
-    //举报内容
-    private String report;
-
     //点赞
     private Integer agree = 0;
 

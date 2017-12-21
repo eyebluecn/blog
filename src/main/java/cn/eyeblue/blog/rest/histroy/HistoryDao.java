@@ -1,4 +1,4 @@
-package cn.eyeblue.blog.rest.agree;
+package cn.eyeblue.blog.rest.histroy;
 
 import cn.eyeblue.blog.rest.base.BaseEntityDao;
 import org.springframework.stereotype.Repository;
