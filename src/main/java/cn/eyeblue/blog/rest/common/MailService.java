@@ -24,7 +24,7 @@ public class MailService {
     private MailProperties mailProperties;
 
     @Getter
-    private String mailNickname = "产研院";
+    private String mailNickname = "蓝眼博客";
 
 
     //send simple email. without html

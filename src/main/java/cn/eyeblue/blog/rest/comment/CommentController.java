@@ -52,6 +52,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     @Autowired
     ReportDao reportDao;
 
+
     @Autowired
     SupportSessionDao supportSessionDao;
 
@@ -71,6 +72,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     @Feature(FeatureType.PUBLIC)
     public WebResult create(@Valid CommentForm form) {
 
+        //邮件通知自己。
+        Article article = articleService.check(form.getArticleUuid());
+
         Comment comment = new Comment();
         User user = this.findUser();
 
@@ -83,6 +87,10 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         comment.setIp(getCurrentRequestIp());
         comment = commentDao.save(comment);
+
+        String host = getCurrentHttpServletRequest().getHeader("Host");
+        articleService.emailComment(article, comment, host);
+
         return success(comment);
     }
 
@@ -234,7 +242,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                 }
             });
         }
-        
+
         return this.success(pager);
     }
 

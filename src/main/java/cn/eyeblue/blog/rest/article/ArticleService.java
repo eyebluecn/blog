@@ -1,5 +1,8 @@
 package cn.eyeblue.blog.rest.article;
 
+import cn.eyeblue.blog.rest.comment.Comment;
+import cn.eyeblue.blog.rest.common.MailService;
+import cn.eyeblue.blog.rest.common.NotificationResult;
 import cn.eyeblue.blog.rest.histroy.History;
 import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
@@ -44,6 +47,9 @@ public class ArticleService extends BaseEntityService<Article> {
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    MailService mailService;
 
     @Autowired
     SupportSessionDao supportSessionDao;
@@ -201,6 +207,21 @@ public class ArticleService extends BaseEntityService<Article> {
         article.setHit(article.getHit() + 1);
         articleDao.save(article);
 
+    }
+
+    //给文章作者发邮件。
+    @Async
+    public void emailComment(Article article, Comment comment, String host) {
+
+        User user = userService.check(article.getUserUuid());
+
+        String url = "http://" + host + "/home/article/" + article.getUuid();
+        String html = "您的文章《" + article.getTitle() + "》收到了用户\"" + comment.getName() + "\"的评论\"" + comment.getContent() + "\"。<a href=\"" + url + "\">点击查看</a>";
+        NotificationResult notificationResult = mailService.htmlSend(user.getEmail(), "《" + article.getTitle() + "》收到新评论了", html);
+
+        if (notificationResult.getStatus() != NotificationResult.Status.OK) {
+            log.warn(html);
+        }
     }
 
 

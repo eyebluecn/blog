@@ -61,6 +61,9 @@ public class Article extends BaseEntity {
     //点击数量
     private Integer hit = 1;
 
+    //是否接受评论的邮件通知
+    private Boolean needNotify = true;
+
     @Transient
     private Tank posterTank;
 

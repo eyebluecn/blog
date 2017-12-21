@@ -67,6 +67,8 @@ public class ArticleForm extends BaseEntityForm<Article> {
     //是否置顶
     private Boolean top = false;
 
+    //是否接受评论通知。
+    private Boolean needNotify = true;
 
     //发布日期
     @NotNull
@@ -98,6 +100,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setWords(words);
         article.setPrivacy(privacy);
         article.setTop(top);
+        article.setNeedNotify(needNotify);
 
         //tag比较复杂，后面统一设置。
         List<String> tagUuids = JsonUtil.toStringList(tags);
