@@ -1,7 +1,11 @@
 package cn.zicla.blog.rest.article;
 
+import cn.zicla.blog.config.AppContextManager;
 import cn.zicla.blog.config.exception.UtilException;
+import cn.zicla.blog.rest.base.BaseEntity;
 import cn.zicla.blog.rest.base.BaseEntityForm;
+import cn.zicla.blog.rest.tag.Tag;
+import cn.zicla.blog.rest.tag.TagService;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
 import cn.zicla.blog.util.JsonUtil;
@@ -13,6 +17,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @EqualsAndHashCode(callSuper = false)
@@ -77,9 +83,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
     protected void update(Article article, User operator) {
         article.setTitle(title);
 
-        JsonUtil.toStringList(tags);
-        article.setTags(tags);
-
         article.setPosterTankUuid(posterTankUuid);
         article.setPosterUrl(posterUrl);
         article.setDigest(digest);
@@ -89,7 +92,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
             if (!ValidationUtil.checkParam(markdown)) {
                 throw new UtilException("markdown内容必填");
             }
-
         }
 
         article.setMarkdown(markdown);
@@ -98,6 +100,14 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setPrivacy(privacy);
         article.setTop(top);
         article.setReleaseTime(releaseTime);
+
+
+        //tag比较复杂，后面统一设置。
+        List<String> tagUuids = JsonUtil.toStringList(tags);
+        TagService tagService = AppContextManager.getBean(TagService.class);
+        List<Tag> tagList = tagService.checkTags(tagUuids, operator);
+        List<String> okTags = tagList.stream().map(Tag::getUuid).collect(Collectors.toList());
+        article.setTags(JsonUtil.toJson(okTags));
     }
 
     public Article create(User operator) {

@@ -1,6 +1,7 @@
 package cn.zicla.blog.rest.article;
 
 import cn.zicla.blog.rest.base.BaseEntity;
+import cn.zicla.blog.rest.tag.Tag;
 import cn.zicla.blog.rest.tank.Tank;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.util.DateUtil;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -33,7 +35,6 @@ public class Article extends BaseEntity {
 
     //封面图片Url
     private String posterUrl;
-
 
     //摘要
     private String digest;
@@ -79,6 +80,10 @@ public class Article extends BaseEntity {
     //评论数量
     @Transient
     private Integer commentNum = 0;
+
+    //标签数组对象
+    @Transient
+    private List<Tag> tagArray;
 
 }
 

@@ -1,5 +1,6 @@
 package cn.zicla.blog.rest.tag;
 
+import cn.zicla.blog.config.exception.UtilException;
 import cn.zicla.blog.rest.article.Article;
 import cn.zicla.blog.rest.base.Base;
 import cn.zicla.blog.rest.base.BaseEntityService;
@@ -8,6 +9,7 @@ import cn.zicla.blog.rest.base.WebResult;
 import cn.zicla.blog.rest.core.Feature;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
+import cn.zicla.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -25,10 +28,8 @@ import java.util.List;
 public class TagService extends BaseEntityService<Tag> {
 
     @Autowired
-    TagDao userDao;
+    TagDao tagDao;
 
-    @Autowired
-    SupportSessionDao supportSessionDao;
 
     public TagService() {
         super(Tag.class);
@@ -70,5 +71,26 @@ public class TagService extends BaseEntityService<Tag> {
 
         return new Pager<>(page, pageSize, totalItems, list);
     }
+
+    public List<Tag> checkTags(List<String> tagUuids, User operator) {
+        List<Tag> tags = getTagsByUuids(tagUuids);
+        for (Tag tag : tags) {
+            if (!operator.getUuid().equals(tag.getUserUuid())) {
+                throw new UtilException("标签" + tag.getName() + "不属于您！");
+            }
+        }
+        return tags;
+    }
+
+    //根据Uuids获取tag数组。sql使用的是in，不存在的uuid会自动去除。
+    public List<Tag> getTagsByUuids(List<String> uuids) {
+        Iterable<Tag> all = tagDao.findAll(uuids);
+        List<Tag> tags = new ArrayList<>();
+        for (Tag tag : all) {
+            tags.add(tag);
+        }
+        return tags;
+    }
+
 
 }

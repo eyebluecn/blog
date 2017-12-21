@@ -9,9 +9,11 @@ import cn.zicla.blog.rest.comment.CommentDao;
 import cn.zicla.blog.rest.comment.CommentService;
 import cn.zicla.blog.rest.core.FeatureType;
 import cn.zicla.blog.rest.support.session.SupportSessionDao;
+import cn.zicla.blog.rest.tag.TagService;
 import cn.zicla.blog.rest.tank.TankService;
 import cn.zicla.blog.rest.user.User;
 import cn.zicla.blog.rest.user.UserService;
+import cn.zicla.blog.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +41,9 @@ public class ArticleService extends BaseEntityService<Article> {
 
     @Autowired
     TankService tankService;
+
+    @Autowired
+    TagService tagService;
 
     @Autowired
     CommentDao commentDao;
@@ -141,7 +146,10 @@ public class ArticleService extends BaseEntityService<Article> {
         list.forEach(article -> {
             //评论数量
             article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+            //作者
             article.setUser(userService.find(article.getUserUuid()));
+            //标签装点
+            article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
         });
 
         return new Pager<>(page, pageSize, totalItems, list);
@@ -160,6 +168,8 @@ public class ArticleService extends BaseEntityService<Article> {
         //评论数量
         article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(uuid));
 
+        //装点标签
+        article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
 
         //统计文章点击数量。
         this.analysisHit(article, ip);
@@ -189,7 +199,6 @@ public class ArticleService extends BaseEntityService<Article> {
         history.setEntityUuid(article.getUuid());
         history.setIp(ip);
         historyDao.save(history);
-
 
         article.setHit(article.getHit() + 1);
         articleDao.save(article);
