@@ -1,9 +1,6 @@
 package cn.eyeblue.blog.rest.comment;
 
 import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.histroy.History;
-import cn.eyeblue.blog.rest.histroy.HistoryDao;
-import cn.eyeblue.blog.rest.agree.History_;
 import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleService;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
@@ -11,6 +8,9 @@ import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
+import cn.eyeblue.blog.rest.histroy.History_;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.user.User;
@@ -134,8 +134,6 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String content,
-            @RequestParam(required = false) Boolean isReport,
-            @RequestParam(required = false) String report,
             //在isFloor=true的情况下，是否要求展示子Pager的东西。
             @RequestParam(required = false) Boolean needSubPager
     ) {
@@ -151,9 +149,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                 puuid,
                 name,
                 email,
-                content,
-                isReport,
-                report
+                content
         );
 
         List<String> commentUuids = new ArrayList<>();
@@ -174,8 +170,6 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                         articleUuid,
                         false,
                         comment.getUuid(),
-                        null,
-                        null,
                         null,
                         null,
                         null,
@@ -256,8 +250,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         }
 
         History history = new History();
-        history.setType(History.Type.AGREE_COMMENT);
         history.setEntityUuid(commentUuid);
+        history.setEntityName(comment.getName());
+        history.setType(History.Type.AGREE_COMMENT);
         history.setIp(ip);
         historyDao.save(history);
 
@@ -304,8 +299,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         }
 
         History history = new History();
-        history.setType(History.Type.REPORT_COMMENT);
         history.setEntityUuid(commentUuid);
+        history.setEntityName(comment.getName());
+        history.setType(History.Type.REPORT_COMMENT);
         history.setIp(ip);
         history.setHandled(false);
         history.setContent(content);

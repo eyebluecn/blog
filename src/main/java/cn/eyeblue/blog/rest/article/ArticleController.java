@@ -158,8 +158,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         }
 
         History history = new History();
-        history.setType(History.Type.AGREE_ARTICLE);
         history.setEntityUuid(articleUuid);
+        history.setEntityName(article.getTitle());
+        history.setType(History.Type.AGREE_ARTICLE);
         history.setIp(ip);
         historyDao.save(history);
 

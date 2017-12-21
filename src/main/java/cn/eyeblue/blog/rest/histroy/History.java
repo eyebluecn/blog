@@ -18,6 +18,9 @@ public class History extends BaseEntity {
     //主体uuid
     private String entityUuid;
 
+    //主题名称
+    private String entityName;
+
     //ip
     private String ip;
 

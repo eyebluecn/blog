@@ -38,9 +38,7 @@ public class CommentService extends BaseEntityService<Comment> {
             String puuid,
             String name,
             String email,
-            String content,
-            Boolean isReport,
-            String report
+            String content
     ) {
 
         Sort sort = new Sort(Sort.Direction.ASC, Comment_.deleted.getName());
@@ -80,12 +78,7 @@ public class CommentService extends BaseEntityService<Comment> {
             if (content != null) {
                 predicate = cb.and(predicate, cb.like(root.get(Comment_.content), "%" + content + "%"));
             }
-            if (isReport != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Comment_.isReport), isReport));
-            }
-            if (report != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Comment_.report), "%" + report + "%"));
-            }
+
             return predicate;
 
         }, pageable);

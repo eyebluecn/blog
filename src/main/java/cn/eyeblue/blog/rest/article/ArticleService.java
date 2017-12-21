@@ -192,8 +192,9 @@ public class ArticleService extends BaseEntityService<Article> {
         }
 
         History history = new History();
-        history.setType(History.Type.VISIT_ARTICLE);
         history.setEntityUuid(article.getUuid());
+        history.setEntityName(article.getTitle());
+        history.setType(History.Type.VISIT_ARTICLE);
         history.setIp(ip);
         historyDao.save(history);
 
