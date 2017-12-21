@@ -134,6 +134,25 @@
 .page-detail #interactive-area .pager-area {
   margin-top: 10px;
 }
+.article-cell {
+  border-bottom: 1px solid #eeeeee;
+  padding: 20px 20px 10px 20px;
+}
+.article-cell .title {
+  margin-bottom: 10px;
+}
+.article-cell .title a {
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+}
+.article-cell .title a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+.article-cell .digest {
+  margin-bottom: 10px;
+}
 .tag-collection {
   display: inline-block;
   margin: 0 10px 10px 0;
@@ -178,25 +197,6 @@
   background: white;
   margin-top: 40px;
   border-radius: 4px;
-}
-.page-index .article-cell {
-  border-bottom: 1px solid #eeeeee;
-  padding: 20px 20px 10px 20px;
-}
-.page-index .article-cell .title {
-  margin-bottom: 10px;
-}
-.page-index .article-cell .title a {
-  font-size: 18px;
-  font-weight: bold;
-  color: #555;
-}
-.page-index .article-cell .title a:hover {
-  color: #000;
-  text-decoration: underline;
-}
-.page-index .article-cell .digest {
-  margin-bottom: 10px;
 }
 .page-index .hot-area {
   padding: 15px;
