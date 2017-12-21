@@ -9,6 +9,7 @@
     <@layout.put block="content" type="replace">
 
         <#import "../common/widget/FtlPager.ftl" as FtlPager>
+        <#import "../common/widget/FtlTag.ftl" as FtlTag>
 
     <div class="page-index">
         <div class="row">
@@ -62,6 +63,11 @@
                             <div class="digest">
                                 ${article.digest!""}
                             </div>
+                            <div>
+                                <#list article.tagArray as tag>
+                                    <@FtlTag.FtlTag tag=tag/>
+                                </#list>
+                            </div>
                         </div>
                     </div>
 
@@ -73,11 +79,7 @@
 
             <#list tagPager.data as tag>
 
-                <a class="tag-collection" target="_blank" href="#">
-                    <img src="${tag.logoUrl!""}?imageProcess=resize&imageResizeM=fill&imageResizeW=64&imageResizeH=64"
-                         alt="64">
-                    <span class="name">${tag.name}</span>
-                </a>
+                <@FtlTag.FtlTag tag=tag/>
 
             </#list>
 

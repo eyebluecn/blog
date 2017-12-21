@@ -17258,6 +17258,34 @@ p {
 .page-detail #interactive-area .pager-area {
   margin-top: 10px;
 }
+.tag-collection {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 0 5px 0 0;
+  height: 16px;
+  background-color: #f7f7f7;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  vertical-align: top;
+  overflow: hidden;
+  color: #333;
+  box-sizing: content-box;
+}
+.tag-collection :hover {
+  color: #23B7E5;
+}
+.tag-collection img {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  vertical-align: top;
+}
+.tag-collection .name {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  vertical-align: top;
+}
 .page-index {
   background: white;
   margin-top: 40px;
@@ -17265,7 +17293,7 @@ p {
 }
 .page-index .article-cell {
   border-bottom: 1px solid #eeeeee;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
 }
 .page-index .article-cell .title {
   margin-bottom: 10px;
@@ -17279,23 +17307,6 @@ p {
   color: #000;
   text-decoration: underline;
 }
-.page-index .tag-collection {
-  display: inline-block;
-  margin: 0 18px 18px 0;
-  min-height: 32px;
-  background-color: #f7f7f7;
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  vertical-align: top;
-  overflow: hidden;
-  color: #333;
-}
-.page-index .tag-collection img {
-  width: 32px;
-  height: 32px;
-}
-.page-index .tag-collection .name {
-  display: inline-block;
-  padding: 0 11px 0 6px;
-  font-size: 14px;
+.page-index .article-cell .digest {
+  margin-bottom: 10px;
 }

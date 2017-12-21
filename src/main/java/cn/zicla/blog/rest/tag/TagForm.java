@@ -5,6 +5,7 @@ import cn.zicla.blog.rest.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -13,14 +14,17 @@ import javax.validation.constraints.Size;
 public class TagForm extends BaseEntityForm<Tag> {
 
     //标题
+    @NotNull
     @Size(min = 1, max = 45, message = "名称必填并且最长45字")
     private String name;
 
 
     //图片
+    @NotNull
     private String logoTankUuid;
 
     //Url
+    @NotNull
     private String logoUrl;
 
 

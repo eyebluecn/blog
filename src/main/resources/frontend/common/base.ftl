@@ -140,7 +140,7 @@
                     ${preference.footerLine2}
                     </div>
 
-                    <!-- 开源不易，请不要移除掉这行代码，谢谢 ^_^ -->
+                    <!-- 开源不易，请不要移除掉这行代码，蓝眼博客谢谢您 ^_^ -->
                     <div>
                         Powered by <a href="#"><img class="w30" src="/static/img/eyeblue.png"/> 蓝眼博客</a>
                     </div>

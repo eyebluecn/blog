@@ -65,9 +65,9 @@ public class User extends BaseEntity {
         if (this.role == Role.ADMIN) {
             return true;
         } else if (this.role == Role.USER) {
-            return true;
+            return featureType == FeatureType.PUBLIC || featureType == FeatureType.USER_MINE;
         } else {
-            return false;
+            return featureType == FeatureType.PUBLIC;
         }
 
     }

@@ -61,8 +61,15 @@
     </@layout.put>
 
     <@layout.put block="content" type="replace">
+        <#import "../../common/widget/FtlTag.ftl" as FtlTag>
 
     <div class="page-detail">
+
+        <#--为了让微信抓住封面图-->
+        <#if article.posterUrl?? && article.posterUrl!="">
+            <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200" class="hidden"/>
+        </#if>
+
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-lg-10 col-lg-offset-1">
 
@@ -104,6 +111,12 @@
                     ${article.html}
                 </div>
 
+                <div class="mt20">
+                    本文分类：
+                                <#list article.tagArray as tag>
+                                    <@FtlTag.FtlTag tag=tag/>
+                                </#list>
+                </div>
 
                 <div id="interactive-area">
                     <div class="article-appendix" data-agree="${article.agree}"
