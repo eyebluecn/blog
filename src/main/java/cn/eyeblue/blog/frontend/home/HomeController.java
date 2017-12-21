@@ -60,17 +60,24 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null);
 
-        //准备标签分页
-        Pager<Tag> tagPager = tagService.page(
-                0,
-                20,
+        //准备热门文章分页了。
+        Pager<Article> hotArticlePager = articleService.page(
+                page,
+                pageSize,
                 null,
                 null,
-                null
-        );
+                Sort.Direction.DESC,
+                null,
+                null,
+                null,
+                false,
+                null,
+                null,
+                null,
+                null);
 
         model.addAttribute("articlePager", articlePager);
-        model.addAttribute("tagPager", tagPager);
+        model.addAttribute("hotArticlePager", hotArticlePager);
 
         return "home/index";
     }

@@ -73,13 +73,24 @@
                 </div>
             </#list>
             </div>
-            <div class="col-sm-4 mt60">
+            <div class="col-sm-4 mt20">
 
-            <#list tagPager.data as tag>
+                <div class="hot-area">
+                    <div>
+                        热门推荐
+                    </div>
 
-                <@FtlTag.FtlTag tag=tag/>
+                    <#list hotArticlePager.data as article>
+                        <div class="hot-article">
+                            <a href="/home/article/${article.uuid}">
+                                ${article.title}
+                            </a>
+                            ${article.hit}阅读
+                        </div>
+                    </#list>
+                </div>
 
-            </#list>
+
 
             </div>
         </div>
