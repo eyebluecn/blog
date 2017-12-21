@@ -11,7 +11,13 @@ $(function () {
             repliedComment: new Comment(),
             //准备的评论
             replyComment: new Comment(),
+            //是否是评论模式
             replyModel: false,
+            //被举报的评论
+            reportComment: new Comment(),
+            //是否是举报模式
+            reportModel: false,
+
             articleUuid: null,
             //文章原本的点赞数
             articleAgree: 0,
@@ -59,6 +65,7 @@ $(function () {
 
                 that.repliedComment.render(comment)
                 that.replyModel = true
+                that.reportModel = false
 
                 that.replyComment.articleUuid = that.articleUuid
                 that.replyComment.isFloor = false
@@ -83,6 +90,38 @@ $(function () {
                 //清空里面的老数据。
                 that.replyComment.content = null
                 that.replyModel = false
+            },
+
+            //准备举报
+            prepareReport: function (comment) {
+                var that = this
+
+                if (that.reportModel && comment.uuid === that.repliedComment.uuid) {
+                    that.reportModel = false
+                    return
+                }
+
+                that.repliedComment.render(comment)
+                that.replyModel = false
+                that.reportModel = true
+
+
+                that.reportComment.uuid = comment.uuid
+                that.reportComment.content = comment.content
+
+
+            },
+            reportSuccess: function () {
+
+                var that = this
+
+                that.reportModel = false
+
+                toastr.info("举报成功，我们将尽快处理，感谢您的举报！");
+
+                that.reportComment.uuid = null
+                that.reportComment.content = null
+
             },
             //赞文章
             agreeArticle: function () {

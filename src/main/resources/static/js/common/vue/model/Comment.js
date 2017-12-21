@@ -20,10 +20,7 @@ function Comment() {
     this.email = null;
     //评论内容
     this.content = null;
-    //是否被举报
-    this.isReport = false;
-    //举报内容
-    this.report = null;
+
 
     //评论时的ip
     this.ip = null;
@@ -180,6 +177,18 @@ Comment.prototype.httpCancelAgree = function (successCallback, errorCallback) {
         }
 
     });
+}
+
+
+//点赞。
+Comment.prototype.httpReport = function (content, successCallback, errorCallback) {
+
+    var that = this
+    that.httpPost("/api/comment/report", {
+        "commentUuid": that.uuid,
+        "content": content
+    }, successCallback, errorCallback);
+
 }
 
 

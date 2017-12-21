@@ -31,6 +31,10 @@
         <@NbCommentPanel/>
 
 
+        <#include "../../common/vue/nb-report-panel.ftl">
+        <@NbReportPanel/>
+
+
         <script src="/static/js/home/article/detail.js"></script>
 
 
@@ -224,7 +228,8 @@
                                                 <i class="fa fa-comment-o"></i> 回复
                                             </a>
 
-                                            <a class="inter-btn" href="#">
+                                            <a class="inter-btn" href="javascript:void(0)"
+                                               @click.stop.prevent="prepareReport(comment)">
                                                 <i class="fa fa-bug"></i> 举报
                                             </a>
                                         </div>
@@ -272,7 +277,8 @@
                                                        @click.stop.prevent="prepareReply(subComment)">
                                                         <i class="fa fa-comment-o"></i> 回复
                                                     </a>
-                                                    <a class="inter-btn" href="#">
+                                                    <a class="inter-btn" href="javascript:void(0)"
+                                                       @click.stop.prevent="prepareReport(subComment)">
                                                         <i class="fa fa-bug"></i> 举报
                                                     </a>
 
@@ -295,6 +301,17 @@
                                                                       @success="replyCreateSuccess"/>
                                                 </div>
                                             </nb-expanding>
+
+                                            <nb-expanding>
+                                                <div class="mt10" v-show="reportModel
+                                        && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
+                                        || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
+                                                    <nb-report-panel :comment="reportComment"
+                                                                      @success="reportSuccess"/>
+                                                </div>
+                                            </nb-expanding>
+
+
 
                                         </div>
 

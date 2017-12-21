@@ -93,12 +93,6 @@
   max-width: 100%;
   text-align: center;
 }
-.page-detail .nb-comment-panel-area {
-  padding: 20px;
-  border: 1px solid #eeeeee;
-  border-radius: 4px;
-  background: #eeeeee;
-}
 .page-detail #interactive-area {
   margin-top: 20px;
 }
@@ -167,6 +161,18 @@
   font-size: 12px;
   line-height: 15px;
   vertical-align: top;
+}
+.nb-comment-panel-area {
+  padding: 20px;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  background: #eeeeee;
+}
+.nb-report-panel-area {
+  padding: 20px;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  background: #eeeeee;
 }
 .page-index {
   background: white;
