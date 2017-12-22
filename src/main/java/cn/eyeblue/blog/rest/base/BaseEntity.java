@@ -19,8 +19,8 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseEntity extends Base implements Serializable {
 
-    //blog100的前缀表示是blog 1.0.0版本对应的数据库表。
-    public final static String PREFIX = "blog100_";
+    //blog10的前缀表示是blog 1.0.x版本对应的数据库表。当数据库结构发生变化的时候，就不是小更新了。
+    public final static String PREFIX = "blog10_";
 
     @Id
     @GeneratedValue(generator = "uuid2")
