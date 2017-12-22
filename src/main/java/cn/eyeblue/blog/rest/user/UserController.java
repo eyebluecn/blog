@@ -141,6 +141,8 @@ public class UserController extends BaseEntityController<User, UserForm> {
             @RequestParam(required = false) Sort.Direction orderLastTime,
             @RequestParam(required = false) Sort.Direction orderSort,
             @RequestParam(required = false) String username,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false, defaultValue = "false") Boolean autoComplete
     ) {
@@ -161,6 +163,15 @@ public class UserController extends BaseEntityController<User, UserForm> {
                     if (username != null) {
                         predicate = cb.and(predicate, cb.like(root.get(User_.username), "%" + username + "%"));
                     }
+
+                    if (email != null) {
+                        predicate = cb.and(predicate, cb.like(root.get(User_.email), "%" + email + "%"));
+                    }
+
+                    if (phone != null) {
+                        predicate = cb.and(predicate, cb.like(root.get(User_.phone), "%" + phone + "%"));
+                    }
+
                     if (keyword != null) {
 
                         Predicate predicate1 = cb.like(root.get(User_.username), "%" + keyword + "%");
