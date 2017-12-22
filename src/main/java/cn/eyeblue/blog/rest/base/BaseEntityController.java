@@ -209,7 +209,7 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     //判断自己对于当前实体是否有权限 没有权限直接抛出异常。
     //管理者权限，个人权限
     protected void checkMineEntityPermission(FeatureType manageFeature, FeatureType mineFeature, String entityUserUuid) {
-        UserService userService = AppContextManager.getBean(UserService.class);
+
         User operator = checkUser();
         //如果有管理权限。
         if (operator.hasPermission(manageFeature)) {
