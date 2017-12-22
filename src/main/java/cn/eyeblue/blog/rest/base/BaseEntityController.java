@@ -210,15 +210,15 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     //管理者权限，个人权限
     protected void checkMineEntityPermission(FeatureType manageFeature, FeatureType mineFeature, String entityUserUuid) {
         UserService userService = AppContextManager.getBean(UserService.class);
-        User entityUser = userService.check(entityUserUuid);
+        User operator = checkUser();
         //如果有管理权限。
-        if (entityUser.hasPermission(manageFeature)) {
+        if (operator.hasPermission(manageFeature)) {
             return;
         }
         //如果只有查看自己的权限。
-        else if (entityUser.hasPermission(mineFeature)) {
+        else if (operator.hasPermission(mineFeature)) {
             //必须确保查看的对象属于自己。
-            if (Objects.equals(entityUserUuid, checkUser().getUuid())) {
+            if (Objects.equals(entityUserUuid, operator.getUuid())) {
                 return;
             }
         }
