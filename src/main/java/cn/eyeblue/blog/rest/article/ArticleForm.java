@@ -6,16 +6,13 @@ import cn.eyeblue.blog.rest.base.BaseEntityForm;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tag.TagService;
 import cn.eyeblue.blog.rest.user.User;
-import cn.eyeblue.blog.util.DateUtil;
 import cn.eyeblue.blog.util.JsonUtil;
 import cn.eyeblue.blog.util.ValidationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
