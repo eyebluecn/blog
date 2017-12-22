@@ -70,11 +70,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
     //是否接受评论通知。
     private Boolean needNotify = true;
 
-    //发布日期
-    @NotNull
-    @DateTimeFormat(pattern = DateUtil.DEFAULT_FORMAT)
-    private Date releaseTime;
-
 
     public ArticleForm() {
         super(Article.class);
