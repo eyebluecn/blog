@@ -74,6 +74,10 @@ public class TagService extends BaseEntityService<Tag> {
 
     public List<Tag> checkTags(List<String> tagUuids, User operator) {
         List<Tag> tags = getTagsByUuids(tagUuids);
+        //超级管理员一律放行
+        if (operator.hasPermission(FeatureType.USER_MANAGE)) {
+            return tags;
+        }
         for (Tag tag : tags) {
             if (!operator.getUuid().equals(tag.getUserUuid())) {
                 throw new UtilException("标签【" + tag.getName() + "】不属于您！");
