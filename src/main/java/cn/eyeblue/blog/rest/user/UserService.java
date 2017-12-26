@@ -4,12 +4,14 @@ import cn.eyeblue.blog.config.exception.LoginException;
 import cn.eyeblue.blog.config.exception.NotFoundException;
 import cn.eyeblue.blog.config.exception.UnauthorizedException;
 import cn.eyeblue.blog.config.exception.UtilException;
+import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.support.session.SupportSession;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
+import cn.eyeblue.blog.rest.tank.TankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +32,35 @@ public class UserService extends BaseEntityService<User> {
     UserDao userDao;
 
     @Autowired
+    ArticleDao articleDao;
+
+    @Autowired
+    TankService tankService;
+
+
+    @Autowired
     SupportSessionDao supportSessionDao;
 
     public UserService() {
         super(User.class);
+    }
+
+    //获取用户详情
+    public User detail(String uuid) {
+        //准备用户详情。
+        User user = this.check(uuid);
+
+        Object obj = articleDao.analysisTotal(user.getUuid());
+        Object[] list = (Object[]) obj;
+        user.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(uuid));
+        user.setArticleAgreeNum((Long) list[0]);
+        user.setArticleWords((Long) list[1]);
+        user.setArticleHit((Long) list[2]);
+        user.setCommentNum((Long) list[3]);
+
+        user.setAvatar(tankService.find(user.getAvatarTankUuid()));
+
+        return user;
     }
 
     //做权限拦截的事情。主要给AuthInterceptor使用。Hibernate Session必须通过@Transactional才可持久。

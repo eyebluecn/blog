@@ -121,8 +121,8 @@ public class UserController extends BaseEntityController<User, UserForm> {
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
-        User user = this.check(uuid);
-        user.setAvatar(tankService.find(user.getAvatarTankUuid()));
+        User user = userService.detail(uuid);
+
         return success(user);
     }
 

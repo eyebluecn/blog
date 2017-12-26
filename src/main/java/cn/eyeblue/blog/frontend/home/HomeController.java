@@ -128,16 +128,7 @@ public class HomeController extends FrontendBaseController {
             @RequestParam(required = false, defaultValue = "15") Integer pageSize
     ) {
 
-        //准备用户详情。
-        User author = userService.check(userUuid);
-
-        Object obj = articleDao.analysisTotal(author.getUuid());
-        Object[] list = (Object[]) obj;
-        author.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(userUuid));
-        author.setArticleAgreeNum((Long) list[0]);
-        author.setArticleWords((Long) list[1]);
-        author.setArticleHit((Long) list[2]);
-        author.setCommentNum((Long) list[3]);
+        User author = userService.detail(userUuid);
 
         model.addAttribute("author", author);
 
