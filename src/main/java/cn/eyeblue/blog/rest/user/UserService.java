@@ -51,12 +51,28 @@ public class UserService extends BaseEntityService<User> {
         User user = this.check(uuid);
 
         Object obj = articleDao.analysisTotal(user.getUuid());
-        Object[] list = (Object[]) obj;
+
         user.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(uuid));
-        user.setArticleAgreeNum((Long) list[0]);
-        user.setArticleWords((Long) list[1]);
-        user.setArticleHit((Long) list[2]);
-        user.setCommentNum((Long) list[3]);
+
+        if (obj != null) {
+            Object[] list = (Object[]) obj;
+            if (list.length > 0 && list[0] != null) {
+                user.setArticleAgreeNum((Long) list[0]);
+            }
+            if (list.length > 1 && list[1] != null) {
+                user.setArticleWords((Long) list[1]);
+            }
+
+            if (list.length > 2 && list[2] != null) {
+                user.setArticleHit((Long) list[2]);
+            }
+
+            if (list.length > 3 && list[3] != null) {
+                user.setCommentNum((Long) list[3]);
+            }
+
+        }
+
 
         user.setAvatar(tankService.find(user.getAvatarTankUuid()));
 

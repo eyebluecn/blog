@@ -13,13 +13,13 @@ public class LoginException extends RuntimeException {
 
     public LoginException() {
         super("没有登录，禁止访问");
-        this.code = ResultCode.BAD_REQUEST;
+        this.code = ResultCode.LOGIN;
         this.message = "没有登录，禁止访问";
     }
 
     public LoginException(String message) {
         super(message);
-        this.code = ResultCode.BAD_REQUEST;
+        this.code = ResultCode.LOGIN;
         this.message = message;
     }
 

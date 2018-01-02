@@ -66,20 +66,19 @@ public class User extends BaseEntity {
 
     //总共收到的点赞数
     @Transient
-    private long articleAgreeNum;
+    private long articleAgreeNum = 0;
 
     //总共文章字数
     @Transient
-    private long articleWords;
+    private long articleWords = 0;
 
     //总阅读量
     @Transient
-    private long articleHit;
+    private long articleHit = 0;
 
     //总共收到的评论
     @Transient
-    private long commentNum;
-
+    private long commentNum = 0;
 
 
     public boolean hasPermission(FeatureType featureType) {
