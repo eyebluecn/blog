@@ -40,6 +40,9 @@ public class Preference extends BaseEntity {
     private String footerLine1;
     private String footerLine2;
 
+    //版本号
+    private String version;
+
     @Transient
     private Tank logoTank;
     @Transient
@@ -62,6 +65,8 @@ public class Preference extends BaseEntity {
 
         preference.setFooterLine1("CopyRight 2017&copyright;蓝眼博客 版权所有");
         preference.setFooterLine1("<a href=\"http://www.miitbeian.gov.cn\" target=\"_blank\">沪ICP备14038360号-2</a>");
+
+        preference.setVersion("1.0.0");
 
         return preference;
     }

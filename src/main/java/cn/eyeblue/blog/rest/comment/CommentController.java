@@ -14,6 +14,7 @@ import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.histroy.History_;
 import cn.eyeblue.blog.rest.report.Report;
 import cn.eyeblue.blog.rest.report.ReportDao;
+import cn.eyeblue.blog.rest.report.ReportService;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.user.User;
@@ -55,6 +56,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
     @Autowired
     ReportDao reportDao;
+
+    @Autowired
+    ReportService reportService;
 
 
     @Autowired
@@ -117,6 +121,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         //重新统计该文章评论数量
         article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
         articleDao.save(article);
+
+        //举报了自己的report统统设置为已处理。
+        reportService.markHandled(uuid);
 
 
         return success();

@@ -8,6 +8,7 @@ import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
+import cn.eyeblue.blog.rest.report.ReportService;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.tank.TankService;
@@ -45,6 +46,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     HistoryDao historyDao;
 
     @Autowired
+    ReportService reportService;
+
+    @Autowired
     SupportSessionDao supportSessionDao;
 
     @Autowired
@@ -74,6 +78,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         //验证权限
         checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
+
+        //举报了自己的report统统设置为已处理。
+        reportService.markHandled(uuid);
 
         return super.del(uuid);
     }

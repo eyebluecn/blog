@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ReportService extends BaseEntityService<Report> {
 
     @Autowired
-    ReportDao userDao;
+    ReportDao reportDao;
 
     public ReportService() {
         super(Report.class);
@@ -82,5 +83,11 @@ public class ReportService extends BaseEntityService<Report> {
         List<Report> list = pageData.getContent();
 
         return new Pager<>(page, pageSize, totalItems, list);
+    }
+
+
+    @Transactional
+    public void markHandled(String entityUuid) {
+        reportDao.markHandled(entityUuid);
     }
 }
