@@ -1,10 +1,12 @@
 package cn.eyeblue.blog.rest.report;
 
+import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.article.ArticleService;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;
+import cn.eyeblue.blog.rest.comment.Comment;
 import cn.eyeblue.blog.rest.comment.CommentDao;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
@@ -112,7 +114,14 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
         if (needEntityDetail) {
             pager.getData().forEach(report -> {
                 if (report.getType() == Report.Type.REPORT_COMMENT) {
-                    report.setComment(commentDao.findOne(report.getEntityUuid()));
+                    Comment comment = commentDao.findOne(report.getEntityUuid());
+                    if (comment != null) {
+                        Article article = articleDao.findOne(comment.getArticleUuid());
+                        if (article != null) {
+                            comment.setArticleTitle(article.getTitle());
+                        }
+                        report.setComment(comment);
+                    }
                 } else if (report.getType() == Report.Type.REPORT_ARTICLE) {
                     report.setArticle(articleDao.findOne(report.getEntityUuid()));
                 }

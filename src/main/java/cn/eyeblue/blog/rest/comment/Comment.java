@@ -55,6 +55,11 @@ public class Comment extends BaseEntity {
     private Pager<Comment> commentPager;
 
 
+    //评论对应的文章名称
+    @Transient
+    private String articleTitle;
+
+
 }
 
 
