@@ -94,7 +94,7 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
             @RequestParam(required = false) String content,
             @RequestParam(required = false) String ip,
             //是否需要entity的详情。
-            @RequestParam(required = false, defaultValue = "false") Boolean needEntityDetail
+            @RequestParam(required = false, defaultValue = "true") Boolean needEntityDetail
     ) {
 
         Pager<Report> pager = reportService.page(
