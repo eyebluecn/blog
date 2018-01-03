@@ -33,7 +33,6 @@ public class ReportService extends BaseEntityService<Report> {
             String entityUuid,
             String entityName,
             Report.Type type,
-            Boolean handled,
             String content,
             String ip
     ) {
@@ -59,10 +58,6 @@ public class ReportService extends BaseEntityService<Report> {
 
             if (type != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Report_.type), type));
-            }
-
-            if (handled != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Report_.handled), handled));
             }
 
 

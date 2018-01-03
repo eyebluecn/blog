@@ -92,7 +92,6 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
             @RequestParam(required = false) String entityUuid,
             @RequestParam(required = false) String entityName,
             @RequestParam(required = false) Report.Type type,
-            @RequestParam(required = false) Boolean handled,
             @RequestParam(required = false) String content,
             @RequestParam(required = false) String ip,
             //是否需要entity的详情。
@@ -106,7 +105,6 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
                 entityUuid,
                 entityName,
                 type,
-                handled,
                 content,
                 ip
         );
