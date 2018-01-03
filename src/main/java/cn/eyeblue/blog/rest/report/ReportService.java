@@ -57,7 +57,6 @@ public class ReportService extends BaseEntityService<Report> {
                 predicate = cb.and(predicate, cb.like(root.get(Report_.entityName), "%" + entityName + "%"));
             }
 
-
             if (type != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Report_.type), type));
             }
@@ -88,14 +87,14 @@ public class ReportService extends BaseEntityService<Report> {
 
 
     @Transactional
-    public void markHandled(String entityUuid) {
-        reportDao.markHandled(entityUuid);
+    public void softDelete(String entityUuid) {
+        int i = reportDao.softDeleteByEntityUuid(entityUuid);
     }
 
     //验证某个实体是否被举报过。
     @Transient
     public boolean isReported(String entityUuid) {
-        int count = reportDao.countByEntityUuidAndHandledFalseAndDeletedFalse(entityUuid);
+        int count = reportDao.countByEntityUuidAndDeletedFalse(entityUuid);
         return count > 0;
     }
 }

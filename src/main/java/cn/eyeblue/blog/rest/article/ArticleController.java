@@ -80,7 +80,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
 
         //举报了自己的report统统设置为已处理。
-        reportService.markHandled(uuid);
+        reportService.softDelete(uuid);
 
         return super.del(uuid);
     }

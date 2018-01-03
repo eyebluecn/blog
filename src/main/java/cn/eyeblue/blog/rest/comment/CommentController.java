@@ -123,7 +123,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         articleDao.save(article);
 
         //举报了自己的report统统设置为已处理。
-        reportService.markHandled(uuid);
+        reportService.softDelete(uuid);
 
 
         return success();
@@ -345,7 +345,6 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         report.setEntityName(comment.getName());
         report.setType(Report.Type.REPORT_COMMENT);
         report.setIp(ip);
-        report.setHandled(false);
         report.setContent(content);
         reportDao.save(report);
 

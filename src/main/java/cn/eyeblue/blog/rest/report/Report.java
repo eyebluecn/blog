@@ -31,8 +31,6 @@ public class Report extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Type type = Type.REPORT_COMMENT;
 
-    //如果是举报内容的话，是否有处理
-    private Boolean handled = false;
 
     //举报内容。
     private String content;
