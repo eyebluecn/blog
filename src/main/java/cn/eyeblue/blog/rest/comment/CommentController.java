@@ -165,6 +165,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) String uuid,
             @RequestParam(required = false) String userUuid,
             @RequestParam(required = false) String articleUuid,
             @RequestParam(required = false) Boolean isFloor,
@@ -178,9 +179,11 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     ) {
 
         Pager<Comment> pager = commentService.page(
+
                 page,
                 pageSize,
                 orderSort,
+                uuid,
                 userUuid,
                 articleUuid,
                 isFloor,
@@ -205,6 +208,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                         0,
                         10,
                         Sort.Direction.DESC,
+                        uuid,
                         null,
                         articleUuid,
                         false,

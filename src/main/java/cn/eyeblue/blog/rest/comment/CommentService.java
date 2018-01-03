@@ -31,6 +31,7 @@ public class CommentService extends BaseEntityService<Comment> {
             Integer page,
             Integer pageSize,
             Sort.Direction orderSort,
+            String uuid,
             String userUuid,
             String articleUuid,
             Boolean isFloor,
@@ -52,9 +53,14 @@ public class CommentService extends BaseEntityService<Comment> {
         Page<Comment> pageData = getDao().findAll((root, query, cb) -> {
             Predicate predicate = cb.equal(root.get(Comment_.deleted), false);
 
+            if (uuid != null) {
+                predicate = cb.and(predicate, cb.equal(root.get(Comment_.uuid), uuid));
+            }
+
             if (articleUuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Comment_.articleUuid), articleUuid));
             }
+
             if (userUuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Comment_.userUuid), userUuid));
             }
