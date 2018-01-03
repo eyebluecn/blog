@@ -18,4 +18,9 @@ public interface ReportDao extends BaseEntityDao<Report> {
     @Modifying
     @Query("UPDATE Report r SET r.handled = true WHERE r.entityUuid =?1 AND r.handled = false")
     int markHandled(String entityUuid);
+
+    //将某个实体对应的report设置为已处理。
+    int countByEntityUuidAndHandledFalseAndDeletedFalse(String entityUuid);
+
+
 }

@@ -60,6 +60,11 @@ public class Comment extends BaseEntity {
     private String articleTitle;
 
 
+    //是否被举报过，在评论详情中有用到。
+    @Transient
+    private Boolean isReport;
+
+
 }
 
 

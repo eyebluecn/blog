@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Transient;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 
@@ -89,5 +90,12 @@ public class ReportService extends BaseEntityService<Report> {
     @Transactional
     public void markHandled(String entityUuid) {
         reportDao.markHandled(entityUuid);
+    }
+
+    //验证某个实体是否被举报过。
+    @Transient
+    public boolean isReported(String entityUuid) {
+        int count = reportDao.countByEntityUuidAndHandledFalseAndDeletedFalse(entityUuid);
+        return count > 0;
     }
 }

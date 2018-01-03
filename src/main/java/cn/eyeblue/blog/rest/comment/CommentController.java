@@ -145,6 +145,11 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     @Override
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
+
+        Comment comment = this.check(uuid);
+
+        comment.setIsReport(reportService.isReported(uuid));
+
         return super.detail(uuid);
     }
 
