@@ -26,12 +26,24 @@ public class ServerConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String[] CLASSPATH_RESOURCE_LOCATIONS = new String[1];
+        //Freemarker使用到的
+        String[] staticLocations1 = new String[1];
         if (config.isDebug()) {
-            CLASSPATH_RESOURCE_LOCATIONS[0] = "file://" + PathUtil.getSrcResourcesRootPath() + "/static/";
+            staticLocations1[0] = "file://" + PathUtil.getSrcResourcesRootPath() + "/static/";
         } else {
-            CLASSPATH_RESOURCE_LOCATIONS[0] = "classpath:/static/";
+            staticLocations1[0] = "classpath:/static/";
         }
-        registry.addResourceHandler("/static/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+        registry.addResourceHandler("/static/**").addResourceLocations(staticLocations1);
+
+
+        //后台前端使用到的。
+        String[] staticLocations2 = new String[1];
+        if (config.isDebug()) {
+            staticLocations2[0] = "file://" + PathUtil.getSrcResourcesRootPath() + "/bystatic/";
+        } else {
+            staticLocations2[0] = "classpath:/bystatic/";
+        }
+        registry.addResourceHandler("/bystatic/**").addResourceLocations(staticLocations2);
+
     }
 }

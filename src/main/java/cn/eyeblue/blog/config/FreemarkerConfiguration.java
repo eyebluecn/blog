@@ -48,10 +48,11 @@ public class FreemarkerConfiguration extends WebMvcConfigurerAdapter {
         FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();
 
         if (config.isDebug()) {
-            String uri = "file:" + PathUtil.getSrcResourcesRootPath() + "/frontend";
-            factory.setTemplateLoaderPaths(uri);
+            String uri1 = "file:" + PathUtil.getSrcResourcesRootPath() + "/lobby";
+            String uri2 = "file:" + PathUtil.getSrcResourcesRootPath() + "/bystatic";
+            factory.setTemplateLoaderPaths(uri1, uri2);
         } else {
-            factory.setTemplateLoaderPaths("classpath:frontend", "src/main/resources/frontend");
+            factory.setTemplateLoaderPaths("classpath:lobby", "src/main/resources/lobby", "classpath:bystatic", "src/main/resources/bystatic");
         }
 
         factory.setDefaultEncoding("UTF-8");
