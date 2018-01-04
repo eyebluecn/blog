@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BackyardController {
 
     /**
-     * 自动转跳到/by去。
+     * /by开头的请求全部交给index.html去处理，那里由vue-router负责。
      */
     @Feature(FeatureType.PUBLIC)
     @RequestMapping("/by/**")
