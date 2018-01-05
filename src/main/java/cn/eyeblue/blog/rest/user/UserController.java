@@ -130,6 +130,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
             if (count > 0) {
                 throw new UtilException("邮箱" + newEmail + "已经存在，请使用其他邮箱。");
             }
+            user.setEmailValidate(false);
         }
 
         user = userDao.save(user);
@@ -463,7 +464,6 @@ public class UserController extends BaseEntityController<User, UserForm> {
         return success("验证成功，请登录网站后台查看身份详情！");
 
     }
-
 
 
 }
