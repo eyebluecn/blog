@@ -141,7 +141,7 @@
                     <!-- 版本号：cn.eyeblue.blog:1.0.0 -->
                     <!-- 开源不易，请不要移除掉这里的代码，蓝眼博客谢谢您 ^_^ -->
                     <div>
-                        Powered by <a href="#"><img class="w30" src="/static/img/eyeblue.png"/> 蓝眼博客</a>
+                        Powered by <a href="https://github.com/eyebluecn/blog" target="_blank"><img class="w20" src="/static/img/eyeblue-blog.png"/> 蓝眼博客</a>
                     </div>
                 </div>
             </div>

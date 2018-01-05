@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
@@ -439,7 +440,9 @@ public class UserController extends BaseEntityController<User, UserForm> {
      */
     @RequestMapping(value = "/email/validate")
     @Feature(FeatureType.PUBLIC)
-    public WebResult emailValidate(@RequestParam String code) {
+    public WebResult emailValidate(@RequestParam String code,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response) throws IOException {
 
         SupportValidation supportValidation = supportValidationDao.findByCodeAndTypeAndDeleted(code, SupportValidation.Type.VALIDATION, false);
 
@@ -459,9 +462,12 @@ public class UserController extends BaseEntityController<User, UserForm> {
             supportValidation.setDeleted(true);
             supportValidationDao.save(supportValidation);
 
-        }
+            String host = request.getHeader("Host");
+            String url = "http://" + host + "/by/user/profile/" + userUuid;
+            response.sendRedirect(url);
+            return success("验证成功，请登录网站后台查看身份详情！");
 
-        return success("验证成功，请登录网站后台查看身份详情！");
+        }
 
     }
 
