@@ -4,15 +4,15 @@
     <property name="PATTERN" value="%d{yyyy/MM/dd-HH:mm:ss} %level [%thread] - %class{36}.%M %L - %msg%n"/>
 
     <!-- test文件路径 -->
-    <property name="FILE_PATH" value="/var/log"/>
+    <property name="FILE_PATH" value="/var/log/eyeblue"/>
 
     <!-- 每天产生一个文件 -->
-    <appender name="CANGOWIN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="BLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
         <file>${FILE_PATH}/eyeblue_blog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 文件名称 -->
-            <fileNamePattern>${FILE_PATH}/eyeblue_blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${FILE_PATH}/blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 文件最大保存历史数量 -->
             <MaxHistory>100</MaxHistory>
             <maxFileSize>50MB</maxFileSize>
@@ -31,7 +31,7 @@
 
 
     <root level="info">
-        <appender-ref ref="CANGOWIN_FILE"/>
+        <appender-ref ref="BLOG_FILE"/>
     </root>
 
 </configuration>

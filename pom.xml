@@ -94,11 +94,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!--freemarker-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
 
         <!--用于freemarker模板继承的-->
         <dependency>
@@ -127,6 +122,7 @@
     <build>
 
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -150,9 +146,26 @@
                         </annotationProcessorPath>
 
                     </annotationProcessorPaths>
+
                 </configuration>
 
+            </plugin>
 
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.8.RELEASE</version>
+                <configuration>
+                    <mainClass>cn.eyeblue.blog.BlogApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
