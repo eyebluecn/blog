@@ -410,7 +410,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
         Preference preference = preferenceService.fetch();
         String host = request.getHeader("Host");
-        String url = "http://" + host + "/api/email/validate?code=" + code;
+        String url = "http://" + host + "/api/user/email/validate?code=" + code;
         String appName = preference.getName();
         String html = "<p>您好：</p><p>您注册了" + appName + "，为确保您的帐号安全，请点击以下链接验证邮箱：</p><p><a href=\"" + url + "\">绑定邮箱</a></p><p>如果以上链接无法点击，请将地址<a href=\"" + url + "\">" + url + "</a>手动复制到浏览器地址栏中访问。</p><p>请在 24 小时内完成验证，此链接将在您使用过一次后失效。</p><p>如果您没有注册，请忽略此邮件。</p><p><br></p><p>" + appName + "团队</p><p><br></p>";
 
@@ -460,7 +460,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
         }
 
-        return success("验证成功！");
+        return success("验证成功，请登录网站后台查看身份详情！");
 
     }
 
