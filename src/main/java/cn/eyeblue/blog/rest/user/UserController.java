@@ -4,19 +4,27 @@ import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.WebResult;
+import cn.eyeblue.blog.rest.common.MailService;
+import cn.eyeblue.blog.rest.common.NotificationResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
+import cn.eyeblue.blog.rest.preference.Preference;
+import cn.eyeblue.blog.rest.preference.PreferenceService;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSession;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
+import cn.eyeblue.blog.rest.support.validation.SupportValidation;
+import cn.eyeblue.blog.rest.support.validation.SupportValidationDao;
 import cn.eyeblue.blog.rest.tank.TankService;
 import cn.eyeblue.blog.rest.user.knock.UserKnock;
 import cn.eyeblue.blog.rest.user.knock.UserKnockService;
 import cn.eyeblue.blog.util.NetworkUtil;
+import cn.eyeblue.blog.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,7 +64,19 @@ public class UserController extends BaseEntityController<User, UserForm> {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    Md5PasswordEncoder md5PasswordEncoder;
+
+    @Autowired
     SupportCaptchaService supportCaptchaService;
+
+    @Autowired
+    PreferenceService preferenceService;
+
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    SupportValidationDao supportValidationDao;
 
     public UserController() {
         super(User.class);
@@ -363,6 +384,86 @@ public class UserController extends BaseEntityController<User, UserForm> {
         return success();
 
     }
+
+    /**
+     * 验证邮箱第一步：发送验证邮件
+     */
+    @RequestMapping(value = "/email/send")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult emailSend(
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
+        User user = checkUser();
+
+        String email = user.getEmail();
+        if (!ValidationUtil.isEmail(email)) {
+            throw new UtilException("您的邮箱格式不正确，请在个人页面完善好后再进行验证。");
+        }
+
+        User dbUser = userDao.findOne(user.getUuid());
+        if (dbUser.getEmailValidate()) {
+            throw new UtilException("您的邮箱已经验证通过，请勿重复验证！");
+        }
+
+        String code = md5PasswordEncoder.encodePassword(user.getEmail() + System.currentTimeMillis(), null);
+
+        Preference preference = preferenceService.fetch();
+        String host = request.getHeader("Host");
+        String url = "http://" + host + "/api/email/validate?code=" + code;
+        String appName = preference.getName();
+        String html = "<p>您好：</p><p>您注册了" + appName + "，为确保您的帐号安全，请点击以下链接验证邮箱：</p><p><a href=\"" + url + "\">绑定邮箱</a></p><p>如果以上链接无法点击，请将地址<a href=\"" + url + "\">" + url + "</a>手动复制到浏览器地址栏中访问。</p><p>请在 24 小时内完成验证，此链接将在您使用过一次后失效。</p><p>如果您没有注册，请忽略此邮件。</p><p><br></p><p>" + appName + "团队</p><p><br></p>";
+
+        NotificationResult result = mailService.htmlSend(user.getEmail(), "【" + appName + "】您正在验证邮箱", html);
+
+        if (result.getStatus() == NotificationResult.Status.OK) {
+
+            SupportValidation supportValidation = new SupportValidation();
+            supportValidation.setUserUuid(user.getUuid());
+            supportValidation.setEmail(email);
+            supportValidation.setCode(code);
+            supportValidation.setType(SupportValidation.Type.VALIDATION);
+
+            supportValidationDao.save(supportValidation);
+
+            return success();
+        } else {
+            throw new UtilException(result.getMessage());
+        }
+
+    }
+
+    /**
+     * 验证邮箱第二步：验证邮箱
+     */
+    @RequestMapping(value = "/email/validate")
+    @Feature(FeatureType.PUBLIC)
+    public WebResult emailValidate(@RequestParam String code) {
+
+        SupportValidation supportValidation = supportValidationDao.findByCodeAndTypeAndDeleted(code, SupportValidation.Type.VALIDATION, false);
+
+        if (supportValidation == null) {
+            throw new UtilException("您的邮箱未能验证通过！");
+        } else if (System.currentTimeMillis() - supportValidation.createTime.getTime() > SupportValidation.EXPIRE_INTERVAL) {
+            throw new UtilException("验证链接已过期，请重新验证！");
+        } else {
+
+            String userUuid = supportValidation.getUserUuid();
+            User user = userDao.findOne(userUuid);
+            user.setEmailValidate(true);
+
+            userDao.save(user);
+
+            //让链接过期
+            supportValidation.setDeleted(true);
+            supportValidationDao.save(supportValidation);
+
+        }
+
+        return success("验证成功！");
+
+    }
+
 
 
 }

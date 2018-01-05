@@ -1,9 +1,9 @@
 package cn.eyeblue.blog.rest.common;
 
+import cn.eyeblue.blog.rest.preference.Preference;
+import cn.eyeblue.blog.rest.preference.PreferenceService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,15 +18,25 @@ import javax.mail.internet.MimeUtility;
 @Slf4j
 @Service
 public class MailService {
+
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Autowired
     private MailProperties mailProperties;
 
-    @Getter
-    private String mailNickname = "蓝眼博客";
+    @Autowired
+    private PreferenceService preferenceService;
 
+    private String mailNickname = null;
+
+    public String getMailNickname() {
+        if (this.mailNickname == null) {
+            Preference preference = preferenceService.fetch();
+            this.mailNickname = preference.getName();
+        }
+        return this.mailNickname;
+    }
 
     //send simple email. without html
     public void textSend(String emailTo, String subject, String content) {
@@ -49,7 +59,7 @@ public class MailService {
         MimeMessageHelper helper = new MimeMessageHelper(msg);
 
         try {
-            String nick = MimeUtility.encodeText(mailNickname);
+            String nick = MimeUtility.encodeText(getMailNickname());
             helper.setFrom(nick + " <" + mailProperties.getUsername() + ">");
             helper.setTo(emailTo);
             helper.setSubject(subject);

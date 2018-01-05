@@ -57,6 +57,9 @@ public class User extends BaseEntity {
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date lastTime;
 
+    //邮箱是否已经验证
+    private Boolean emailValidate = false;
+
     @Transient
     private Tank avatar;
 
