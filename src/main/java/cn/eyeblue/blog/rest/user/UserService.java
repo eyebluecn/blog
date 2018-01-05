@@ -14,6 +14,8 @@ import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.tank.TankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
@@ -28,6 +30,15 @@ import java.util.Date;
 @Service
 public class UserService extends BaseEntityService<User> {
 
+    @Value("${admin.username}")
+    private String adminUsername;
+
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
     @Autowired
     UserDao userDao;
 
@@ -37,12 +48,31 @@ public class UserService extends BaseEntityService<User> {
     @Autowired
     TankService tankService;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
     SupportSessionDao supportSessionDao;
 
     public UserService() {
         super(User.class);
+    }
+
+    //初始化一个超级管理员。
+    public void initAdmin() {
+        long count = userDao.count();
+        if (count > 0) {
+            return;
+        }
+        User user = new User();
+        user.setUsername(adminUsername);
+        user.setEmail(adminEmail);
+        user.setPassword(bCryptPasswordEncoder.encode(adminPassword));
+        user.setRole(User.Role.ADMIN);
+
+        userDao.save(user);
+
     }
 
     //获取用户详情
