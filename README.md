@@ -1,6 +1,6 @@
 ![蓝眼博客logo](https://github.com/eyebluecn/blog/blob/master/src/main/resources/static/img/logo.png?raw=true)
 
-# 蓝眼云盘
+# 蓝眼博客
 
 ##### [在线Demo](http://blog.eyeblue.cn)
 
@@ -100,12 +100,12 @@ cd 应用目录路径
 
 #### c) 验证
 
-浏览器中打开 http://127.0.0.1:6020 (127.0.0.1请使用服务器所在ip，6020请使用配置的`ServerPort`) 可以看到以下登录页面：
+浏览器中打开 http://127.0.0.1:6020 (127.0.0.1请使用服务器所在ip，6020请使用配置的`ServerPort`) 可以看到以下首页页面：
 
-![蓝眼云盘登录页面](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/login.png)
+![蓝眼博客首页](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/login.png)
 
-使用上方配置文件中的邮箱和密码登录后可以看到如下界面：
-![蓝眼云盘登录页面](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/matters.png)
+访问`http://127.0.0.1:6020/by`可看到后台管理页面，使用配置项中的超级管理员邮箱和密码即可登录
+![蓝眼博客后台](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/matters.png)
 
 ### 使用源代码自行打包
 
@@ -115,63 +115,30 @@ cd 应用目录路径
 
 2. Mysql数据库
 
-3. clone本项目
+3. 安装好java8，配置妥当`JAVA_HOME`
 
-4. 安装Golang，环境变量 `GOPATH`配置到工程目录，建议工程目录结构如下：
-
-```
-golang                                          #环境变量GOPATH所在路径
-├── bin                                         #编译生成的可执行文件目录
-├── pkg                                         #编译生成第三方库
-├── src                                         #golang工程源代码
-│   ├── github.com                              #来自github的第三方库
-│   ├── golang.org                              #来自golang.org的第三方库
-│   ├── tank                                    #clone下来的tank根目录
-│   │   ├── build                               #用来辅助打包的文件夹
-│   │   │   ├── conf                            #默认的配置文件
-│   │   │   ├── doc                             #文档
-│   │   │   ├── html                            #前端静态资源，从项目tank-front编译获得
-│   │   │   ├── pack                            #打包的脚本
-│   │   │   ├── service                         #将tank当作服务启动的脚本
-│   │   ├── dist                                #运行打包脚本后获得的安装包目录
-│   │   ├── rest                                #golang源代码
-      
-```
-
-5. 准备项目依赖的第三方库
-
-- golang.org/x
-- github.com/disintegration/imaging
-- github.com/json-iterator/go
-- github.com/go-sql-driver/mysql
-- github.com/jinzhu/gorm
-- github.com/nu7hatch/gouuid
-
-其中`golang.org/x`国内无法下载，请从[这里](https://github.com/eyebluecn/golang.org)下载，并按上文推荐的目录结构放置。其余依赖项均可通过安装脚本自动下载。
+4. clone本项目
 
 #### b) 打包
 
-- windows平台双击运行 `tank/build/pack/build.bat`，成功之后可在`tank/dist`下看到`tank-x.x.x`文件夹，该文件夹即为最终安装包。
+- windows平台双击运行 `mvnw.cmd install`，成功之后可在`target`下看到`blog-x.x.x.jar`文件，该文件和`doc/script/startup.bat`即组成安装包
 
 - linux平台运行如下命令：
 ```
-cd tank/build/pack/
-./build.sh
+./doc/script/pack.sh
 ```
-成功之后可在`tank/dist`下看到`tank-x.x.x.linux-amd64.tar.gz`
+成功之后可在`target`下看到`blog-x.x.x.linux.tar.gz`
 
 利用得到的安装包即可参考上文的`使用安装包安装`。
 
 
 ### 文档
 
-[蓝眼云盘后端api](https://github.com/eyebluecn/tank/blob/master/build/doc/api_zh.md)
-
-[蓝眼云盘编程接口](https://github.com/eyebluecn/tank/blob/master/build/doc/alien_zh.md)
+正在完善中...
 
 ### Contribution
 
-感谢所有蓝眼云盘的贡献者 [@zicla](https://github.com/zicla)，[@seaheart](https://github.com/seaheart)，[@yemuhe](https://github.com/yemuhe)，[@hxsherry](https://github.com/hxsherry)
+感谢所有蓝眼博客的贡献者 [@zicla](https://github.com/zicla)，[@seaheart](https://github.com/seaheart)，[@yemuhe](https://github.com/yemuhe)，[@hxsherry](https://github.com/hxsherry)
 
 如果您也想参与进来，请尽情的fork, star, post issue, pull requests
 
