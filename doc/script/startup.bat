@@ -23,8 +23,8 @@ rem email configs
 set MailProtocol=smtps
 set MailHost=smtp.126.com
 set MailPort=465
-set MailUsername=ziclax@126.com
-set MailPassword=Ziclax123
+set MailUsername=eyeblue@126.com
+set MailPassword=eyeblue_password
 set MailDefaultEncoding=UTF-8
 
 
