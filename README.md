@@ -102,10 +102,10 @@ cd 应用目录路径
 
 浏览器中打开 http://127.0.0.1:6020 (127.0.0.1请使用服务器所在ip，6020请使用配置的`ServerPort`) 可以看到以下首页页面：
 
-![蓝眼博客首页](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/login.png)
+![蓝眼博客首页](https://github.com/eyebluecn/blog/blob/master/doc/screenshot/home.png)
 
 访问`http://127.0.0.1:6020/by`可看到后台管理页面，使用配置项中的超级管理员邮箱和密码即可登录
-![蓝眼博客后台](https://raw.githubusercontent.com/eyebluecn/tank/master/build/doc/img/matters.png)
+![蓝眼博客后台](https://github.com/eyebluecn/blog/blob/master/doc/screenshot/backyard.png)
 
 ### 使用源代码自行打包
 
