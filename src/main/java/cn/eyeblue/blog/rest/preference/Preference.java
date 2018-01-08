@@ -63,7 +63,7 @@ public class Preference extends BaseEntity {
         preference.setMenuName1("首页");
         preference.setMenuUrl1("/");
 
-        preference.setFooterLine1("CopyRight 2017&copyright;蓝眼博客 版权所有");
+        preference.setFooterLine1("CopyRight 2017&copy;蓝眼博客 版权所有");
         preference.setFooterLine2("<a href=\"http://www.miitbeian.gov.cn\" target=\"_blank\">沪ICP备14038360号-2</a>");
 
         preference.setVersion("1.0.0");
