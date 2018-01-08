@@ -28,7 +28,7 @@ set MailPassword=Ziclax123
 set MailDefaultEncoding=UTF-8
 
 
-set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUserName% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%$TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
+set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUserName% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
 
 
 if not "%JRE_HOME%" == "" goto gotJreHome
@@ -61,10 +61,10 @@ rem Also note the quoting as JRE_HOME may contain spaces.
 set _RUNJAVA="%JRE_HOME%\bin\java.exe"
 :gotRunJava
 
-if "%TITLE%" == "" set TITLE=Light-ConfigCenter
+if "%TITLE%" == "" set TITLE=blog-1.0.0
 set _EXECJAVA=start "%TITLE%" %_RUNJAVA%
 
-%_EXECJAVA% -Daddress.server.ip=%SERVER_IP% -jar edas-config-center.jar
+%_EXECJAVA% %OPTS% -jar blog-1.0.0.jar
 goto end
 
 :end
