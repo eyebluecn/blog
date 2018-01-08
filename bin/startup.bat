@@ -1,83 +1,70 @@
-@if "%DEBUG%" == "" echo off
-@rem ##########################################################################
-@rem
-@rem  Blog start script for Windows
-@rem
-@rem ##########################################################################
+@echo on
+
+setlocal
+
+rem configs
+set ServerPort=6020
+rem mysql configs
+set MysqlPort=3306,
+set MysqlHost=127.0.0.1
+set MysqlSchema=tank
+set MysqlUserName=tank
+set MysqlPassword=tank123
+set MysqlUrl="jdbc:mysql://%MysqlHost%:%MysqlPort%/%MysqlSchema%?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
+rem tank configs
+set TankUrl="http://tank.eyeblue.cn"
+set TankEmail=blog_dev@tank.eyeblue.cn
+set TankPassword=123456
+rem admin configs
+set AdminUsername=admin
+set AdminEmail=admin@blog.eyeblue.cn
+set AdminPassword=123456
+rem email configs
+set MailProtocol=smtps
+set MailHost=smtp.126.com
+set MailPort=465
+set MailUsername=ziclax@126.com
+set MailPassword=Ziclax123
+set MailDefaultEncoding=UTF-8
 
 
-
-@REM ==== START VALIDATION ====
-if "%GOPATH%"=="" (
-    echo The GOPATH environment variable is not defined correctly
-    goto end
-)
-
-set PRE_DIR=%cd%
-
-@rem version name
-set VERSION_NAME=tank-1.0.0
-
-cd %GOPATH%
-
-echo golang.org . Please download from: https://github.com/eyebluecn/golang.org and put in the directory with same level of github.com
-@rem echo go get golang.org/x
-@rem go get golang.org/x
-
-@rem resize image
-echo go get github.com/disintegration/imaging
-go get github.com/disintegration/imaging
-
-@rem json parser
-echo go get github.com/json-iterator/go
-go get github.com/json-iterator/go
+set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUserName% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%$TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
 
 
-@rem mysql
-echo go get github.com/go-sql-driver/mysql
-go get github.com/go-sql-driver/mysql
+if not "%JRE_HOME%" == "" goto gotJreHome
+if not "%JAVA_HOME%" == "" goto gotJavaHome
+echo Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+echo At least one of these environment variable is needed to run this program
+goto end
 
-@rem dao database
-echo go get github.com/jinzhu/gorm
-go get github.com/jinzhu/gorm
+:gotJavaHome
+rem No JRE given, use JAVA_HOME as JRE_HOME
+set "JRE_HOME=%JAVA_HOME%"
 
+:gotJreHome
+rem Check if we have a usable JRE
+if not exist "%JRE_HOME%\bin\java.exe" goto noJreHome
+if not exist "%JRE_HOME%\bin\javaw.exe" goto noJreHome
+goto okJava
 
-@rem uuid
-echo go get github.com/nu7hatch/gouuid
-go get github.com/nu7hatch/gouuid
+:noJreHome
+rem Needed at least a JRE
+echo The JRE_HOME environment variable is not defined correctly
+echo This environment variable is needed to run this program
+goto exit
 
-echo build tank ...
-go install tank
+:okJava
+rem Don't override _RUNJAVA if the user has set it previously
+if not "%_RUNJAVA%" == "" goto gotRunJava
+rem Set standard command for invoking Java.
+rem Also note the quoting as JRE_HOME may contain spaces.
+set _RUNJAVA="%JRE_HOME%\bin\java.exe"
+:gotRunJava
 
-echo packaging
+if "%TITLE%" == "" set TITLE=Light-ConfigCenter
+set _EXECJAVA=start "%TITLE%" %_RUNJAVA%
 
-set distFolder=%GOPATH%\src\tank\dist
-if not exist %distFolder% (
-    md %distFolder%
-)
+%_EXECJAVA% -Daddress.server.ip=%SERVER_IP% -jar edas-config-center.jar
+goto end
 
-set distPath=%distFolder%\%VERSION_NAME%
-if exist %distPath% (
-    echo clear %distPath%
-    rmdir /s/q %distPath%
-)
-
-echo create directory %distPath%
-md %distPath%
-
-echo copying tank.exe
-copy %GOPATH%\bin\tank.exe %distPath%
-
-echo copying build
-xcopy %GOPATH%\src\tank\build %distPath% /e/h
-
-echo "remove pack"
-rmdir /s/q %distPath%\pack
-
-echo "remove service"
-rmdir /s/q %distPath%\service
-
-cd %PRE_DIR%
-
-echo check the dist file in %distPath%
-echo finish!
+:end

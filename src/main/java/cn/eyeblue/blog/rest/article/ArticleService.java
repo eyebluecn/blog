@@ -1,14 +1,14 @@
 package cn.eyeblue.blog.rest.article;
 
-import cn.eyeblue.blog.rest.comment.Comment;
-import cn.eyeblue.blog.rest.common.MailService;
-import cn.eyeblue.blog.rest.common.NotificationResult;
-import cn.eyeblue.blog.rest.histroy.History;
-import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import cn.eyeblue.blog.rest.base.Pager;
+import cn.eyeblue.blog.rest.comment.Comment;
 import cn.eyeblue.blog.rest.comment.CommentDao;
+import cn.eyeblue.blog.rest.common.MailService;
+import cn.eyeblue.blog.rest.common.NotificationResult;
 import cn.eyeblue.blog.rest.core.FeatureType;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.tag.TagService;
 import cn.eyeblue.blog.rest.tank.TankService;
@@ -209,6 +209,14 @@ public class ArticleService extends BaseEntityService<Article> {
     public void emailComment(Article article, Comment comment, String host) {
 
         User user = userService.check(article.getUserUuid());
+
+        //如果文章不接受评论或者用户邮箱没有通过验证，则不发送。
+        if (!article.getNeedNotify()) {
+            return;
+        }
+        if (!user.getEmailValidate()) {
+            return;
+        }
 
         String url = "http://" + host + "/home/article/" + article.getUuid();
         String html = "您的文章《" + article.getTitle() + "》收到了用户\"" + comment.getName() + "\"的评论\"" + comment.getContent() + "\"。<a href=\"" + url + "\">点击查看</a>";
