@@ -54,17 +54,17 @@ public class Preference extends BaseEntity {
         Preference preference = new Preference();
 
         preference.setName("蓝眼博客");
-        preference.setLogoUrl("/static/img/logo.png");
+        preference.setLogoUrl(null);
         preference.setLogoTankUuid(null);
         preference.setLogoTankUuid(null);
-        preference.setFaviconUrl("/static/img/favicon.ico");
+        preference.setFaviconUrl(null);
         preference.setFaviconTankUuid(null);
 
         preference.setMenuName1("首页");
         preference.setMenuUrl1("/");
 
         preference.setFooterLine1("CopyRight 2017&copyright;蓝眼博客 版权所有");
-        preference.setFooterLine1("<a href=\"http://www.miitbeian.gov.cn\" target=\"_blank\">沪ICP备14038360号-2</a>");
+        preference.setFooterLine2("<a href=\"http://www.miitbeian.gov.cn\" target=\"_blank\">沪ICP备14038360号-2</a>");
 
         preference.setVersion("1.0.0");
 

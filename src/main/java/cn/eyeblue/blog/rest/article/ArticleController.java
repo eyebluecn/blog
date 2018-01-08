@@ -112,7 +112,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     }
 
 
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     @RequestMapping("/page")
     public WebResult page(
             @RequestParam(required = false, defaultValue = "0") Integer page,
