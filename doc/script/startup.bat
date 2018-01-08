@@ -7,9 +7,9 @@ set ServerPort=6020
 rem mysql configs
 set MysqlPort=3306,
 set MysqlHost=127.0.0.1
-set MysqlSchema=tank
-set MysqlUserName=tank
-set MysqlPassword=tank123
+set MysqlSchema=blog
+set MysqlUserName=blog
+set MysqlPassword=blog123
 set MysqlUrl="jdbc:mysql://%MysqlHost%:%MysqlPort%/%MysqlSchema%?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
 rem tank configs
 set TankUrl="http://tank.eyeblue.cn"
