@@ -38,8 +38,8 @@ public class TankService extends BaseEntityService<Tank> {
     TankDao tankDao;
 
     @Getter
-    @Value("${tank.host}")
-    private String tankHost;
+    @Value("${tank.url}")
+    private String tankUrl;
 
     @Getter
     @Value("${tank.email}")
@@ -114,7 +114,7 @@ public class TankService extends BaseEntityService<Tank> {
     //从远程去获取uploadToken.
     public Tank httpFetchUploadToken(String filename, boolean privacy, long size, User operator) {
 
-        TankMessage<UploadToken> tankMessage = this.doPost(this.tankHost + URL_FETCH_UPLOAD_TOKEN, new HashMap<String, String>() {{
+        TankMessage<UploadToken> tankMessage = this.doPost(this.tankUrl + URL_FETCH_UPLOAD_TOKEN, new HashMap<String, String>() {{
             put("email", TankService.this.tankEmail);
             put("password", TankService.this.tankPassword);
             put("filename", filename);
@@ -138,7 +138,7 @@ public class TankService extends BaseEntityService<Tank> {
 
         //附上用户上传需要的内容。
         tank.setUploadTokenUuid(uploadToken.getUuid());
-        tank.setUploadUrl(tankHost + URL_UPLOAD);
+        tank.setUploadUrl(tankUrl + URL_UPLOAD);
         return tank;
     }
 
@@ -150,7 +150,7 @@ public class TankService extends BaseEntityService<Tank> {
             throw new UtilException("文件已经被确认了，请勿重复操作。");
         }
 
-        TankMessage<Matter> tankMessage = this.doPost(this.tankHost + URL_CONFIRM, new HashMap<String, String>() {{
+        TankMessage<Matter> tankMessage = this.doPost(this.tankUrl + URL_CONFIRM, new HashMap<String, String>() {{
             put("email", TankService.this.tankEmail);
             put("password", TankService.this.tankPassword);
             put("matterUuid", matterUuid);
@@ -174,7 +174,7 @@ public class TankService extends BaseEntityService<Tank> {
 
         tank.setMatterUuid(matterUuid);
         tank.setConfirmed(true);
-        tank.setUrl(this.tankHost + URL_DOWNLOAD + "/" + matterUuid + "/" + tank.getName());
+        tank.setUrl(this.tankUrl + URL_DOWNLOAD + "/" + matterUuid + "/" + tank.getName());
 
         tankDao.save(tank);
 
@@ -194,7 +194,7 @@ public class TankService extends BaseEntityService<Tank> {
         }
 
 
-        TankMessage<DownloadToken> tankMessage = this.doPost(this.tankHost + URL_FETCH_DOWNLOAD_TOKEN, new HashMap<String, String>() {{
+        TankMessage<DownloadToken> tankMessage = this.doPost(this.tankUrl + URL_FETCH_DOWNLOAD_TOKEN, new HashMap<String, String>() {{
             put("email", TankService.this.tankEmail);
             put("password", TankService.this.tankPassword);
             put("matterUuid", tank.getMatterUuid());

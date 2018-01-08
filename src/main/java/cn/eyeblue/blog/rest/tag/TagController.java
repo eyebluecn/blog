@@ -63,7 +63,10 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
         User operator = checkUser();
         Tag tag = form.create(operator);
 
-        //邮箱不能重复
+
+
+
+        //名字不能重复
         int count = tagDao.countByUserUuidAndNameAndDeletedFalse(operator.getUuid(), tag.getName());
         if (count > 0) {
             throw new UtilException("名称" + tag.getName() + "已经存在，请使用其他名称。");
@@ -75,7 +78,7 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult del(@PathVariable String uuid) {
         Tag tag = this.check(uuid);
 
@@ -88,7 +91,7 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
     }
 
     @Override
-    @Feature(FeatureType.USER_MANAGE)
+    @Feature(FeatureType.USER_MINE)
     public WebResult edit(@Valid TagForm form) {
         User operator = checkUser();
         Tag tag = this.check(form.getUuid());
