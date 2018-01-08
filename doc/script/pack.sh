@@ -15,7 +15,9 @@ cd ./target
 
 echo "compress to tar.gz"
 echo "tar -zcvf ./$FINAL_NAME $VERSION_NAME.jar $DIR/startup.sh $DIR/shutdown.sh"
-tar -zcvf ./$FINAL_NAME $VERSION_NAME.jar $DIR/startup.sh $DIR/shutdown.sh
+cp -rf $DIR/startup.sh ./
+cp -rf $DIR/shutdown.sh ./
+tar -zcvf ./$FINAL_NAME $VERSION_NAME.jar startup.sh shutdown.sh
 
 echo "check the dist file in $(pwd)"
 echo "finish pack!"
