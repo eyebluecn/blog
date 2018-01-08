@@ -1,6 +1,5 @@
 package cn.eyeblue.blog.config;
 
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class Config {
 
-    @Value("${spring.profiles.active}")
-    private String profilesActive;
+    @Value("${server.debug}")
+    private Boolean serverDebug;
 
 
     public boolean isDebug() {
-        return "dev".equals(this.profilesActive);
+        return serverDebug;
     }
 
 }
