@@ -38,8 +38,8 @@
         <script src="/static/js/home/article/detail.js"></script>
 
 
-    <#if article.isMarkdown>
-    <#--为了正常解析markdown文档-->
+        <#if article.isMarkdown>
+        <#--为了正常解析markdown文档-->
         <link href="/static/fork/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
         <script src="/static/fork/editor.md/lib/marked.min.js"></script>
         <script src="/static/fork/editor.md/lib/prettify.min.js"></script>
@@ -62,7 +62,7 @@
             });
         </script>
 
-    </#if>
+        </#if>
 
 
     </@layout.put>
@@ -82,6 +82,9 @@
             <div class="col-lg-10 col-lg-offset-1 col-lg-10 col-lg-offset-1">
 
                 <div class="article-title">
+                    <#if article.top>
+                        <i class="fa fa-rocket text-danger" title="置顶文章"></i>
+                    </#if>
                     ${article.title}
                 </div>
                 <div class="article-info">

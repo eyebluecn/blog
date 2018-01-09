@@ -90,6 +90,7 @@ public class ArticleService extends BaseEntityService<Article> {
 
         Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
 
+        //最先看top的排序，然后再是其他排序依据。
         if (orderTop != null) {
             sort = sort.and(new Sort(orderTop, Article_.top.getName()));
         }

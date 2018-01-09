@@ -36,7 +36,6 @@
             </div>
     </#if>
 
-
     <div class="media">
                         <#if article.posterUrl?? && article.posterUrl!="">
                         <div class="pull-right">
@@ -49,6 +48,9 @@
         <div class="media-body">
             <div class="title">
                 <a href="/home/article/${article.uuid}">
+                    <#if article.top>
+                        <i class="fa fa-rocket text-danger" title="置顶文章"></i>
+                    </#if>
                     ${article.title}
                 </a>
             </div>
