@@ -463,7 +463,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
             supportValidationDao.save(supportValidation);
 
             String host = request.getHeader("Host");
-            String url = "http://" + host + "/by/user/profile/" + userUuid;
+            String url = "http://" + host + "/by/user/detail/" + userUuid;
             response.sendRedirect(url);
             return success("验证成功，请登录网站后台查看身份详情！");
 

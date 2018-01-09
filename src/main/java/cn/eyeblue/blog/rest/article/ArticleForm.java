@@ -3,6 +3,7 @@ package cn.eyeblue.blog.rest.article;
 import cn.eyeblue.blog.config.AppContextManager;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityForm;
+import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tag.TagService;
 import cn.eyeblue.blog.rest.user.User;
@@ -91,7 +92,14 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setHtml(html);
         article.setWords(words);
         article.setPrivacy(privacy);
-        article.setTop(top);
+
+        //对于是否置顶，只有管理员有这个权限，其他人默认false.
+        if (operator.hasPermission(FeatureType.USER_MANAGE)) {
+            article.setTop(top);
+        } else {
+            article.setTop(false);
+        }
+
         article.setNeedNotify(needNotify);
 
         //tag比较复杂，后面统一设置。

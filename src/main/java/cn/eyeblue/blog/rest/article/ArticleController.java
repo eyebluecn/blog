@@ -1,13 +1,13 @@
 package cn.eyeblue.blog.rest.article;
 
 import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.histroy.History;
-import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
+import cn.eyeblue.blog.rest.histroy.History;
+import cn.eyeblue.blog.rest.histroy.HistoryDao;
 import cn.eyeblue.blog.rest.report.ReportService;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
@@ -198,5 +198,45 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         return success("取消点赞成功!");
     }
+
+
+    //置顶某篇文章
+    @RequestMapping("/top")
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult top(
+            @RequestParam String articleUuid) {
+
+        Article article = this.check(articleUuid);
+
+        if (article.getTop()) {
+            throw new UtilException("文章已经处于置顶状态，请勿重复操作。");
+        }
+
+        article.setTop(true);
+
+        articleDao.save(article);
+
+        return success("置顶成功!");
+    }
+
+    //取消点赞。
+    @RequestMapping("/cancel/top")
+    @Feature(FeatureType.USER_MANAGE)
+    public WebResult cancelTop(@RequestParam String articleUuid) {
+
+        Article article = this.check(articleUuid);
+
+
+        if (!article.getTop()) {
+            throw new UtilException("文章未处于置顶状态，请勿重复操作。");
+        }
+
+        article.setTop(false);
+
+        articleDao.save(article);
+
+        return success("取消置顶成功!");
+    }
+
 
 }
