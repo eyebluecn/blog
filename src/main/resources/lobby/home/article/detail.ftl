@@ -91,8 +91,13 @@
                     <div class="media">
                         <div class="pull-left">
                             <a href="/home/user/${article.user.uuid}">
-                                <img class="img-circle w50 h50"
-                                     src="${article.user.avatarUrl!"/static/img/avatar.png"}"/>
+
+                                <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
+                                    <img class="img-circle w50 h50" src="${article.user.avatarUrl}"/>
+                                <#else>
+                                    <img class="img-circle w50 h50" src="/static/img/avatar.png"/>
+                                </#if>
+
                             </a>
                         </div>
                         <div class="media-body">

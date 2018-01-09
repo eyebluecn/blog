@@ -3,9 +3,15 @@
 <div>
     <div class="text-center">
         <div>
-            <a href="${user.avatarUrl!"/static/img/avatar.png"}" target="_blank">
-                <img class="img-circle w100 h100" src="${user.avatarUrl!"/static/img/avatar.png"}"/>
+        <#if user.avatarUrl?? && user.avatarUrl!="">
+            <a href="${user.avatarUrl}" target="_blank">
+                <img class="img-circle w100 h100" src="${user.avatarUrl}"/>
             </a>
+        <#else>
+            <a href="/static/img/avatar.png" target="_blank">
+                <img class="img-circle w100 h100" src="/static/img/avatar.png"/>
+            </a>
+        </#if>
 
         </div>
         <div class="f18 bold mv15">
