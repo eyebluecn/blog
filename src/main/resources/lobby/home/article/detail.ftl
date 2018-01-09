@@ -5,8 +5,8 @@
     <@layout.put block="head" type="append">
 
     <#--首先引用vue-->
-        <script src="/static/node_modules/vue/dist/vue.min.js"></script>
-        <script src="/static/node_modules/vue-resource/dist/vue-resource.min.js"></script>
+        <script src="/static/fork/vue/dist/vue.min.js"></script>
+        <script src="/static/fork/vue-resource/dist/vue-resource.min.js"></script>
 
     <#--然后引用通用库-->
         <script src="/static/js/common/vue/util/Utils.js"></script>
@@ -40,15 +40,15 @@
 
     <#if article.isMarkdown>
     <#--为了正常解析markdown文档-->
-        <link href="/static/node_modules/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
-        <script src="/static/node_modules/editor.md/lib/marked.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/prettify.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/raphael.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/underscore.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/sequence-diagram.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/flowchart.min.js"></script>
-        <script src="/static/node_modules/editor.md/lib/jquery.flowchart.min.js"></script>
-        <script src="/static/node_modules/editor.md/editormd.js"></script>
+        <link href="/static/fork/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
+        <script src="/static/fork/editor.md/lib/marked.min.js"></script>
+        <script src="/static/fork/editor.md/lib/prettify.min.js"></script>
+        <script src="/static/fork/editor.md/lib/raphael.min.js"></script>
+        <script src="/static/fork/editor.md/lib/underscore.min.js"></script>
+        <script src="/static/fork/editor.md/lib/sequence-diagram.min.js"></script>
+        <script src="/static/fork/editor.md/lib/flowchart.min.js"></script>
+        <script src="/static/fork/editor.md/lib/jquery.flowchart.min.js"></script>
+        <script src="/static/fork/editor.md/editormd.js"></script>
         <script type="text/javascript">
             $(function () {
                 var testEditormdView2 = editormd.markdownToHTML("article-content", {

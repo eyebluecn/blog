@@ -22,16 +22,15 @@
         <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
     </#if>
 
-    <link href="/static/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/node_modules/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/fork/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/fork/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
 
-    <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/static/fork/jquery/dist/jquery.min.js"></script>
+    <script src="/static/fork/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script src="/static/node_modules/swiper/dist/js/swiper.jquery.min.js"></script>
-    <script src="/static/node_modules/velocity-animate/velocity.js"></script>
-    <script src="/static/node_modules/toastr/build/toastr.min.js"></script>
+    <script src="/static/fork/velocity-animate/velocity.js"></script>
+    <script src="/static/fork/toastr/build/toastr.min.js"></script>
 
     <script src="/static/js/common/widget/FtlPager.js"></script>
     <script src="/static/js/common/widget/FtlTab.js"></script>

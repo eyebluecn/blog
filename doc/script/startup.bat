@@ -5,7 +5,7 @@ setlocal
 rem configs
 set ServerPort=6020
 rem mysql configs
-set MysqlPort=3306,
+set MysqlPort=3306
 set MysqlHost=127.0.0.1
 set MysqlSchema=blog
 set MysqlUserName=blog
