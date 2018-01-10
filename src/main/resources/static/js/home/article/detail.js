@@ -19,6 +19,7 @@ $(function () {
             reportModel: false,
 
             articleUuid: null,
+            articleUserUuid: null,
             //文章原本的点赞数
             articleAgree: 0,
             //当前用户对于文章的点赞情况
@@ -164,6 +165,8 @@ $(function () {
             that.floorComment.isFloor = true
 
             var $articleAppendix = $(".article-appendix");
+            that.articleUserUuid = $articleAppendix.data("useruuid");
+            console.log("that.articleUserUuid", that.articleUserUuid)
             that.articleAgree = parseInt($articleAppendix.data("agree"));
             that.articleAgreed = $articleAppendix.data("agreed") === "true" || $articleAppendix.data("agreed") === true;
 

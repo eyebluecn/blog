@@ -178,6 +178,8 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             @RequestParam(required = false) Boolean needSubPager
     ) {
 
+        User user = findUser();
+
         Pager<Comment> pager = commentService.page(
 
                 page,
@@ -198,6 +200,10 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         pager.getData().forEach(comment1 -> {
             commentUuids.add(comment1.getUuid());
+
+            if (user == null) {
+                comment1.setEmail(null);
+            }
         });
 
 
@@ -221,6 +227,10 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
                 subPager.getData().forEach(comment1 -> {
                     commentUuids.add(comment1.getUuid());
+
+                    if (user == null) {
+                        comment1.setEmail(null);
+                    }
                 });
 
 

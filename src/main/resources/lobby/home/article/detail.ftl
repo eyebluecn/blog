@@ -140,7 +140,7 @@
                 </div>
 
                 <div id="interactive-area">
-                    <div class="article-appendix" data-agree="${article.agree}"
+                    <div class="article-appendix"  data-useruuid="${article.userUuid}" data-agree="${article.agree}"
                          data-agreed="${article.agreed?string('true','false')}">
 
 
@@ -178,8 +178,6 @@
 
                         <div class="col-xs-12">
                             <div id="comment-area">
-
-
                                 <div class="title-area">
                                 <span class="total">
                                     欢迎评论
@@ -202,8 +200,14 @@
                                                 <img class="img-circle img-sm" src="/static/img/avatar.png"/>
                                             </div>
                                             <div class="media-body">
-                                                <div class="f14 black">
-                                                    {{comment.name}}
+                                                <div class="f14">
+                                                    <span class="text-primary" v-if="comment.userUuid">
+                                                        <a :href="'/home/user/'+comment.userUuid" title="站内用户">
+                                                            {{comment.name}}
+                                                            <span class="text-warning" v-if="comment.userUuid == articleUserUuid">(作者)</span>
+                                                        </a>
+                                                    </span>
+                                                    <span v-else class="black">{{comment.name}}</span>
                                                 </div>
                                                 <div>
                                                     {{comment.createTime | simpleDateHourMinute}}
@@ -258,7 +262,17 @@
                                             <div class="sub-cell-area"
                                                  v-for="(subComment,subIndex) in comment.commentPager.data">
                                                 <div class="f15">
-                                                    <span class="black">{{subComment.name}}: </span>
+
+                                                    <span>
+                                                        <span class="text-primary" v-if="subComment.userUuid">
+                                                            <a :href="'/home/user/'+subComment.userUuid" title="站内用户">
+                                                                {{subComment.name}}
+                                                                <span class="text-warning" v-if="subComment.userUuid == articleUserUuid">(作者)</span>
+                                                            </a>
+                                                        </span>
+                                                        <span v-else class="black">{{subComment.name}}</span>
+                                                    </span>
+
                                                     <span>{{subComment.content}} </span>
                                                 </div>
                                                 <div class="f12">

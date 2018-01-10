@@ -163,6 +163,9 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     }
 
 
+    /**
+     * 返回当前登录的用户，如果没有登录返回null.
+     */
     protected User findUser() {
 
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
