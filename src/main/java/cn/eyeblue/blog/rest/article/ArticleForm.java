@@ -47,12 +47,12 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private Boolean isMarkdown = true;
 
     //内容
-    @Size(max = 100000, message = "markdown最长100000字")
+    @Size(max = 2147483647, message = "markdown最长2147483647字")
     private String markdown;
 
     //html
     @NotNull
-    @Size(min = 1, max = 100000, message = "html必填并且最长100000字")
+    @Size(min = 1, max = 2147483647, message = "html必填并且最长2147483647字")
     private String html;
 
     //文章字数
