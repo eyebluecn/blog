@@ -1,5 +1,38 @@
 # 蓝眼博客
 
+
+## 注意事项
+每次版本升级时需要修改以下内容。
+
+1. pom.xml
+    <version>1.0.1</version>
+
+2. doc/script/pack.sh
+    VERSION_NAME=blog-x.x.x
+
+3. doc/script/shutdown.sh
+    JAR_PATH=$DIR/blog-x.x.x.jar
+
+4. doc/script/startup.bat
+    set Version=x.x.x
+
+5. doc/script/startup.sh
+    JAR_PATH=$DIR/blog-x.x.x.jar
+
+6. application.properties
+    blog.version=x.x.x
+
+7. tank-front 修改 vuex/index.js
+    versionName: 'x.x.x'
+
+2018-01-12
+blog-1.0.1
+1.添加指定的功能和相应图标
+2.添加评论区头像，高亮，超链接功能
+3.添加从点击 Powered By 进入后台的隐藏功能
+4.增大了文章字数限制
+
+
 2018-01-09
 blog-1.0.0
 完成基本核心功能

@@ -14,6 +14,8 @@ public class Config {
     @Value("${server.debug}")
     private Boolean serverDebug;
 
+    @Value("blog.version")
+    private String blogVersion;
 
     public boolean isDebug() {
         return serverDebug;

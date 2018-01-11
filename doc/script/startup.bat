@@ -2,6 +2,8 @@
 
 setlocal
 
+set Version=1.0.1
+
 rem configs
 set ServerPort=6020
 rem mysql configs
@@ -61,10 +63,10 @@ rem Also note the quoting as JRE_HOME may contain spaces.
 set _RUNJAVA="%JRE_HOME%\bin\java.exe"
 :gotRunJava
 
-if "%TITLE%" == "" set TITLE=blog-1.0.0
+if "%TITLE%" == "" set TITLE=blog-%Version%
 set _EXECJAVA=start "%TITLE%" %_RUNJAVA%
 
-%_EXECJAVA% %OPTS% -jar blog-1.0.0.jar
+%_EXECJAVA% %OPTS% -jar blog-%Version%.jar
 goto end
 
 :end

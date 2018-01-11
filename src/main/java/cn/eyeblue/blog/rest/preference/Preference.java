@@ -1,5 +1,7 @@
 package cn.eyeblue.blog.rest.preference;
 
+import cn.eyeblue.blog.config.AppContextManager;
+import cn.eyeblue.blog.config.Config;
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.tank.Tank;
 import lombok.Data;
@@ -66,7 +68,8 @@ public class Preference extends BaseEntity {
         preference.setFooterLine1("CopyRight 2017&copy;蓝眼博客 版权所有");
         preference.setFooterLine2("<a href=\"http://www.miitbeian.gov.cn\" target=\"_blank\">沪ICP备14038360号-2</a>");
 
-        preference.setVersion("1.0.0");
+        Config config = AppContextManager.getBean(Config.class);
+        preference.setVersion(config.getBlogVersion());
 
         return preference;
     }
