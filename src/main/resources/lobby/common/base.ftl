@@ -143,7 +143,7 @@
                     <#if preference.footerLine2?? && preference.footerLine2!="">${preference.footerLine2}</#if>
                     </div>
 
-                    <!-- 版本号：cn.eyeblue.blog:1.0.0 -->
+                    <!-- 版本号：cn.eyeblue.blog:1.0.1 -->
                     <!-- 开源不易，请不要移除掉这里的代码，蓝眼博客谢谢您 ^_^ -->
                     <div>
                         <span class="shuiliandong">Powered by</span> <a href="https://github.com/eyebluecn/blog"
