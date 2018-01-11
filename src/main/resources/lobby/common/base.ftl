@@ -77,6 +77,11 @@
                         <a href="${preference.menuUrl5!""}"
                            target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
                     </#if>
+
+                    <#if session.user.role!="GUEST">
+                        <a href="/by" class="bold" target="_blank">${session.user.username}</a>
+                    </#if>
+
                     </div>
                     <div class="visible-xs pull-right">
                         <i class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></i>
@@ -141,10 +146,20 @@
                     <!-- 版本号：cn.eyeblue.blog:1.0.0 -->
                     <!-- 开源不易，请不要移除掉这里的代码，蓝眼博客谢谢您 ^_^ -->
                     <div>
-                        Powered by <a href="https://github.com/eyebluecn/blog" target="_blank"><img class="w20"
-                                                                                                    src="/static/img/eyeblue-blog.png"/>
+                        <span class="shuiliandong">Powered by</span> <a href="https://github.com/eyebluecn/blog"
+                                                                        target="_blank"><img
+                            class="w20"
+                            src="/static/img/eyeblue-blog.png"/>
                         蓝眼博客</a>
                     </div>
+                    <script type="text/javascript">
+                        <#--这里设置一个隐藏的后台入口，点击powered进入后台-->
+                        $(function () {
+                            $(".shuiliandong").click(function () {
+                                window.open("/by")
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>

@@ -16,6 +16,8 @@ function Comment() {
     this.puuid = null;
     //评论者姓名
     this.name = null;
+    //评论者头像
+    this.avatarUrl = null;
     //评论者邮箱
     this.email = null;
     //评论内容

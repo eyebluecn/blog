@@ -33,6 +33,9 @@ public class Comment extends BaseEntity {
     //评论者姓名
     private String name;
 
+    //评论者头像，只有站内的用户才有。
+    private String avatarUrl;
+
     //评论者邮箱
     private String email;
 

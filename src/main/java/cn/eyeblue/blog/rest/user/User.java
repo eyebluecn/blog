@@ -105,7 +105,11 @@ public class User extends BaseEntity {
 
     //角色
     public enum Role {
+        //游客角色不会持久化到数据库
+        GUEST,
+        //普通注册用户
         USER,
+        //管理员
         ADMIN
     }
 

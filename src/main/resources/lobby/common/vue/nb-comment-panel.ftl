@@ -6,13 +6,13 @@
         <div class="row">
             <label class="col-sm-2 control-label">昵称</label>
             <div class="col-sm-10">
-                <input type="text" v-model="comment.name" placeholder="输入您的称呼" class="form-control">
+                <input type="text" v-model="comment.name" :disabled="!(!userUsername)" placeholder="输入您的称呼" class="form-control">
             </div>
         </div>
         <div class="row mt10">
             <label class="col-sm-2 control-label">联系方式</label>
             <div class="col-sm-10">
-                <input type="text" v-model="comment.email" placeholder="输入您的邮箱或手机号，不公开" class="form-control">
+                <input type="text" v-model="comment.email" :disabled="!(!userEmail)" placeholder="输入您的邮箱或手机号，不公开" class="form-control">
             </div>
         </div>
         <div class="row mt10">
@@ -54,6 +54,14 @@
             comment: {
                 type: Comment,
                 required: true
+            },
+            userUsername: {
+                type: String,
+                required: false
+            },
+            userEmail: {
+                type: String,
+                required: false
             }
         },
         computed: {},
@@ -71,10 +79,27 @@
                 })
             }
         },
+        created:function () {
+            console.log("panel created")
+
+            console.log(this.userUsername)
+            console.log(this.userEmail)
+        },
         mounted: function () {
 
-            //从本地加载持久化的姓名。
-            this.comment.loadNameAndEmail()
+            console.log("panel mounted")
+
+            console.log(this.userUsername)
+            console.log(this.userEmail)
+
+            if (this.userUsername && this.userEmail) {
+                this.comment.name = this.userUsername
+                this.comment.email = this.userEmail
+            } else {
+                //从本地加载持久化的姓名。
+                this.comment.loadNameAndEmail()
+            }
+
 
         }
     })

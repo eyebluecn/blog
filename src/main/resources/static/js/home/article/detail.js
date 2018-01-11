@@ -23,7 +23,13 @@ $(function () {
             //文章原本的点赞数
             articleAgree: 0,
             //当前用户对于文章的点赞情况
-            articleAgreed: false
+            articleAgreed: false,
+            //当前登录的用户
+            userUuid: null,
+            //用户昵称
+            userUsername: null,
+            //用户邮箱
+            userEmail: null
         },
         methods: {
             refresh: function () {
@@ -153,23 +159,30 @@ $(function () {
 
         },
 
-        mounted: function () {
+        created: function () {
 
             var that = this
 
             var arr = window.location.pathname.split("/")
             that.articleUuid = arr[arr.length - 1]
-            that.refresh();
+
 
             that.floorComment.articleUuid = that.articleUuid
             that.floorComment.isFloor = true
 
             var $articleAppendix = $(".article-appendix");
-            that.articleUserUuid = $articleAppendix.data("useruuid");
-            console.log("that.articleUserUuid", that.articleUserUuid)
+            that.articleUserUuid = $articleAppendix.data("articleuseruuid");
+            that.userUuid = $articleAppendix.data("useruuid");
+            that.userUsername = $articleAppendix.data("userusername");
+            that.userEmail = $articleAppendix.data("useremail");
             that.articleAgree = parseInt($articleAppendix.data("agree"));
             that.articleAgreed = $articleAppendix.data("agreed") === "true" || $articleAppendix.data("agreed") === true;
 
+
+        },
+        mounted: function () {
+
+            this.refresh();
         }
     });
 

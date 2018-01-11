@@ -4,6 +4,7 @@ import cn.eyeblue.blog.config.AppContextManager;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.lobby.home.HomeController;
 import cn.eyeblue.blog.rest.preference.PreferenceService;
+import cn.eyeblue.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -36,24 +38,8 @@ public class FrontendAspect {
     }
 
 
-    //设置home的菜单
-    private void initHomeTestMenus(Model model, String currentUrl) {
-
-    }
-
     //设置home_test的菜单
     private void initHomeMenus(Model model, String currentUrl) {
-
-    }
-
-    //设置enter的菜单
-    private void initEnterMenus(Model model, String currentUrl) {
-
-    }
-
-
-    //设置transition的菜单
-    private void initTransitionMenus(Model model, String currentUrl) {
 
     }
 
@@ -105,6 +91,18 @@ public class FrontendAspect {
         PreferenceService preferenceService = AppContextManager.getBean(PreferenceService.class);
         model.addAttribute("preference", preferenceService.fetch());
 
+        //设置用户登录信息。
+        Map<String, Object> sessionMap = new HashMap<>();
+        HttpSession httpSession = request.getSession();
+        User user = (User) httpSession.getAttribute(User.TAG);
+        if (user == null) {
+            //没有登录便放置一个游客身份。
+            user = new User();
+            user.setRole(User.Role.GUEST);
+        }
+
+        sessionMap.put(User.TAG, user);
+        model.addAttribute("session", sessionMap);
 
     }
 

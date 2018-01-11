@@ -93,7 +93,7 @@
                             <a href="/home/user/${article.user.uuid}">
 
                                 <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
-                                    <img class="img-circle w50 h50" src="${article.user.avatarUrl}"/>
+                                    <img class="img-circle w50 h50" src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"/>
                                 <#else>
                                     <img class="img-circle w50 h50" src="/static/img/avatar.png"/>
                                 </#if>
@@ -140,7 +140,11 @@
                 </div>
 
                 <div id="interactive-area">
-                    <div class="article-appendix"  data-useruuid="${article.userUuid}" data-agree="${article.agree}"
+                    <div class="article-appendix" data-articleuseruuid="${article.userUuid!""}"
+                         data-useruuid="${session.user.uuid!""}"
+                         data-userusername="${session.user.username!""}"
+                         data-useremail="${session.user.email!""}"
+                         data-agree="${article.agree}"
                          data-agreed="${article.agreed?string('true','false')}">
 
 
@@ -180,11 +184,11 @@
                             <div id="comment-area">
                                 <div class="title-area">
                                 <span class="total">
-                                    欢迎评论
+                                    欢迎评论 {{userUsername}} {{userEmail}}
                                 </span>
                                 </div>
                                 <div class="input-area">
-                                    <nb-comment-panel :comment="floorComment" @success="floorCreateSuccess"/>
+                                    <nb-comment-panel :comment="floorComment" :user-username="userUsername" :user-email="userEmail" @success="floorCreateSuccess"/>
                                 </div>
                                 <div class="title-area">
                                 <span class="total">
@@ -197,14 +201,19 @@
 
                                         <div class="media">
                                             <div class="pull-left">
-                                                <img class="img-circle img-sm" src="/static/img/avatar.png"/>
+                                                <a :href="'/home/user/'+comment.userUuid" v-if="comment.userUuid" title="站内用户">
+                                                    <img v-if="comment.avatarUrl" class="img-circle img-sm" :src="comment.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
+                                                    <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>
+                                                </a>
+                                                <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>
                                             </div>
                                             <div class="media-body">
                                                 <div class="f14">
                                                     <span class="text-primary" v-if="comment.userUuid">
                                                         <a :href="'/home/user/'+comment.userUuid" title="站内用户">
                                                             {{comment.name}}
-                                                            <span class="text-warning" v-if="comment.userUuid == articleUserUuid">(作者)</span>
+                                                            <span class="text-warning"
+                                                                  v-if="comment.userUuid == articleUserUuid">(作者)</span>
                                                         </a>
                                                     </span>
                                                     <span v-else class="black">{{comment.name}}</span>
@@ -267,7 +276,8 @@
                                                         <span class="text-primary" v-if="subComment.userUuid">
                                                             <a :href="'/home/user/'+subComment.userUuid" title="站内用户">
                                                                 {{subComment.name}}
-                                                                <span class="text-warning" v-if="subComment.userUuid == articleUserUuid">(作者)</span>
+                                                                <span class="text-warning"
+                                                                      v-if="subComment.userUuid == articleUserUuid">(作者)</span>
                                                             </a>
                                                         </span>
                                                         <span v-else class="black">{{subComment.name}}</span>
@@ -329,7 +339,7 @@
                                                 <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
-                                                    <nb-comment-panel :comment="replyComment"
+                                                    <nb-comment-panel :comment="replyComment"  :userUsername="userUsername" :userEmail="userEmail"
                                                                       @success="replyCreateSuccess"/>
                                                 </div>
                                             </nb-expanding>

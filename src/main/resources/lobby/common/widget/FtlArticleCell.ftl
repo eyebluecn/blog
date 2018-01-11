@@ -6,7 +6,7 @@
                 <div class="pull-left">
                     <a href="/home/user/${article.user.uuid}">
                         <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
-                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}"/>
+                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100"/>
                         <#else>
                             <img class="img-circle w40 h40" src="/static/img/avatar.png"/>
                         </#if>

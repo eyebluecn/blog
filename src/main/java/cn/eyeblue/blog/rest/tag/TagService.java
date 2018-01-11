@@ -1,23 +1,14 @@
 package cn.eyeblue.blog.rest.tag;
 
 import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.article.Article;
-import cn.eyeblue.blog.rest.base.Base;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import cn.eyeblue.blog.rest.base.Pager;
-import cn.eyeblue.blog.rest.base.WebResult;
-import cn.eyeblue.blog.rest.core.Feature;
-import cn.eyeblue.blog.rest.core.FeatureType;
-import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
-import cn.eyeblue.blog.rest.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -72,15 +63,13 @@ public class TagService extends BaseEntityService<Tag> {
         return new Pager<>(page, pageSize, totalItems, list);
     }
 
-    public List<Tag> checkTags(List<String> tagUuids, User operator) {
+    //验证tag的uuid和创建者是否匹配
+    public List<Tag> checkTags(List<String> tagUuids, String creatorUuid) {
         List<Tag> tags = getTagsByUuids(tagUuids);
-        //超级管理员一律放行
-        if (operator.hasPermission(FeatureType.USER_MANAGE)) {
-            return tags;
-        }
+
         for (Tag tag : tags) {
-            if (!operator.getUuid().equals(tag.getUserUuid())) {
-                throw new UtilException("标签【" + tag.getName() + "】不属于您！");
+            if (!creatorUuid.equals(tag.getUserUuid())) {
+                throw new UtilException("标签和文章创建者不匹配！");
             }
         }
         return tags;

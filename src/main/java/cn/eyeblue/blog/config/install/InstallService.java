@@ -77,6 +77,7 @@ public class InstallService {
                     "  `floor_uuid` char(36) DEFAULT NULL COMMENT '该评论的楼层uuid，如果自己本身是楼层的话，那么这个值为null',\n" +
                     "  `puuid` char(36) DEFAULT NULL COMMENT '自己回复的那条评论uuid，如果自己是楼层，那么这个值为null',\n" +
                     "  `name` varchar(45) DEFAULT NULL COMMENT '评论者姓名',\n" +
+                    "  `avatar_url` varchar(255) DEFAULT NULL,\n" +
                     "  `email` varchar(45) DEFAULT NULL COMMENT '评论者电子邮件',\n" +
                     "  `content` text COMMENT '内容',\n" +
                     "  `agree` int(11) DEFAULT '0' COMMENT '赞同数',\n" +

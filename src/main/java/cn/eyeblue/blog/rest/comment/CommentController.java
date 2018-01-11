@@ -89,6 +89,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         //如果有登录。
         if (this.findUser() != null) {
             comment.setUserUuid(user.getUuid());
+            comment.setAvatarUrl(user.getAvatarUrl());
         }
 
         form.update(comment, user);

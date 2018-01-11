@@ -29,7 +29,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
 
     //标签
     @NotNull
-    @Size(min = 1, max = 1024, message = "标签必填并且最长1024字")
     private String tags;
 
     //封面图片
@@ -105,7 +104,8 @@ public class ArticleForm extends BaseEntityForm<Article> {
         //tag比较复杂，后面统一设置。
         List<String> tagUuids = JsonUtil.toStringList(tags);
         TagService tagService = AppContextManager.getBean(TagService.class);
-        List<Tag> tagList = tagService.checkTags(tagUuids, operator);
+
+        List<Tag> tagList = tagService.checkTags(tagUuids, article.getUserUuid());
         List<String> okTags = tagList.stream().map(Tag::getUuid).collect(Collectors.toList());
         article.setTags(JsonUtil.toJson(okTags));
     }
@@ -113,8 +113,8 @@ public class ArticleForm extends BaseEntityForm<Article> {
     public Article create(User operator) {
 
         Article entity = new Article();
-        this.update(entity, operator);
         entity.setUserUuid(operator.getUuid());
+        this.update(entity, operator);
         return entity;
     }
 
