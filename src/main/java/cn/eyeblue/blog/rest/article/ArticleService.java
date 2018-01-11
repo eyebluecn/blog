@@ -211,6 +211,10 @@ public class ArticleService extends BaseEntityService<Article> {
 
         User user = userService.check(article.getUserUuid());
 
+        //如果评论者是自己，那么不通知邮件。
+        if (article.getUserUuid().equals(comment.getUserUuid())) {
+            return;
+        }
         //如果文章不接受评论或者用户邮箱没有通过验证，则不发送。
         if (!article.getNeedNotify()) {
             return;
@@ -218,6 +222,7 @@ public class ArticleService extends BaseEntityService<Article> {
         if (!user.getEmailValidate()) {
             return;
         }
+
 
         String url = "http://" + host + "/home/article/" + article.getUuid();
         String html = "您的文章《" + article.getTitle() + "》收到了用户\"" + comment.getName() + "\"的评论\"" + comment.getContent() + "\"。<a href=\"" + url + "\">点击查看</a>";

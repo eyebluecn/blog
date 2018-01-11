@@ -102,6 +102,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         articleDao.save(article);
 
 
+
         String host = getCurrentHttpServletRequest().getHeader("Host");
         articleService.emailComment(article, comment, host);
 

@@ -184,7 +184,7 @@
                             <div id="comment-area">
                                 <div class="title-area">
                                 <span class="total">
-                                    欢迎评论 {{userUsername}} {{userEmail}}
+                                    欢迎评论
                                 </span>
                                 </div>
                                 <div class="input-area">
