@@ -72,10 +72,9 @@
 
     <div class="page-article-detail">
 
-    <#--为了让微信抓住封面图-->
+        <#--为了让微信抓住封面图-->
         <#if article.posterUrl?? && article.posterUrl!="">
-            <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"
-                 class="hidden"/>
+            <img src="${article.posterUrl}" width="0" height="0" />
         </#if>
 
         <div class="row">
