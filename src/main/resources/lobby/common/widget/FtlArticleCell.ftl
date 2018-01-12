@@ -44,7 +44,7 @@
                         <#if article.posterUrl?? && article.posterUrl!="">
                         <div class="pull-right">
                             <a href="/home/article/${article.uuid}">
-                                <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100"/>
+                                <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fit&imageResizeW=100"/>
                             </a>
                         </div>
                         </#if>
