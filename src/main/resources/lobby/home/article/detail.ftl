@@ -67,18 +67,16 @@
 
     </@layout.put>
 
-    <@layout.put block="body" type="replace">
-        <#--为了让微信抓住封面图-->
-        <#if article.posterUrl?? && article.posterUrl!="">
-            <img src="${article.posterUrl}" width="0" height="0" />
-        </#if>
-    </@layout.put>
-
     <@layout.put block="content" type="replace">
         <#import "../../common/widget/FtlTag.ftl" as FtlTag>
 
     <div class="page-article-detail">
 
+
+        <#--为了让微信抓住封面图-->
+        <#if article.posterUrl?? && article.posterUrl!="">
+            <img src="${article.posterUrl}" width="0" height="0" />
+        </#if>
 
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-lg-10 col-lg-offset-1">
