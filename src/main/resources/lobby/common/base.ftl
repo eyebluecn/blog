@@ -44,6 +44,8 @@
 </head>
 <body>
 
+<@layout.block name="body"></@layout.block>
+
 <div class="nb-app">
 
     <div class="section-navigation">
