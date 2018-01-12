@@ -86,6 +86,12 @@
                         <i class="fa fa-rocket text-danger" title="置顶文章"></i>
                     </#if>
                     ${article.title}
+                    <#if session.user.role=="ADMIN" || (session.user.role=="USER" && article.user.uuid == session.user.uuid)>
+                        <a class="edit-icon" href="/by/article/edit/${article.uuid}">
+                            <i class="fa fa-pencil" title="编辑文章"></i>
+                        </a>
+                    </#if>
+
                 </div>
                 <div class="article-info">
                     <div class="media">
@@ -93,7 +99,8 @@
                             <a href="/home/user/${article.user.uuid}">
 
                                 <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
-                                    <img class="img-circle w50 h50" src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"/>
+                                    <img class="img-circle w50 h50"
+                                         src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"/>
                                 <#else>
                                     <img class="img-circle w50 h50" src="/static/img/avatar.png"/>
                                 </#if>
@@ -125,7 +132,6 @@
                             </div>
                         </div>
                     </div>
-
 
                 </div>
                 <div class="article-content" id="article-content">
@@ -188,7 +194,8 @@
                                 </span>
                                 </div>
                                 <div class="input-area">
-                                    <nb-comment-panel :comment="floorComment" :user-username="userUsername" :user-email="userEmail" @success="floorCreateSuccess"/>
+                                    <nb-comment-panel :comment="floorComment" :user-username="userUsername"
+                                                      :user-email="userEmail" @success="floorCreateSuccess"/>
                                 </div>
                                 <div class="title-area">
                                 <span class="total">
@@ -201,8 +208,10 @@
 
                                         <div class="media">
                                             <div class="pull-left">
-                                                <a :href="'/home/user/'+comment.userUuid" v-if="comment.userUuid" title="站内用户">
-                                                    <img v-if="comment.avatarUrl" class="img-circle img-sm" :src="comment.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
+                                                <a :href="'/home/user/'+comment.userUuid" v-if="comment.userUuid"
+                                                   title="站内用户">
+                                                    <img v-if="comment.avatarUrl" class="img-circle img-sm"
+                                                         :src="comment.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
                                                     <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>
                                                 </a>
                                                 <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>
@@ -339,7 +348,9 @@
                                                 <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
-                                                    <nb-comment-panel :comment="replyComment"  :userUsername="userUsername" :userEmail="userEmail"
+                                                    <nb-comment-panel :comment="replyComment"
+                                                                      :userUsername="userUsername"
+                                                                      :userEmail="userEmail"
                                                                       @success="replyCreateSuccess"/>
                                                 </div>
                                             </nb-expanding>

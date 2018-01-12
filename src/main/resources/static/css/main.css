@@ -17196,6 +17196,12 @@ p {
   font-weight: 700;
   line-height: 1.3;
 }
+.page-article-detail .article-title .edit-icon {
+  visibility: hidden;
+}
+.page-article-detail .article-title:hover .edit-icon {
+  visibility: visible;
+}
 .page-article-detail .article-info {
   border-top: 1px solid #eeeeee;
   padding-top: 20px;
