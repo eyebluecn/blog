@@ -80,17 +80,9 @@
             }
         },
         created:function () {
-            console.log("panel created")
 
-            console.log(this.userUsername)
-            console.log(this.userEmail)
         },
         mounted: function () {
-
-            console.log("panel mounted")
-
-            console.log(this.userUsername)
-            console.log(this.userEmail)
 
             if (this.userUsername && this.userEmail) {
                 this.comment.name = this.userUsername

@@ -73,9 +73,9 @@
     <div class="page-article-detail">
 
 
-        <#--为了让微信抓住封面图-->
+    <#--为了让微信抓住封面图-->
         <#if article.posterUrl?? && article.posterUrl!="">
-            <img src="${article.posterUrl}" width="0" height="0" />
+            <img src="${article.posterUrl}" width="0" height="0"/>
         </#if>
 
         <div class="row">
@@ -348,9 +348,10 @@
                                                 <div class="mt10" v-show="replyModel
                                         && ((repliedComment.isFloor && comment.uuid==repliedComment.uuid)
                                         || (!repliedComment.isFloor && comment.uuid==repliedComment.floorUuid)) ">
+
                                                     <nb-comment-panel :comment="replyComment"
-                                                                      :userUsername="userUsername"
-                                                                      :userEmail="userEmail"
+                                                                      :user-username="userUsername"
+                                                                      :user-email="userEmail"
                                                                       @success="replyCreateSuccess"/>
                                                 </div>
                                             </nb-expanding>
