@@ -15,7 +15,6 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-
     <#if preference.faviconUrl?? && preference.faviconUrl!="">
         <link rel="shortcut icon" type="image/x-icon" href="${preference.faviconUrl}">
     <#else>
@@ -87,16 +86,21 @@
                         <i class="fa fa-navicon f17 ln60 cursor text-primary" data-expanding-target="menuSlide"></i>
 
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container mb120">
-        <div class="row">
-            <div data-expanding-id="menuSlide" data-expanding-show="false"
-                 class="menuExpand hidden-sm hidden-md hidden-lg">
-                <ul>
+    <div class="section-body">
+        <div class="container">
+
+            <div class="row">
+
+                <#--放在这里为了让其收缩自如-->
+                <div data-expanding-id="menuSlide" data-expanding-show="false"
+                     class="menuExpand hidden-sm hidden-md hidden-lg">
+                    <ul>
                     <#if preference.menuName1?? && preference.menuName1!="">
                     <li><a href="${preference.menuUrl1!""}"
                            target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a>
@@ -122,11 +126,15 @@
                            target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
                     </li>
                     </#if>
-                </ul>
+                    </ul>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="page-inner-container">
+                    <@layout.block name="content"></@layout.block>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                <@layout.block name="content"></@layout.block>
-            </div>
+
         </div>
 
     </div>

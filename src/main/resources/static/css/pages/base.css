@@ -30,6 +30,16 @@
   color: #23B7E5;
   border-bottom: 2px solid #23B7E5;
 }
+@media (min-width: 992px) {
+  .section-body .page-inner-container {
+    margin: 40px 0 110px 0;
+  }
+}
+@media (max-width: 992px) {
+  .section-body .page-inner-container {
+    margin: 10px -15px 80px -15px;
+  }
+}
 .container .menuExpand > ul {
   list-style: none;
   padding: 0;

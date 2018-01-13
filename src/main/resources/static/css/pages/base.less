@@ -42,7 +42,21 @@
 
 }
 
-.main-body {
+.section-body {
+
+  //大屏幕
+  @media (min-width: @screen-md-min) {
+    .page-inner-container {
+      margin: 40px 0 110px 0;
+
+    }
+  }
+  //小屏幕
+  @media (max-width: @screen-md-min) {
+    .page-inner-container {
+      margin: 10px -15px 80px -15px;
+    }
+  }
 
 }
 
@@ -85,6 +99,5 @@
   background: white;
   text-align: center;
   padding: 15px 0;
-
 
 }
