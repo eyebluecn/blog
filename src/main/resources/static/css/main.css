@@ -17227,6 +17227,7 @@ p {
 .page-article-detail .article-content {
   margin-top: 40px;
   padding: 0 !important;
+  overflow: hidden;
 }
 .page-article-detail .article-content img {
   max-width: 100%;
