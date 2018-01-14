@@ -17024,14 +17024,14 @@ table.shoping-cart-table tr td:last-child {
     display: none !important;
   }
 }
-::-webkit-scrollbar {
+.thin-scrollbar ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
 }
-::-webkit-scrollbar-track {
+.thin-scrollbar ::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
+.thin-scrollbar ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.3);
 }
 html {
@@ -17150,12 +17150,13 @@ p {
 }
 @media (min-width: 992px) {
   .section-body .page-inner-container {
+    background: white;
     margin: 40px 0 110px 0;
   }
 }
 @media (max-width: 992px) {
   .section-body .page-inner-container {
-    margin: 10px -15px 80px -15px;
+    margin: 10px 0 80px 0;
   }
 }
 .container .menuExpand > ul {
@@ -17194,7 +17195,7 @@ p {
 }
 .page-article-detail {
   background: white;
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 4px;
 }
 .page-article-detail .article-title {
@@ -17273,12 +17274,12 @@ p {
 }
 .page-user-detail {
   background: white;
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 4px;
 }
 .article-cell {
   border-bottom: 1px solid #eeeeee;
-  padding: 20px 20px 10px 20px;
+  padding: 20px 0 10px 0;
 }
 .article-cell .author-name {
   color: #555;

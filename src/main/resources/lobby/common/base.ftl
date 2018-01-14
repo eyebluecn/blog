@@ -126,6 +126,11 @@
                            target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
                     </li>
                     </#if>
+                    <#if session.user.role!="GUEST">
+                        <li>
+                            <a href="/by" class="bold" target="_blank">${session.user.username}</a>
+                        </li>
+                    </#if>
                     </ul>
                 </div>
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
@@ -147,8 +152,12 @@
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
 
                     <div>
-                    <#if preference.footerLine1?? && preference.footerLine1!="">${preference.footerLine1}</#if>
-                    <#if preference.footerLine2?? && preference.footerLine2!="">${preference.footerLine2}</#if>
+                    <#if preference.footerLine1?? && preference.footerLine1!="">
+                        <span class="inline-block">${preference.footerLine1}</span>
+                    </#if>
+                    <#if preference.footerLine2?? && preference.footerLine2!="">
+                        <span class="inline-block">${preference.footerLine2}</span>
+                    </#if>
                     </div>
 
                     <!-- 版本号：cn.eyeblue.blog:1.0.1 -->

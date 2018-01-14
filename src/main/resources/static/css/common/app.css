@@ -17022,14 +17022,14 @@ table.shoping-cart-table tr td:last-child {
     display: none !important;
   }
 }
-::-webkit-scrollbar {
+.thin-scrollbar ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
 }
-::-webkit-scrollbar-track {
+.thin-scrollbar ::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
+.thin-scrollbar ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.3);
 }
 html {
