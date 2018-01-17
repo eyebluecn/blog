@@ -14,7 +14,7 @@ MysqlUserName=blog
 MysqlPassword=blog123
 MysqlUrl="jdbc:mysql://$MysqlHost:$MysqlPort/$MysqlSchema?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
 #tank configs
-TankUrl="http://tank.eyeblue.cn"
+TankUrl="https://tank.eyeblue.cn"
 TankEmail=blog_dev@tank.eyeblue.cn
 TankPassword=123456
 #admin configs

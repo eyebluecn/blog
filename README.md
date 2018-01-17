@@ -53,7 +53,7 @@ MysqlUrl="jdbc:mysql://$MysqlHost:$MysqlPort/$MysqlSchema?useUnicode=true&charac
 
 #蓝眼云盘配置项
 #蓝眼云盘访问地址，要求是一个通过公网就能访问到的地址
-TankUrl="http://tank.eyeblue.cn"
+TankUrl="https://tank.eyeblue.cn"
 #蓝眼云盘登录用的邮箱
 TankEmail=blog_dev@tank.eyeblue.cn
 #蓝眼云盘登录用的密码

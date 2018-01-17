@@ -14,7 +14,7 @@ set MysqlUserName=blog
 set MysqlPassword=blog123
 set MysqlUrl="jdbc:mysql://%MysqlHost%:%MysqlPort%/%MysqlSchema%?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
 rem tank configs
-set TankUrl="http://tank.eyeblue.cn"
+set TankUrl="https://tank.eyeblue.cn"
 set TankEmail=blog_dev@tank.eyeblue.cn
 set TankPassword=123456
 rem admin configs
