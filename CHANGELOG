@@ -5,7 +5,7 @@
 每次版本升级时需要修改以下内容。
 
 1. pom.xml
-    <version>1.0.1</version>
+    <version>x.x.x</version>
 
 2. doc/script/pack.sh
     VERSION_NAME=blog-x.x.x
@@ -24,6 +24,20 @@
 
 7. blog-front 修改 vuex/index.js
     versionName: 'x.x.x'
+
+
+2018-01-24
+blog-1.0.2
+1.修复各处版本标识
+2.修复文章列表中图片的错误显示
+3.修复toast的bug
+4.修复了已登录用户的评论显示
+5.修复手机上样式的显示
+6.修复了默认的tank host
+7.添加了前端安装字体的文档
+8.修复了IE中无法显示评论框的bug [issue #1](https://github.com/eyebluecn/blog/issues/1)
+9.重新整理了邮件通知的格式
+
 
 2018-01-12
 blog-1.0.1
