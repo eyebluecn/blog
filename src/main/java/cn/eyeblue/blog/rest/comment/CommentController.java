@@ -80,7 +80,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
     @Feature(FeatureType.PUBLIC)
     public WebResult create(@Valid CommentForm form) {
 
-        //邮件通知自己。
+
         Article article = articleService.check(form.getArticleUuid());
 
         Comment comment = new Comment();
@@ -103,6 +103,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
 
 
+        //邮件通知自己。
         String host = getCurrentHttpServletRequest().getHeader("Host");
         articleService.emailComment(article, comment, host);
 

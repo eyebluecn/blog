@@ -222,10 +222,9 @@ public class ArticleService extends BaseEntityService<Article> {
         if (!user.getEmailValidate()) {
             return;
         }
-
-
+        
         String url = "http://" + host + "/home/article/" + article.getUuid();
-        String html = "您的文章《" + article.getTitle() + "》收到了用户\"" + comment.getName() + "\"的评论\"" + comment.getContent() + "\"。<a href=\"" + url + "\">点击查看</a>";
+        String html = "<p>文章:《" + article.getTitle() + "》</p><p>用户：" + comment.getName() + "</p><p>邮箱：" + comment.getEmail() + "</p><p>内容：" + comment.getContent() + "\"</p><p><a href=\"" + url + "\">点击查看</a></p>";
         NotificationResult notificationResult = mailService.htmlSend(user.getEmail(), "《" + article.getTitle() + "》收到新评论了", html);
 
         if (notificationResult.getStatus() != NotificationResult.Status.OK) {
