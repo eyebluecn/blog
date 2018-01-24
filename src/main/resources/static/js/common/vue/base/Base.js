@@ -207,11 +207,30 @@ Base.prototype.httpPost = function (url, params, successCallback, errorCallback,
     })
 }
 
+//获取一个function的名字。
+Base.prototype.functionName = function (func) {
+    // Match:
+    // - ^          the beginning of the string
+    // - function   the word 'function'
+    // - \s+        at least some white space
+    // - ([\w\$]+)  capture one or more valid JavaScript identifier characters
+    // - \s*        optionally followed by white space (in theory there won't be any here,
+    //              so if performance is an issue this can be omitted[1]
+    // - \(         followed by an opening brace
+    //
+    var result = /^function\s+([\w\$]+)\s*\(/.exec(func.toString())
+
+    return result ? result[1] : '' // for an anonymous function there won't be a match
+}
 
 //获取到当前类的单数标签。比如 Project便得到 project
 Base.prototype.getTAG = function () {
 
     var className = this.constructor.name
+
+    if (!className) {
+        className = this.functionName(this.constructor)
+    }
 
     return lowerCamel(className)
 }
@@ -224,5 +243,6 @@ Base.prototype.getTAGS = function () {
 
 //获取到当前实体的url前缀。
 Base.prototype.getUrlPrefix = function () {
+
     return '/api' + lowerSlash(this.getTAG())
 }
