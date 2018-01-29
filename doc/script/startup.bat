@@ -6,6 +6,7 @@ set Version=1.0.2
 
 rem configs
 set ServerPort=6020
+set LoggingConfig="classpath:logback-dev.xml"
 rem mysql configs
 set MysqlPort=3306
 set MysqlHost=127.0.0.1
@@ -30,7 +31,7 @@ set MailPassword=eyeblue_password
 set MailDefaultEncoding=UTF-8
 
 
-set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUserName% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
+set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dlogging.config=%LoggingConfig% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUserName% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
 
 
 if not "%JRE_HOME%" == "" goto gotJreHome
