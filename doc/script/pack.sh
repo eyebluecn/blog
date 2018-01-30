@@ -2,7 +2,7 @@
 
 PRE_DIR=$(pwd)
 
-VERSION_NAME=blog-1.0.2
+VERSION_NAME=blog-1.0.3
 FINAL_NAME=$VERSION_NAME.linux.tar.gz
 
 DIR="$( cd "$( dirname "$0"  )" && pwd  )"

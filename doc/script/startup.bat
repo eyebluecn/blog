@@ -2,7 +2,7 @@
 
 setlocal
 
-set Version=1.0.2
+set Version=1.0.3
 
 rem configs
 set ServerPort=6020

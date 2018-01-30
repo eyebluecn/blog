@@ -2,7 +2,7 @@
 
 # executable path
 DIR="$( cd "$( dirname "$0"  )" && pwd  )"
-JAR_PATH=$DIR/blog-1.0.2.jar
+JAR_PATH=$DIR/blog-1.0.3.jar
 
 #configs
 ServerPort=6020

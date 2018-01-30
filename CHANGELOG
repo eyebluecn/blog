@@ -25,6 +25,9 @@
 7. blog-front 修改 vuex/index.js
     versionName: 'x.x.x'
 
+2018-01-30
+blog-1.0.3
+1. Fix Can not create article by Rich Text Editor. [issue #3](https://github.com/eyebluecn/blog/issues/3)
 
 2018-01-24
 blog-1.0.2
