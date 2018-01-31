@@ -3,16 +3,13 @@
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%d{yyyy/MM/dd-HH:mm:ss} %level [%thread] - %class{36}.%M %L - %msg%n"/>
 
-    <!-- test文件路径 -->
-    <property name="FILE_PATH" value="/var/log/eyeblue"/>
-
-    <!-- 每天产生一个文件 -->
+    <!-- 每天产生一个文件 存储到文件中去 -->
     <appender name="BLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
-        <file>${FILE_PATH}/eyeblue_blog.log</file>
+        <file>${log.path}/eyeblue_blog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 文件名称 -->
-            <fileNamePattern>${FILE_PATH}/blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log.path}/blog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 文件最大保存历史数量 -->
             <MaxHistory>100</MaxHistory>
             <maxFileSize>50MB</maxFileSize>
@@ -24,7 +21,15 @@
     </appender>
 
 
-    <logger name="cn.eyeblue" level="info"/>
+    <!--显示在控制台-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="cn.eyeblue" level="debug"/>
     <logger name="org.springframework" level="info"/>
     <logger name="org.hibernate" level="info"/>
     <logger name="org.apache" level="info"/>

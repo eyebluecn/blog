@@ -24,6 +24,14 @@ public class InstallService {
     }
 
 
+
+    //在本地迅速创建数据库和账号。
+    /*
+        create database blog;
+        grant all privileges on blog.* to blog identified by 'blog123';
+        flush privileges;
+     */
+
     //检查数据库表是否完整。
     @Transactional
     public void checkTableExists() throws Exception {

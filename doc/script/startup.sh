@@ -6,7 +6,7 @@ JAR_PATH=$DIR/blog-1.0.3.jar
 
 #configs
 ServerPort=6020
-LoggingConfig="classpath:logback-dev.xml"
+LoggingConfig="classpath:logback-pro.xml"
 #mysql configs
 MysqlPort=3306
 MysqlHost=127.0.0.1

@@ -6,7 +6,7 @@ set Version=1.0.3
 
 rem configs
 set ServerPort=6020
-set LoggingConfig="classpath:logback-dev.xml"
+set LoggingConfig="classpath:logback-pro.xml"
 rem mysql configs
 set MysqlPort=3306
 set MysqlHost=127.0.0.1

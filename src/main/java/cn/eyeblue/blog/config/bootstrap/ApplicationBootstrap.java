@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.config.bootstrap;
 
+import cn.eyeblue.blog.config.Config;
 import cn.eyeblue.blog.config.install.InstallService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -17,16 +18,24 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
     @Autowired
     InstallService installService;
 
+    @Autowired
+    Config config;
+
     //整个服务器启动的时候。
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         log.info("---------------------Bootstrap------------------------------");
 
+
+        System.out.println("Blog Version:");
+        System.out.println(config.getBlogVersion());
+
+
         try {
             installService.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("运行安装程序出错", e);
             throw new RuntimeException("运行安装程序出错");
         }
 
