@@ -6,12 +6,11 @@ JAR_PATH=$DIR/blog-1.0.3.jar
 
 #configs
 ServerPort=6020
-LoggingConfig="classpath:logback-pro.xml"
 #mysql configs
 MysqlPort=3306
 MysqlHost=127.0.0.1
 MysqlSchema=blog
-MysqlUserName=blog
+MysqlUsername=blog
 MysqlPassword=blog123
 MysqlUrl="jdbc:mysql://$MysqlHost:$MysqlPort/$MysqlSchema?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
 #tank configs
@@ -30,7 +29,7 @@ MailUsername=eyeblue@126.com
 MailPassword=eyeblue_password
 MailDefaultEncoding=UTF-8
 
-OPTS="-Xmx512m -Dserver.port=$ServerPort -Dlogging.config=$LoggingConfig -Dspring.datasource.url=$MysqlUrl -Dspring.datasource.username=$MysqlUserName -Dspring.datasource.password=$MysqlPassword -Dtank.url=$TankUrl -Dtank.email=$TankEmail -Dtank.password=$TankPassword -Dadmin.username=$AdminUsername -Dadmin.email=$AdminEmail -Dadmin.password=$AdminPassword -Dspring.mail.protocol=$MailProtocol -Dspring.mail.host=$MailHost -Dspring.mail.port=$MailPort -Dspring.mail.username=$MailUsername -Dspring.mail.password=$MailPassword -Dspring.mail.default-encoding=$MailDefaultEncoding"
+OPTS="-Xmx512m -Dserver.port=$ServerPort -Dspring.datasource.url=$MysqlUrl -Dspring.datasource.username=$MysqlUsername -Dspring.datasource.password=$MysqlPassword -Dtank.url=$TankUrl -Dtank.email=$TankEmail -Dtank.password=$TankPassword -Dadmin.username=$AdminUsername -Dadmin.email=$AdminEmail -Dadmin.password=$AdminPassword -Dspring.mail.protocol=$MailProtocol -Dspring.mail.host=$MailHost -Dspring.mail.port=$MailPort -Dspring.mail.username=$MailUsername -Dspring.mail.password=$MailPassword -Dspring.mail.default-encoding=$MailDefaultEncoding"
 
 
 echo $OPTS

@@ -44,7 +44,7 @@ MysqlHost=127.0.0.1
 #Mysql数据库名称
 MysqlSchema=blog
 #Mysql用户名，建议为蓝眼博客创建一个用户，不建议使用root
-MysqlUserName=blog
+MysqlUsername=blog
 #Mysql密码
 MysqlPassword=blog123
 #通过以上信息组合出的访问链接，这项请不要修改。
