@@ -7,7 +7,7 @@ services:
    db:
      image: mysql:5.7
      ports:
-       # 端口映射关系，宿主机端口:镜像端口
+       # 端口映射关系，宿主机端口:镜像端口。 这里为了防止本地也有mysql，故意在宿主机上避开 3306
        - "13306:3306"
      # 如果启动失败，则总是会重启。因为镜像有依赖的情况，不停重启可以保证依赖项启动成功后自己再运行
      restart: on-failure
@@ -80,8 +80,10 @@ services:
        BLOG_MYSQL_USERNAME: eyeblue
        # 数据库的密码
        BLOG_MYSQL_PASSWORD: eyeblue123
-       # 蓝眼云盘访问地址，要求是一个通过公网就能访问到的地址，这里需要和tank节点信息一致
-       BLOG_TANK_URL: http://127.0.0.1:6010
+       # 蓝眼云盘访问地址，要求是一个通过公网就能访问到的地址，同时在blog的docker内部也能访问到的地址。
+       # 如果只是在本地测试，那么就填写你的内网ip. 一般形式是 192.168.0.xxx
+       # 如果你要部署在服务器上，那么最好就是用域名，如： http://tank.eyeblue.cn
+       BLOG_TANK_URL: http://30.17.108.119:6010
        # 蓝眼云盘登录用的邮箱，这里需要和tank节点信息一致
        BLOG_TANK_EMAIL: admin@eyeblue.cn
        # 蓝眼云盘登录用的密码，这里需要和tank节点信息一致
