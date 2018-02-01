@@ -66,8 +66,11 @@ MailDefaultEncoding=UTF-8
         }
 
         //日志存放路径，只有在部署环境才显示日志。
+        String logPath = System.getProperty("user.home") + "/data/eyeblue/blog/log";
+        System.out.println(logPath);
+        System.setProperty("log.path", logPath);
 
-        System.setProperty("log.path", System.getProperty("user.dir") + "/data/blog/log");
+
 //
 //        System.setProperty("spring.datasource.url", "jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
 //        System.setProperty("spring.datasource.username", "blog");

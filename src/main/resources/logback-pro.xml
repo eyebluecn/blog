@@ -18,24 +18,28 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>${PATTERN}</pattern>
         </layout>
+
+        <!--info及以上的级别会输出到文件中-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
     </appender>
 
 
-    <!--显示在控制台-->
+    <!--显示在控制台，debug及以上的级别会显示在控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${PATTERN}</pattern>
         </encoder>
     </appender>
 
-
     <logger name="cn.eyeblue" level="debug"/>
     <logger name="org.springframework" level="info"/>
     <logger name="org.hibernate" level="info"/>
     <logger name="org.apache" level="info"/>
 
-
-    <root level="info">
+    <root level="debug">
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="BLOG_FILE"/>
     </root>
 
