@@ -6,17 +6,22 @@ services:
    # 使用mysql:5.7的镜像
    db:
      image: mysql:5.7
+     ports:
+       # 端口映射关系，宿主机端口:镜像端口
+       - "13306:3306"
+     # 如果启动失败，则总是会重启。因为镜像有依赖的情况，不停重启可以保证依赖项启动成功后自己再运行
+     restart: on-failure
+     environment:
+       # 指定root密码为`tank123`，并且创建一个新数据库`tank`，同时用户名和密码为`tank` `tank123`
+       MYSQL_ROOT_PASSWORD: eyeblue123
+       MYSQL_DATABASE: eyeblue
+       MYSQL_USER: eyeblue
+       MYSQL_PASSWORD: eyeblue123
+     image: mysql:5.7
      volumes:
        # 数据库文件存放在宿主机的`~/data/mysql`位置，如果宿主机目录不存在，则会自动创建
        - ~/data/mysql:/var/lib/mysql
-     # 如果启动失败，则总是会重启。因为镜像有依赖的情况，不停重启可以保证依赖项启动成功后自己再运行
-     restart: always
-     environment:
-       # 指定root密码为`tank123`，并且创建一个新数据库`tank`，同时用户名和密码为`tank` `tank123`
-       MYSQL_ROOT_PASSWORD: tank123
-       MYSQL_DATABASE: tank
-       MYSQL_USER: tank
-       MYSQL_PASSWORD: tank123
+
 
    # 蓝眼云盘的镜像信息
    # 依赖 mysql:5.7 的镜像
@@ -28,26 +33,74 @@ services:
        # 端口映射关系，宿主机端口:镜像端口
        - "6010:6010"
      # 如果启动失败，则总是会重启。因为镜像有依赖的情况，不停重启可以保证依赖项启动成功后自己再运行
-     restart: always
+     restart: on-failure
      environment:
-       # mysql的端口
+       # mysql的端口。这里是3306，而非13306
        TANK_MYSQL_PORT: 3306
-       # Mysql的主机，和services的第一个节点一致。
+       # Mysql的主机，和services的第一个节点一致。这里注意不能用127.0.0.1因为不是同一个host
        TANK_MYSQL_HOST: db
        # 数据库
-       TANK_MYSQL_SCHEMA: tank
+       TANK_MYSQL_SCHEMA: eyeblue
        # 数据库的用户名
-       TANK_MYSQL_USERNAME: tank
+       TANK_MYSQL_USERNAME: eyeblue
        # 数据库的密码
-       TANK_MYSQL_PASSWORD: tank123
+       TANK_MYSQL_PASSWORD: eyeblue123
        # 超级管理员的昵称。只能是英文或数字
        TANK_ADMIN_USERNAME: admin
        # 超级管理员邮箱，作为登录账号
-       TANK_ADMIN_EMAIL: admin@tank.eyeblue.cn
+       TANK_ADMIN_EMAIL: admin@eyeblue.cn
        # 超级管理员密码，作为登录密码
        TANK_ADMIN_PASSWORD: 123456
      volumes:
-       # 日志文件存放在宿主机的`~/data/tank/log`位置，如果宿主机目录不存在，则会自动创建
-       - ~/data/tank/log:/data/log
-       # 上传文件存放在宿主机的`~/data/tank/matter`位置，如果宿主机目录不存在，则会自动创建
-       - ~/data/tank/matter:/data/matter
+       # 日志文件存放在宿主机的`~/data/eyeblue/tank/log`位置，如果宿主机目录不存在，则会自动创建
+       - ~/data/eyeblue/tank/log:/data/log
+       # 上传文件存放在宿主机的`~/data/eyeblue/tank/matter`位置，如果宿主机目录不存在，则会自动创建
+       - ~/data/eyeblue/tank/matter:/data/matter
+
+
+   # 蓝眼博客的镜像信息
+   # 依赖 mysql:5.7 的镜像 和 tank:1.0.2
+   blog:
+     image: eyeblue/blog:1.0.3
+     depends_on:
+       - tank
+     ports:
+       # 端口映射关系，宿主机端口:镜像端口
+       - "6020:6020"
+     # 如果启动失败，则总是会重启。因为镜像有依赖的情况，不停重启可以保证依赖项启动成功后自己再运行
+     restart: on-failure
+     environment:
+       # mysql的端口。这里是3306，而非13306
+       BLOG_MYSQL_PORT: 3306
+       # Mysql的主机，和services的第一个节点一致。这里注意不能用127.0.0.1因为不是同一个host
+       BLOG_MYSQL_HOST: db
+       # 数据库
+       BLOG_MYSQL_SCHEMA: eyeblue
+       # 数据库的用户名
+       BLOG_MYSQL_USERNAME: eyeblue
+       # 数据库的密码
+       BLOG_MYSQL_PASSWORD: eyeblue123
+       # 蓝眼云盘访问地址，要求是一个通过公网就能访问到的地址，这里需要和tank节点信息一致
+       BLOG_TANK_URL: http://127.0.0.1:6010
+       # 蓝眼云盘登录用的邮箱，这里需要和tank节点信息一致
+       BLOG_TANK_EMAIL: admin@eyeblue.cn
+       # 蓝眼云盘登录用的密码，这里需要和tank节点信息一致
+       BLOG_TANK_PASSWORD: 123456
+       # 超级管理员昵称
+       BLOG_ADMIN_USERNAME: admin
+       # 超级管理员邮箱
+       BLOG_ADMIN_EMAIL: admin@eyeblue.cn
+       # 超级管理员密码
+       BLOG_ADMIN_PASSWORD: 123456
+       # 以下是通知邮箱的相关配置。
+       BLOG_MAIL_PROTOCOL: smtps
+       BLOG_MAIL_HOST: smtp.126.com
+       BLOG_MAIL_PORT: 465
+       BLOG_MAIL_USERNAME: eyeblue@126.com
+       BLOG_MAIL_PASSWORD: eyeblue_password
+       BLOG_MAIL_DEFAULT_ENCODING: UTF-8
+     volumes:
+       # 日志文件存放在宿主机的`~/data/eyeblue/blog/log`位置，如果宿主机目录不存在，则会自动创建
+       - ~/data/eyeblue/blog/log:/data/log
+
+

@@ -23,11 +23,8 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        log.info("---------------------Bootstrap------------------------------");
+        log.info("---------------------Bootstrap Blog " + config.getBlogVersion() + "------------------------------");
 
-
-        System.out.println("Blog Version:");
-        System.out.println(config.getBlogVersion());
 
         log.debug("这里是debug信息");
         log.info("这里是info信息");

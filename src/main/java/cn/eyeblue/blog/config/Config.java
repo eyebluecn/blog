@@ -39,6 +39,10 @@ public class Config {
         String logPath = System.getProperty("user.home") + "/data/eyeblue/blog/log";
         String tmpLogPath = map.get("BLOG_LOG_PATH");
         if (tmpLogPath != null) {
+            //将带 ~ 的相对路径转换成绝对路径
+            if (tmpLogPath.startsWith("~")) {
+                tmpLogPath = tmpLogPath.replace("~", System.getProperty("user.home"));
+            }
             logPath = tmpLogPath;
         }
         System.setProperty("log.path", logPath);
