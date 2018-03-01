@@ -25,13 +25,6 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
 
         log.info("---------------------Bootstrap Blog " + config.getBlogVersion() + "------------------------------");
 
-
-        log.debug("这里是debug信息");
-        log.info("这里是info信息");
-        log.warn("这里是warn信息");
-        log.error("这里是err信息");
-
-
         try {
             installService.start();
         } catch (Exception e) {
