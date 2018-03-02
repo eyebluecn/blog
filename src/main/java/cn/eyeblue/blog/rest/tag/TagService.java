@@ -77,7 +77,7 @@ public class TagService extends BaseEntityService<Tag> {
 
     //根据Uuids获取tag数组。sql使用的是in，不存在的uuid会自动去除。
     public List<Tag> getTagsByUuids(List<String> uuids) {
-        Iterable<Tag> all = tagDao.findAll(uuids);
+        Iterable<Tag> all = tagDao.findAllById(uuids);
         List<Tag> tags = new ArrayList<>();
         for (Tag tag : all) {
             tags.add(tag);

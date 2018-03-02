@@ -5,7 +5,7 @@ import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.base.BaseEntityDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,14 +16,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
  * 一个用作搭建Spring Bean和非Spring Bean的桥梁
  */
 @Service
+@Slf4j
 public class AppContextManager implements ApplicationContextAware {
-    private static Logger logger = Logger.getLogger(AppContextManager.class);
     private static ApplicationContext appCtx;
 
     @Override
@@ -53,7 +54,7 @@ public class AppContextManager implements ApplicationContextAware {
                 if (beanNames.length > 0 && beanNames[0] != null) {
                     return AppContextManager.getAppContext().getBean(beanNames[0]);
                 } else {
-                    logger.error("出现数组长度为0的情况了！");
+                    log.error("出现数组长度为0的情况了！");
                 }
 
             }
@@ -98,13 +99,18 @@ public class AppContextManager implements ApplicationContextAware {
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
 
 
-        T entity = baseDao.findOne(uuid);
 
-        if (entity == null || entity.deleted) {
+        Optional<T> optionalT = baseDao.findById(uuid);
+        if (optionalT.isPresent()) {
+            T t = optionalT.get();
+            if (t.deleted) {
+                throw new NotFoundException("您访问的内容不存在或者已经被删除");
+            }
+            return t;
+        } else {
             throw new NotFoundException("您访问的内容不存在或者已经被删除");
         }
 
-        return entity;
     }
 
     //检出一个指定类型的实例。不考虑deleted字段。找不到抛异常。
@@ -117,14 +123,14 @@ public class AppContextManager implements ApplicationContextAware {
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
 
 
-        T entity = baseDao.findOne(uuid);
-
-        if (entity == null) {
+        Optional<T> optionalT = baseDao.findById(uuid);
+        if (optionalT.isPresent()) {
+            return optionalT.get();
+        } else {
             throw new NotFoundException("您访问的内容不存在或者已经被删除");
         }
-
-        return entity;
     }
+
 
 
     //找出一个指定类型的实例。考虑deleted字段。找不到返回null
@@ -134,11 +140,17 @@ public class AppContextManager implements ApplicationContextAware {
             return null;
         }
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-        T entity = baseDao.findOne(uuid);
-        if (entity == null || entity.deleted) {
+
+        Optional<T> optionalT = baseDao.findById(uuid);
+        if (optionalT.isPresent()) {
+            T t = optionalT.get();
+            if (t.deleted) {
+                return null;
+            }
+            return t;
+        } else {
             return null;
         }
-        return entity;
     }
 
     //找出一个指定类型的实例，不考虑deleted字段。找不到返回null
@@ -148,11 +160,9 @@ public class AppContextManager implements ApplicationContextAware {
             return null;
         }
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-        T entity = baseDao.findOne(uuid);
-        if (entity == null) {
-            return null;
-        }
-        return entity;
+
+        Optional<T> optionalT = baseDao.findById(uuid);
+        return optionalT.orElse(null);
     }
 
 

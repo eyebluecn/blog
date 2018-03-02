@@ -36,10 +36,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -331,8 +333,10 @@ public class UserController extends BaseEntityController<User, UserForm> {
         httpSession.removeAttribute(User.TAG);
         if (authentication != null) {
 
-            SupportSession supportSession = supportSessionDao.findOne(authentication);
-            if (supportSession != null) {
+            Optional<SupportSession> optionalSupportSession = supportSessionDao.findById(authentication);
+            //SupportSession supportSession = supportSessionDao.findOne(authentication);
+            if (optionalSupportSession.isPresent()) {
+                SupportSession supportSession = optionalSupportSession.get();
                 supportSessionDao.delete(supportSession);
             }
         } else {
@@ -403,7 +407,12 @@ public class UserController extends BaseEntityController<User, UserForm> {
             throw new UtilException("您的邮箱格式不正确，请在个人页面完善好后再进行验证。");
         }
 
-        User dbUser = userDao.findOne(user.getUuid());
+        Optional<User> optionalDbUser = userDao.findById(user.getUuid());
+        //User dbUser = userDao.findOne(user.getUuid());
+        if (!optionalDbUser.isPresent()) {
+            throw new UtilException("不存在");
+        }
+        User dbUser = optionalDbUser.get();
         if (dbUser.getEmailValidate()) {
             throw new UtilException("您的邮箱已经验证通过，请勿重复验证！");
         }
@@ -453,7 +462,12 @@ public class UserController extends BaseEntityController<User, UserForm> {
         } else {
 
             String userUuid = supportValidation.getUserUuid();
-            User user = userDao.findOne(userUuid);
+            Optional<User> optionalUser = userDao.findById(userUuid);
+            //User user = userDao.findOne(userUuid);
+            if (!optionalUser.isPresent()) {
+                throw new UtilException("不存在");
+            }
+            User user = optionalUser.get();
             user.setEmailValidate(true);
 
             userDao.save(user);

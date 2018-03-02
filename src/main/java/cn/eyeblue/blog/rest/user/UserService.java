@@ -19,12 +19,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -115,15 +117,21 @@ public class UserService extends BaseEntityService<User> {
 
 
         HandlerMethod handlerMethod = null;
-        try {
-            handlerMethod = (HandlerMethod) handler;
-        } catch (Exception e) {
-            throw new UtilException("转换HandlerMethod出错，请及时排查。");
+        if (handler instanceof ResourceHttpRequestHandler) {
+            //资源文件处理器的拦截
+            return true;
+        } else {
+            try {
+                handlerMethod = (HandlerMethod) handler;
+            } catch (Exception e) {
+                throw new UtilException("转换HandlerMethod出错，请及时排查。");
+            }
         }
+
 
         //系统自带的接口
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/error")) {
+        if ("/error".equals(requestURI)) {
             return true;
         }
 
@@ -151,16 +159,19 @@ public class UserService extends BaseEntityService<User> {
 
                 request.getSession().setAttribute(WebResult.COOKIE_AUTHENTICATION, authentication);
 
-                SupportSession supportSession = supportSessionDao.findOne(authentication);
+                Optional<SupportSession> optionalSupportSession = supportSessionDao.findById(authentication);
+                //SupportSession supportSession = supportSessionDao.findOne(authentication);
 
-                if (supportSession != null) {
-
+                if (optionalSupportSession.isPresent()) {
+                    SupportSession supportSession = optionalSupportSession.get();
                     if (supportSession.getExpireTime().getTime() > System.currentTimeMillis()) {
 
                         String userUuid = supportSession.getUserUuid();
-                        user = userDao.findOne(userUuid);
+                        Optional<User> optionalUser = userDao.findById(userUuid);
+                        //user = userDao.findOne(userUuid);
 
-                        if (user != null) {
+                        if (optionalUser.isPresent()) {
+                            user = optionalUser.get();
 
                             httpSession.setAttribute(User.TAG, user);
 

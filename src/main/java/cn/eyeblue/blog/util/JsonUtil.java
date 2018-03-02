@@ -6,16 +6,16 @@ import cn.eyeblue.blog.rest.base.BaseEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class JsonUtil {
 
-    private static Logger logger = Logger.getLogger(JsonUtil.class);
 
     public static <T> T toObject(String content, Class<T> clazz) {
 
@@ -42,7 +42,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonString, typeReference);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage());
             throw new UtilException("信息有误，无法从字符串转成对象！");
         }
 
@@ -111,7 +111,7 @@ public class JsonUtil {
                 entityList.add(entity);
             }
         } catch (IOException e) {
-            logger.error("信息有误，无法获取到对象数组！");
+            log.error("信息有误，无法获取到对象数组！");
             return null;
         }
         return entityList;
@@ -127,7 +127,7 @@ public class JsonUtil {
 
         } catch (JsonProcessingException e) {
 
-            logger.error(obj.toString());
+            log.error(obj.toString());
             throw new UtilException("json字符串转换时出错！");
 
         }

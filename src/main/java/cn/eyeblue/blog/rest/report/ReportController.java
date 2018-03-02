@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.report;
 
+import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.article.ArticleService;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -112,16 +115,25 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
         if (needEntityDetail) {
             pager.getData().forEach(report -> {
                 if (report.getType() == Report.Type.REPORT_COMMENT) {
-                    Comment comment = commentDao.findOne(report.getEntityUuid());
-                    if (comment != null) {
-                        Article article = articleDao.findOne(comment.getArticleUuid());
-                        if (article != null) {
+                    Optional<Comment> optionalComment = commentDao.findById(report.getEntityUuid());
+                    if (optionalComment.isPresent()) {
+                        Comment comment = optionalComment.get();
+                        Optional<Article> optionalArticle = articleDao.findById(comment.getArticleUuid());
+
+                        if (optionalArticle.isPresent()) {
+                            Article article = optionalArticle.get();
                             comment.setArticleTitle(article.getTitle());
                         }
                         report.setComment(comment);
                     }
                 } else if (report.getType() == Report.Type.REPORT_ARTICLE) {
-                    report.setArticle(articleDao.findOne(report.getEntityUuid()));
+                    Optional<Article> optionalArticle = articleDao.findById(report.getEntityUuid());
+                    if (optionalArticle.isPresent()) {
+                        report.setArticle(optionalArticle.get());
+                    } else {
+                        throw new UtilException("不存在啊~");
+                    }
+
                 }
             });
         }

@@ -11,11 +11,11 @@
     <name>blog</name>
     <description>Eyeblue blog.</description>
 
+    <!-- Inherit defaults from Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.8.RELEASE</version>
-        <relativePath/>
+        <version>2.0.0.RELEASE</version>
     </parent>
 
     <properties>
@@ -152,10 +152,10 @@
             </plugin>
 
 
+            <!-- Package as an executable jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.8.RELEASE</version>
                 <configuration>
                     <mainClass>cn.eyeblue.blog.BlogApplication</mainClass>
                 </configuration>
@@ -167,6 +167,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

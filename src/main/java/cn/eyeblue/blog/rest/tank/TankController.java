@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/tank")
@@ -87,9 +88,13 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
     @Feature(FeatureType.USER_MINE)
     public void download(HttpServletResponse response, @PathVariable String uuid) throws Exception {
 
-        Tank tank = tankDao.findOne(uuid);
+        Optional<Tank> optionalTank = tankDao.findById(uuid);
 
-        if (tank == null || tank.deleted) {
+        if (!optionalTank.isPresent()) {
+            throw new UtilException("文件不存在或者已经被删除！");
+        }
+        Tank tank = optionalTank.get();
+        if (tank.deleted) {
             throw new UtilException("文件不存在或者已经被删除！");
         }
         if (!tank.getPrivacy()) {
