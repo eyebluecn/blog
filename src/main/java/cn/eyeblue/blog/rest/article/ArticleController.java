@@ -111,7 +111,22 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         return super.sort(uuid1, sort1, uuid2, sort2);
     }
 
-
+    /**
+     *
+     * @param page 【选填】当前页码 0基，默认0
+     * @param pageSize 【选填】每页的大小，默认30
+     * @param orderSort 【选填】是否按Sort进行排序，ASC升序，DESC降序
+     * @param orderTop 【选填】是否按置顶情况进行排序，ASC升序，DESC降序
+     * @param orderHit 【选填】是否按点击数量进行排序，ASC升序，DESC降序
+     * @param orderPrivacy 【选填】是否按私有性进行排序，ASC升序，DESC降序
+     * @param orderCreateTime 【选填】是否按创建时间进行排序，ASC升序，DESC降序
+     * @param userUuid 【选填】作者uuid
+     * @param privacy 【选填】私有性
+     * @param title 【选填】标题，左右模糊匹配
+     * @param tag 【选填】标签，左右模糊匹配
+     * @param keyword 【选填】关键字，左右模糊匹配
+     * @return 文章分页信息
+     */
     @Feature(FeatureType.USER_MINE)
     @RequestMapping("/page")
     public WebResult page(
@@ -150,7 +165,11 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     }
 
 
-    //给某篇文章点赞。
+    /**
+     * 给某篇文章点赞
+     * @param articleUuid 文章
+     * @return 点赞结果
+     */
     @RequestMapping("/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult agree(
@@ -178,7 +197,11 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         return success("点赞成功!");
     }
 
-    //取消点赞。
+    /**
+     * 取消点赞
+     * @param articleUuid 文章
+     * @return 取消点赞结果
+     */
     @RequestMapping("/cancel/agree")
     @Feature(FeatureType.PUBLIC)
     public WebResult cancelAgree(@RequestParam String articleUuid) {
@@ -200,7 +223,11 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     }
 
 
-    //置顶某篇文章
+    /**
+     * 置顶某篇文章
+     * @param articleUuid 文章
+     * @return 置顶结果
+     */
     @RequestMapping("/top")
     @Feature(FeatureType.USER_MANAGE)
     public WebResult top(
@@ -219,7 +246,11 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         return success("置顶成功!");
     }
 
-    //取消点赞。
+    /**
+     * 取消点赞。
+     * @param articleUuid 文章
+     * @return 结果
+     */
     @RequestMapping("/cancel/top")
     @Feature(FeatureType.USER_MANAGE)
     public WebResult cancelTop(@RequestParam String articleUuid) {

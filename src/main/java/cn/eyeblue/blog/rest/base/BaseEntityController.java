@@ -32,22 +32,38 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
 
     private Class<E> clazz;
 
+    /**
+     * 构造函数
+     * @param clazz 泛型
+     */
     public BaseEntityController(Class<E> clazz) {
         this.clazz = clazz;
     }
 
+    /**
+     * 获取dao
+     * @return 一个dao
+     */
     protected BaseEntityDao<E> getDao() {
         return AppContextManager.getBaseEntityDao(clazz);
     }
 
-
+    /**
+     * 获取Service
+     * @return Service
+     */
     protected BaseEntityService<E> getService() {
         return AppContextManager.getBaseEntityService(clazz);
     }
 
 
+
     /**
      * 返回一个分页，手动指定一个map规则
+     * @param specification 查询规则
+     * @param pageable 分页信息
+     * @param mapper map信息
+     * @return 分页结果
      */
     protected WebResult success(Specification<E> specification, Pageable pageable, Function<E, ? extends Map<String, Object>> mapper) {
 
@@ -74,8 +90,11 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     }
 
 
+
     /**
      * 添加一个实例
+     * @param form 表单
+     * @return 当前实体
      */
     @RequestMapping("/create")
     public WebResult create(@Valid F form) {
@@ -87,8 +106,11 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     }
 
 
+
     /**
      * 删除一个实例
+     * @param uuid uuid
+     * @return 删除结果
      */
     @RequestMapping("/del/{uuid}")
     public WebResult del(@PathVariable String uuid) {
@@ -101,6 +123,8 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
 
     /**
      * 编辑一个实例
+     * @param form 表单
+     * @return 当前实体
      */
     @RequestMapping("/edit")
     public WebResult edit(@Valid F form) {
@@ -110,9 +134,10 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
         return success(entity);
     }
 
-
     /**
      * 获取详情
+     * @param uuid uuid
+     * @return 当前实体
      */
     @RequestMapping("/detail/{uuid}")
     public WebResult detail(@PathVariable String uuid) {
@@ -124,10 +149,16 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
 
     }
 
+
     /**
      * 改变排序位置,需要手动指定放置的位置。
      * sort是用时间戳来表示的。比如是System.currentTimeMillis()
      * 子类中如果要覆盖该方法，则不用再指定 @RequestMapping("/sort") 加上 @Override即可
+     * @param uuid1 第一个实体的uuid
+     * @param sort1 第一个的sort
+     * @param uuid2 第二个实体的uuid
+     * @param sort2 第二个的sort
+     * @return 排序结果
      */
     @RequestMapping("/sort")
     public WebResult sort(@RequestParam String uuid1, @RequestParam Long sort1, @RequestParam String uuid2, @RequestParam Long sort2) {
@@ -148,23 +179,30 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
     /**
      * 从数据库中检出一个当前泛型的实例。
      * 找不到抛异常。
+     * @param uuid uuid
+     * @return 当前实体
      */
     public E check(String uuid) {
 
         return AppContextManager.check(this.clazz, uuid);
     }
 
+
     /**
      * 从数据库中找出一个当前泛型的实例。
      * 找不到返回null
+     * @param uuid uuid
+     * @return 当前实体
      */
     public E find(String uuid) {
         return AppContextManager.find(this.clazz, uuid);
     }
 
 
+
     /**
      * 返回当前登录的用户，如果没有登录返回null.
+     * @return 当前登录用户
      */
     protected User findUser() {
 
@@ -196,21 +234,33 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
 
     }
 
-    //获取到当前这一次的request
+    /**
+     *
+     * @return 获取到当前这一次的request
+     */
     protected HttpServletRequest getCurrentHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
         return attributes.getRequest();
     }
 
-    //获取到当前这次请求的ip
+
+    /**
+     *
+     * @return 获取到当前这次请求的ip
+     */
     protected String getCurrentRequestIp() {
         return NetworkUtil.getIpAddress(getCurrentHttpServletRequest());
     }
 
 
-    //判断自己对于当前实体是否有权限 没有权限直接抛出异常。
-    //管理者权限，个人权限
+    /**
+     * 判断自己对于当前实体是否有权限 没有权限直接抛出异常。
+     * 管理者权限，个人权限
+     * @param manageFeature 管理者的权限
+     * @param mineFeature 自己的权限
+     * @param entityUserUuid 实体关联的用户
+     */
     protected void checkMineEntityPermission(FeatureType manageFeature, FeatureType mineFeature, String entityUserUuid) {
 
         User operator = checkUser();
