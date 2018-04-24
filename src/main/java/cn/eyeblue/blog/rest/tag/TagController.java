@@ -67,7 +67,7 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
 
 
         //名字不能重复
-        int count = tagDao.countByUserUuidAndNameAndDeletedFalse(operator.getUuid(), tag.getName());
+        int count = tagDao.countByUserUuidAndName(operator.getUuid(), tag.getName());
         if (count > 0) {
             throw new UtilException("名称" + tag.getName() + "已经存在，请使用其他名称。");
         }
@@ -105,7 +105,7 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
 
         if (!oldName.equals(newName)) {
             //邮箱变更了时就要检查唯一性。
-            int count = tagDao.countByUserUuidAndNameAndDeletedFalse(operator.getUuid(), newName);
+            int count = tagDao.countByUserUuidAndName(operator.getUuid(), newName);
             if (count > 0) {
                 throw new UtilException("名称" + tag.getName() + "已经存在，请使用其他名称。");
             }

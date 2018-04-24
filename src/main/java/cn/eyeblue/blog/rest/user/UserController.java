@@ -36,11 +36,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -173,18 +171,18 @@ public class UserController extends BaseEntityController<User, UserForm> {
             @RequestParam(required = false, defaultValue = "false") Boolean autoComplete
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, User_.deleted.getName());
+        Sort sort = null;
 
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, User_.sort.getName()));
+            sort = new Sort(orderSort, User_.sort.getName());
         }
         if (orderLastTime != null) {
-            sort = sort.and(new Sort(orderLastTime, User_.lastTime.getName()));
+            sort = this.and(sort, new Sort(orderLastTime, User_.lastTime.getName()));
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
         return this.success(((root, query, cb) -> {
-                    Predicate predicate = cb.equal(root.get(User_.deleted), false);
+                    Predicate predicate = cb.isNotNull(root.get(User_.uuid));
 
                     if (username != null) {
                         predicate = cb.and(predicate, cb.like(root.get(User_.username), "%" + username + "%"));
@@ -276,7 +274,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
             }
         }
 
-        User user = userDao.findByEmailAndDeletedFalse(email);
+        User user = userDao.findByEmail(email);
 
 
         if (user != null) {
@@ -453,7 +451,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws IOException {
 
-        SupportValidation supportValidation = supportValidationDao.findByCodeAndTypeAndDeleted(code, SupportValidation.Type.VALIDATION, false);
+        SupportValidation supportValidation = supportValidationDao.findByCodeAndType(code, SupportValidation.Type.VALIDATION);
 
         if (supportValidation == null) {
             throw new UtilException("您的邮箱未能验证通过！");
@@ -473,8 +471,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
             userDao.save(user);
 
             //让链接过期
-            supportValidation.setDeleted(true);
-            supportValidationDao.save(supportValidation);
+            supportValidationDao.delete(supportValidation);
 
             String host = request.getHeader("Host");
             String url = "http://" + host + "/by/user/detail/" + userUuid;

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 @Service
 public class InstallService {
@@ -41,10 +44,10 @@ public class InstallService {
 
         DatabaseMetaData meta = connection.getMetaData();
         ResultSet resultSet = null;
-        //检查表：blog10_article
-        resultSet = meta.getTables(null, null, "blog10_article", null);
+        //检查表：blog11_article
+        resultSet = meta.getTables(null, null, "blog11_article", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_article` (\n" +
+            String createSql = "CREATE TABLE `blog11_article` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL,\n" +
                     "  `title` varchar(255) DEFAULT NULL COMMENT '标题',\n" +
@@ -74,10 +77,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_comment
-        resultSet = meta.getTables(null, null, "blog10_comment", null);
+        //检查表：blog11_comment
+        resultSet = meta.getTables(null, null, "blog11_comment", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_comment` (\n" +
+            String createSql = "CREATE TABLE `blog11_comment` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `article_uuid` char(36) DEFAULT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL COMMENT '站内用户的评论，一般都是管理员。匿名评论者为null',\n" +
@@ -101,10 +104,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_history
-        resultSet = meta.getTables(null, null, "blog10_history", null);
+        //检查表：blog11_history
+        resultSet = meta.getTables(null, null, "blog11_history", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_history` (\n" +
+            String createSql = "CREATE TABLE `blog11_history` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `entity_uuid` char(36) DEFAULT NULL,\n" +
                     "  `entity_name` varchar(200) DEFAULT NULL,\n" +
@@ -121,10 +124,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_preference
-        resultSet = meta.getTables(null, null, "blog10_preference", null);
+        //检查表：blog11_preference
+        resultSet = meta.getTables(null, null, "blog11_preference", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_preference` (\n" +
+            String createSql = "CREATE TABLE `blog11_preference` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `name` varchar(45) DEFAULT NULL COMMENT '网站名称',\n" +
                     "  `logo_url` varchar(255) DEFAULT NULL COMMENT '发出点赞的ip地址',\n" +
@@ -155,10 +158,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_report
-        resultSet = meta.getTables(null, null, "blog10_report", null);
+        //检查表：blog11_report
+        resultSet = meta.getTables(null, null, "blog11_report", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_report` (\n" +
+            String createSql = "CREATE TABLE `blog11_report` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `entity_uuid` char(36) DEFAULT NULL,\n" +
                     "  `entity_name` varchar(200) DEFAULT NULL,\n" +
@@ -176,10 +179,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_support_captcha
-        resultSet = meta.getTables(null, null, "blog10_support_captcha", null);
+        //检查表：blog11_support_captcha
+        resultSet = meta.getTables(null, null, "blog11_support_captcha", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_support_captcha` (\n" +
+            String createSql = "CREATE TABLE `blog11_support_captcha` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `session_id` varchar(45) DEFAULT NULL COMMENT 'session_id',\n" +
                     "  `value` varchar(45) DEFAULT NULL COMMENT '验证码值',\n" +
@@ -195,10 +198,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_support_session
-        resultSet = meta.getTables(null, null, "blog10_support_session", null);
+        //检查表：blog11_support_session
+        resultSet = meta.getTables(null, null, "blog11_support_session", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_support_session` (\n" +
+            String createSql = "CREATE TABLE `blog11_support_session` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL COMMENT '用户uuid',\n" +
                     "  `ip` varchar(45) DEFAULT NULL COMMENT '用户的ip地址',\n" +
@@ -214,10 +217,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_support_validation
-        resultSet = meta.getTables(null, null, "blog10_support_validation", null);
+        //检查表：blog11_support_validation
+        resultSet = meta.getTables(null, null, "blog11_support_validation", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_support_validation` (\n" +
+            String createSql = "CREATE TABLE `blog11_support_validation` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL COMMENT '用户uuid',\n" +
                     "  `email` varchar(45) DEFAULT NULL COMMENT '用户的ip地址',\n" +
@@ -234,10 +237,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_tag
-        resultSet = meta.getTables(null, null, "blog10_tag", null);
+        //检查表：blog11_tag
+        resultSet = meta.getTables(null, null, "blog11_tag", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_tag` (\n" +
+            String createSql = "CREATE TABLE `blog11_tag` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL,\n" +
                     "  `name` varchar(255) DEFAULT NULL COMMENT '名称',\n" +
@@ -255,10 +258,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_tank
-        resultSet = meta.getTables(null, null, "blog10_tank", null);
+        //检查表：blog11_tank
+        resultSet = meta.getTables(null, null, "blog11_tank", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_tank` (\n" +
+            String createSql = "CREATE TABLE `blog11_tank` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL COMMENT '上传的用户id',\n" +
                     "  `name` varchar(255) DEFAULT NULL COMMENT '文件名称',\n" +
@@ -279,10 +282,10 @@ public class InstallService {
             preparedStatement.execute();
         }
 
-        //检查表：blog10_user
-        resultSet = meta.getTables(null, null, "blog10_user", null);
+        //检查表：blog11_user
+        resultSet = meta.getTables(null, null, "blog11_user", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_user` (\n" +
+            String createSql = "CREATE TABLE `blog11_user` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `username` varchar(255) DEFAULT NULL COMMENT '昵称',\n" +
                     "  `password` varchar(255) DEFAULT NULL COMMENT '密码',\n" +
@@ -313,10 +316,10 @@ public class InstallService {
             userService.initAdmin();
         }
 
-        //检查表：blog10_user_knock
-        resultSet = meta.getTables(null, null, "blog10_user_knock", null);
+        //检查表：blog11_user_knock
+        resultSet = meta.getTables(null, null, "blog11_user_knock", null);
         if (!resultSet.next()) {
-            String createSql = "CREATE TABLE `blog10_user_knock` (\n" +
+            String createSql = "CREATE TABLE `blog11_user_knock` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `session_id` varchar(45) DEFAULT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL,\n" +

@@ -88,28 +88,28 @@ public class ArticleService extends BaseEntityService<Article> {
         }
 
 
-        Sort sort = new Sort(Sort.Direction.ASC, Article_.deleted.getName());
+        Sort sort = null;
 
         //最先看top的排序，然后再是其他排序依据。
         if (orderTop != null) {
-            sort = sort.and(new Sort(orderTop, Article_.top.getName()));
+            sort = this.and(sort, new Sort(orderTop, Article_.top.getName()));
         }
 
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Article_.sort.getName()));
+            sort = this.and(sort, new Sort(orderSort, Article_.sort.getName()));
         }
 
 
         if (orderHit != null) {
-            sort = sort.and(new Sort(orderHit, Article_.hit.getName()));
+            sort = this.and(sort, new Sort(orderHit, Article_.hit.getName()));
         }
 
         if (orderPrivacy != null) {
-            sort = sort.and(new Sort(orderPrivacy, Article_.privacy.getName()));
+            sort = this.and(sort, new Sort(orderPrivacy, Article_.privacy.getName()));
         }
 
         if (orderCreateTime != null) {
-            sort = sort.and(new Sort(orderCreateTime, Article_.createTime.getName()));
+            sort = this.and(sort, new Sort(orderCreateTime, Article_.createTime.getName()));
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
@@ -117,7 +117,7 @@ public class ArticleService extends BaseEntityService<Article> {
 
         Boolean finalPrivacy = privacy;
         Page<Article> pageData = getDao().findAll(((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Article_.deleted), false);
+            Predicate predicate = cb.isNotNull(root.get(Article_.uuid));
 
             if (userUuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Article_.userUuid), userUuid));
@@ -222,7 +222,7 @@ public class ArticleService extends BaseEntityService<Article> {
         if (!user.getEmailValidate()) {
             return;
         }
-        
+
         String url = "http://" + host + "/home/article/" + article.getUuid();
         String html = "<p>文章:《" + article.getTitle() + "》</p><p>用户：" + comment.getName() + "</p><p>邮箱：" + comment.getEmail() + "</p><p>内容：" + comment.getContent() + "\"</p><p><a href=\"" + url + "\">点击查看</a></p>";
         NotificationResult notificationResult = mailService.htmlSend(user.getEmail(), "《" + article.getTitle() + "》收到新评论了", html);

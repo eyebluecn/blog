@@ -4,7 +4,6 @@ import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tank.Tank;
 import cn.eyeblue.blog.rest.user.User;
-import cn.eyeblue.blog.util.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +23,9 @@ public class Article extends BaseEntity {
 
     //标题
     private String title;
+
+    //文章访问路径
+    private String path;
 
     //标签
     private String tags;

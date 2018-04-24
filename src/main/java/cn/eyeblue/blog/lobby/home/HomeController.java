@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping(value = "/home")
 public class HomeController extends FrontendBaseController {
 
 
@@ -44,7 +43,7 @@ public class HomeController extends FrontendBaseController {
      * 首页
      */
     @Feature(FeatureType.PUBLIC)
-    @RequestMapping("/index")
+    @RequestMapping("/home/index")
     public String index(
             Model model,
             HttpServletRequest request,
@@ -96,7 +95,7 @@ public class HomeController extends FrontendBaseController {
      * 文章详情
      */
     @Feature(FeatureType.PUBLIC)
-    @RequestMapping("/article/{uuid}")
+    @RequestMapping("/home/article/{uuid}")
     public String articleDetail(
             Model model,
             HttpServletRequest request,
@@ -114,10 +113,36 @@ public class HomeController extends FrontendBaseController {
 
 
     /**
+     * 访问文章的快捷方式。比如可以通过 /a/zicla/2018-04-24 访问到 path为2018-04-24这一篇文章。
+     */
+    @Feature(FeatureType.PUBLIC)
+    @RequestMapping("/a/{username}/{path}")
+    public String shortcutArticle(
+            Model model,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @PathVariable String username,
+            @PathVariable String path
+    ) {
+
+        //确认用户是否存在。
+
+
+//        String ip = NetworkUtil.getIpAddress(request);
+//        Article article = articleService.detail(uuid, ip);
+//        model.addAttribute("article", article);
+
+        return "home/article/detail";
+    }
+
+
+
+
+    /**
      * 用户详情
      */
     @Feature(FeatureType.PUBLIC)
-    @RequestMapping("/user/{userUuid}")
+    @RequestMapping("/home/user/{userUuid}")
     public String userDetail(
             Model model,
             HttpServletRequest request,
@@ -188,16 +213,6 @@ public class HomeController extends FrontendBaseController {
         return "home/user/detail";
     }
 
-
-    /**
-     * 关于我们
-     */
-    @Feature(FeatureType.PUBLIC)
-    @RequestMapping("/about")
-    public String about(Model model, HttpServletRequest request, HttpServletResponse response) {
-
-        return "home/about";
-    }
 
 
 }

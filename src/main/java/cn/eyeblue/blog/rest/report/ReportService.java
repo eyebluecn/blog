@@ -37,16 +37,16 @@ public class ReportService extends BaseEntityService<Report> {
             String ip
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Report_.deleted.getName());
+        Sort sort = null;
 
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Report_.sort.getName()));
+            sort = new Sort(orderSort, Report_.sort.getName());
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 
         Page<Report> pageData = getDao().findAll((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Report_.deleted), false);
+            Predicate predicate = cb.isNotNull(root.get(Report_.uuid));
 
 
             if (entityUuid != null) {
@@ -83,13 +83,13 @@ public class ReportService extends BaseEntityService<Report> {
 
     @Transactional
     public void softDelete(String entityUuid) {
-        int i = reportDao.softDeleteByEntityUuid(entityUuid);
+        int i = reportDao.deleteByEntityUuid(entityUuid);
     }
 
     //验证某个实体是否被举报过。
     @Transient
     public boolean isReported(String entityUuid) {
-        int count = reportDao.countByEntityUuidAndDeletedFalse(entityUuid);
+        int count = reportDao.countByEntityUuid(entityUuid);
         return count > 0;
     }
 }

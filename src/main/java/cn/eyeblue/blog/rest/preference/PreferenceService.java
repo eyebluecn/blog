@@ -26,7 +26,7 @@ public class PreferenceService extends BaseEntityService<Preference> {
 
     public Preference fetch() {
 
-        Preference preference = preferenceDao.findTopByDeletedFalse();
+        Preference preference = preferenceDao.findTopByOrderByCreateTime();
         if (preference == null) {
             preference = Preference.create();
             preferenceDao.save(preference);

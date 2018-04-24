@@ -89,7 +89,7 @@ public class AppContextManager implements ApplicationContextAware {
     }
 
 
-    //检出一个指定类型的实例。考虑deleted字段。找不到抛异常。
+    //检出一个指定类型的实例。找不到抛异常。
     public static <T extends BaseEntity> T check(Class<T> clazz, String uuid) {
 
         if (uuid == null) {
@@ -98,63 +98,18 @@ public class AppContextManager implements ApplicationContextAware {
 
         BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
 
-
-
-        Optional<T> optionalT = baseDao.findById(uuid);
-        if (optionalT.isPresent()) {
-            T t = optionalT.get();
-            if (t.deleted) {
-                throw new NotFoundException("您访问的内容不存在或者已经被删除");
-            }
-            return t;
-        } else {
-            throw new NotFoundException("您访问的内容不存在或者已经被删除");
-        }
-
-    }
-
-    //检出一个指定类型的实例。不考虑deleted字段。找不到抛异常。
-    public static <T extends BaseEntity> T checkDeeply(Class<T> clazz, String uuid) {
-
-        if (uuid == null) {
-            throw new UtilException("id必须指定");
-        }
-
-        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-
-
         Optional<T> optionalT = baseDao.findById(uuid);
         if (optionalT.isPresent()) {
             return optionalT.get();
         } else {
             throw new NotFoundException("您访问的内容不存在或者已经被删除");
         }
+
     }
 
 
-
-    //找出一个指定类型的实例。考虑deleted字段。找不到返回null
+    //找出一个指定类型的实例。找不到返回null
     public static <T extends BaseEntity> T find(Class<T> clazz, String uuid) {
-
-        if (uuid == null) {
-            return null;
-        }
-        BaseEntityDao<T> baseDao = getBaseEntityDao(clazz);
-
-        Optional<T> optionalT = baseDao.findById(uuid);
-        if (optionalT.isPresent()) {
-            T t = optionalT.get();
-            if (t.deleted) {
-                return null;
-            }
-            return t;
-        } else {
-            return null;
-        }
-    }
-
-    //找出一个指定类型的实例，不考虑deleted字段。找不到返回null
-    public static <T extends BaseEntity> T findDeeply(Class<T> clazz, String uuid) {
 
         if (uuid == null) {
             return null;
@@ -164,6 +119,7 @@ public class AppContextManager implements ApplicationContextAware {
         Optional<T> optionalT = baseDao.findById(uuid);
         return optionalT.orElse(null);
     }
+
 
 
     //根据一个pageSize，根据一个复杂查询条件，再根据针对每个的处理方式，按照分页依次处理。

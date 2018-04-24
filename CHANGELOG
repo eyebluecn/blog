@@ -31,6 +31,8 @@
 9. blog-front 修改 vuex/index.js
     versionName: 'x.x.x'
 
+10. 如果版本是重大更新，数据库结构变化了，要更新 InstallService中的建表语句。
+
 
 2018-01-30
 blog-1.0.3

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TagDao extends BaseEntityDao<Tag> {
 
-    int countByUserUuidAndNameAndDeletedFalse(String userUuid, String name);
+    int countByUserUuidAndName(String userUuid, String name);
 }

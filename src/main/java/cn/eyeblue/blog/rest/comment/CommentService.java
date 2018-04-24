@@ -42,16 +42,15 @@ public class CommentService extends BaseEntityService<Comment> {
             String content
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Comment_.deleted.getName());
-
+        Sort sort = null;
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Comment_.sort.getName()));
+            sort = new Sort(orderSort, Comment_.sort.getName());
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 
         Page<Comment> pageData = getDao().findAll((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Comment_.deleted), false);
+            Predicate predicate = cb.isNotNull(root.get(Comment_.uuid));
 
             if (uuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Comment_.uuid), uuid));

@@ -35,16 +35,15 @@ public class TagService extends BaseEntityService<Tag> {
             String name
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Tag_.deleted.getName());
-
+        Sort sort = null;
         if (orderSort != null) {
-            sort = sort.and(new Sort(orderSort, Tag_.sort.getName()));
+            sort = new Sort(orderSort, Tag_.sort.getName());
         }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 
         Page<Tag> pageData = getDao().findAll(((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Tag_.deleted), false);
+            Predicate predicate = cb.isNotNull(root.get(Tag_.uuid));
 
             if (userUuid != null) {
                 predicate = cb.and(predicate, cb.equal(root.get(Tag_.userUuid), userUuid));

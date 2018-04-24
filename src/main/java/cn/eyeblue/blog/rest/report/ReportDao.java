@@ -1,7 +1,6 @@
 package cn.eyeblue.blog.rest.report;
 
 import cn.eyeblue.blog.rest.base.BaseEntityDao;
-import cn.eyeblue.blog.rest.report.Report;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,11 +15,11 @@ public interface ReportDao extends BaseEntityDao<Report> {
 
     //将某个实体对应的report设置为已处理。
     @Modifying
-    @Query("UPDATE Report r SET r.deleted = true WHERE r.entityUuid =:entityUuid")
-    int softDeleteByEntityUuid(@Param("entityUuid") String entityUuid);
+    @Query("DELETE Report r WHERE r.entityUuid =:entityUuid and r.uuid > '0'")
+    int deleteByEntityUuid(@Param("entityUuid") String entityUuid);
 
     //将某个实体对应的report设置为已处理。
-    int countByEntityUuidAndDeletedFalse(String entityUuid);
+    int countByEntityUuid(String entityUuid);
 
 
 }

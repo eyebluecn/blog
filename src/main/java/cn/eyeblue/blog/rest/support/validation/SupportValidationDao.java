@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface SupportValidationDao extends BaseEntityDao<SupportValidation> {
 
 
-    SupportValidation findByCodeAndTypeAndDeleted(String code, SupportValidation.Type validation, boolean b);
+    SupportValidation findByCodeAndType(String code, SupportValidation.Type validation);
 
 }

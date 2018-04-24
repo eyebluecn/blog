@@ -45,16 +45,16 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
             @RequestParam(required = false) String name
     ) {
 
-        Sort sort = new Sort(Sort.Direction.ASC, Tank_.deleted.getName());
+        Sort sort = null;
 
         if (orderCreateTime != null) {
-            sort = sort.and(new Sort(orderCreateTime, Tank_.createTime.getName()));
+            sort = new Sort(orderCreateTime, Tank_.createTime.getName());
         }
 
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
         return this.success(((root, query, cb) -> {
-            Predicate predicate = cb.equal(root.get(Tank_.deleted), false);
+            Predicate predicate = cb.isNotNull(root.get(Tank_.uuid));
             if (name != null) {
                 predicate = cb.and(predicate, cb.like(root.get(Tank_.name), "%" + name + "%"));
             }
@@ -94,9 +94,7 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
             throw new UtilException("文件不存在或者已经被删除！");
         }
         Tank tank = optionalTank.get();
-        if (tank.deleted) {
-            throw new UtilException("文件不存在或者已经被删除！");
-        }
+
         if (!tank.getPrivacy()) {
             throw new UtilException("访问链接错误！");
         }

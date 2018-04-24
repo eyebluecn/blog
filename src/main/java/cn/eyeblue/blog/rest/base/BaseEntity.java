@@ -1,9 +1,7 @@
 package cn.eyeblue.blog.rest.base;
 
 import cn.eyeblue.blog.util.DateUtil;
-import cn.eyeblue.blog.util.JsonUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,8 +17,8 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseEntity extends Base implements Serializable {
 
-    //blog10的前缀表示是blog 1.0.x版本对应的数据库表。当数据库结构发生变化的时候，就不是小更新了。
-    public final static String PREFIX = "blog10_";
+    //blog11的前缀表示是blog 1.0.x版本对应的数据库表。当数据库结构发生变化的时候，就不是小更新了。
+    public final static String PREFIX = "blog11_";
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -38,11 +36,6 @@ public class BaseEntity extends Base implements Serializable {
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     @UpdateTimestamp
     public Date updateTime = new Date();
-
-
-    @JsonIgnore
-    public Boolean deleted = false;
-
 
 
 }

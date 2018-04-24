@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends BaseEntityDao<User> {
 
 
-    User findByEmailAndDeletedFalse(String email);
+    User findByEmail(String email);
 
     int countByEmail(String email);
 
+    User findTopByUsername(String username);
 }

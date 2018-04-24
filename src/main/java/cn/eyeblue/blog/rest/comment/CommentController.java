@@ -98,7 +98,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         comment = commentDao.save(comment);
 
         //重新统计该文章评论数量
-        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+        article.setCommentNum(commentDao.countByArticleUuid(article.getUuid()));
         articleDao.save(article);
 
 
@@ -122,7 +122,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         commentDao.delete(comment);
 
         //重新统计该文章评论数量
-        article.setCommentNum(commentDao.countByArticleUuidAndDeletedFalse(article.getUuid()));
+        article.setCommentNum(commentDao.countByArticleUuid(article.getUuid()));
         articleDao.save(article);
 
         //举报了自己的report统统设置为已处理。
@@ -247,7 +247,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             String ip = getCurrentRequestIp();
             System.out.println(ip);
             List<History> histories = historyDao.findAll((root, query, cb) -> {
-                Predicate predicate = cb.equal(root.get(History_.deleted), false);
+                Predicate predicate = cb.isNotNull(root.get(History_.uuid));
 
                 predicate = cb.and(predicate, cb.equal(root.get(History_.type), History.Type.AGREE_COMMENT));
 

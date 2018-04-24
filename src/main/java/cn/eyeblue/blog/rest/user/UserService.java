@@ -84,7 +84,7 @@ public class UserService extends BaseEntityService<User> {
 
         Object obj = articleDao.analysisTotal(user.getUuid());
 
-        user.setArticleNum(articleDao.countByUserUuidAndPrivacyFalseAndDeletedFalse(uuid));
+        user.setArticleNum(articleDao.countByUserUuidAndPrivacyFalse(uuid));
 
         if (obj != null) {
             Object[] list = (Object[]) obj;

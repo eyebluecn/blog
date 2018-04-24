@@ -46,8 +46,7 @@ public abstract class BaseEntityService<E extends BaseEntity> extends BaseServic
     @Transactional
     public void del(E entity, User operator) {
 
-        entity.setDeleted(true);
-        getDao().save(entity);
+        getDao().delete(entity);
 
     }
 
