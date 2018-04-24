@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.article;
 
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tank.Tank;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -92,6 +94,20 @@ public class Article extends BaseEntity {
         private Integer words;
         private Integer commentNum;
     }
+
+
+    public void validatePath() {
+
+        String tempKey = this.path;
+
+        String pattern = "^[0-9a-z-]+$";
+        boolean isMatch = Pattern.matches(pattern, tempKey);
+        if (!isMatch) {
+            throw new BadRequestException("key值只能包含小写字母，数字以及“-”,“_”");
+        }
+
+    }
+
 }
 
 

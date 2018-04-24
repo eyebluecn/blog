@@ -27,6 +27,12 @@ public class ArticleForm extends BaseEntityForm<Article> {
     @Size(min = 1, max = 255, message = "名称必填并且最长255字")
     private String title;
 
+    //路径
+    @NotNull
+    @Size(min = 1, max = 255, message = "路径必填并且最长255字")
+    private String path;
+
+
     //标签
     @NotNull
     private String tags;
@@ -76,6 +82,9 @@ public class ArticleForm extends BaseEntityForm<Article> {
     protected void update(Article article, User operator) {
         article.setTitle(title);
 
+        article.setPath(path);
+        article.validatePath();
+
         article.setPosterTankUuid(posterTankUuid);
         article.setPosterUrl(posterUrl);
         article.setDigest(digest);
@@ -117,6 +126,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
         this.update(entity, operator);
         return entity;
     }
+
 
 }
 

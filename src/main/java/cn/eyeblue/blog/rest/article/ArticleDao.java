@@ -15,4 +15,8 @@ public interface ArticleDao extends BaseEntityDao<Article> {
 
     int countByUserUuidAndPrivacyFalse(String userUuid);
 
+    int countByUserUuidAndPath(String userUuid, String path);
+
+    Article findTopByUserUuidAndPath(String userUuid, String path);
+
 }
