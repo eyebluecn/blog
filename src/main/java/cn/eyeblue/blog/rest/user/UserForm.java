@@ -19,6 +19,9 @@ public class UserForm extends BaseEntityForm<User> {
     @NotNull
     private String username;
 
+    @NotNull
+    private String realname;
+
     //创建时密码必须。
     private String password;
 
@@ -50,6 +53,9 @@ public class UserForm extends BaseEntityForm<User> {
     @Override
     protected void update(User user, User operator) {
         user.setUsername(username);
+        user.validateUsername();
+
+        user.setRealname(realname);
         user.setAvatarTankUuid(avatarTankUuid);
         user.setAvatarUrl(avatarUrl);
         user.setPhone(phone);

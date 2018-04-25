@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.article;
 
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -75,17 +77,14 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         Article dbArticle = articleDao.findTopByUserUuidAndPath(operator.getUuid(), article.getPath());
 
 
-//        String newTopicUuid = form.getTopicUuid();
-//        String newName = form.getName();
-//        String newKey = form.getKey();
-//
-//        TopicMenu oldTopicMenu = this.check(form.getUuid());
-//        String oldTopicUuid = oldTopicMenu.getTopicUuid();
-//        String oldName = oldTopicMenu.getName();
-//        String oldKey = oldTopicMenu.getKey();
+        if (dbArticle != null) {
+            throw new BadRequestException("路径已经存在，创建失败。");
+        }
 
 
-        return super.create(form);
+        article = articleDao.save(article);
+
+        return success(article);
     }
 
     @Override
@@ -108,11 +107,28 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.USER_MINE)
     public WebResult edit(@Valid ArticleForm form) {
 
+        User operator = checkUser();
         Article article = this.check(form.getUuid());
-        //验证权限
+        //验证权限.只能修改自己的东西。
         checkMineEntityPermission(FeatureType.USER_MANAGE, FeatureType.USER_MINE, article.getUserUuid());
 
-        return super.edit(form);
+        String oldPath = article.getPath();
+
+        form.update(article, operator);
+
+        //当修改了path时。
+        if (!Objects.equals(oldPath, article.getPath())) {
+            //查重。
+            Article dbArticle = articleDao.findTopByUserUuidAndPath(operator.getUuid(), article.getPath());
+            if (dbArticle != null) {
+                throw new BadRequestException("路径已经存在，创建失败。");
+            }
+        }
+
+
+        article = articleDao.save(article);
+
+        return success(article);
     }
 
 

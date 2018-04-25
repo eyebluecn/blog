@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.user;
 
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.tank.Tank;
@@ -15,6 +16,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -113,6 +115,19 @@ public class User extends BaseEntity {
         USER,
         //管理员
         ADMIN
+    }
+
+
+    public void validateUsername() {
+
+        String tempKey = this.username;
+
+        String pattern = "^[0-9a-z-]+$";
+        boolean isMatch = Pattern.matches(pattern, tempKey);
+        if (!isMatch) {
+            throw new BadRequestException("username值只能包含小写字母，数字以及“-”,“_”");
+        }
+
     }
 
 }

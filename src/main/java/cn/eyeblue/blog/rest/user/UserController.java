@@ -97,6 +97,12 @@ public class UserController extends BaseEntityController<User, UserForm> {
             throw new UtilException("邮箱" + user.getEmail() + "已经存在，请使用其他邮箱。");
         }
 
+        //username不能重复
+        User dbUser = userDao.findTopByUsername(form.getUsername());
+        if (dbUser != null) {
+            throw new BadRequestException("用户名" + form.getUsername() + "已经存在，请使用其他名称。");
+        }
+
         user = userDao.save(user);
 
         return success(user);
@@ -122,8 +128,10 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
 
         String oldEmail = user.getEmail();
+        String oldUsername = user.getUsername();
         form.update(user, operator);
         String newEmail = user.getEmail();
+        String newUsername = user.getUsername();
 
         if (!oldEmail.equals(newEmail)) {
             //邮箱变更了时就要检查唯一性。
@@ -133,6 +141,17 @@ public class UserController extends BaseEntityController<User, UserForm> {
             }
             user.setEmailValidate(false);
         }
+
+
+        if (!oldUsername.equals(newUsername)) {
+            //用户名变更了时就要检查唯一性。
+            User dbUser = userDao.findTopByUsername(newUsername);
+            if (dbUser != null) {
+                throw new UtilException("用户名" + newUsername + "已经存在，请使用其他用户名。");
+            }
+            user.setEmailValidate(false);
+        }
+
 
         user = userDao.save(user);
 
