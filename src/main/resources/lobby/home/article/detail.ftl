@@ -108,7 +108,7 @@
                     <div class="media-body">
                         <div class="author">
                             <a href="/home/user/${article.user.uuid}">
-                                ${article.user.username}
+                                ${article.user.nickname}
                             </a>
                         </div>
                         <div class="mix">
@@ -146,7 +146,7 @@
             <div id="interactive-area">
                 <div class="article-appendix" data-articleuseruuid="${article.userUuid!""}"
                      data-useruuid="${session.user.uuid!""}"
-                     data-userusername="${session.user.username!""}"
+                     data-userusername="${session.user.nickname!""}"
                      data-useremail="${session.user.email!""}"
                      data-agree="${article.agree}"
                      data-agreed="${article.agreed?string('true','false')}">

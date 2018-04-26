@@ -15,7 +15,7 @@
 
         </div>
         <div class="f18 bold mv15">
-            ${user.username}
+            ${user.nickname}
         </div>
 
     </div>

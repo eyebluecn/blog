@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.lobby.home;
 
+import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.lobby.base.FrontendBaseController;
 import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleDao;
@@ -10,6 +11,7 @@ import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tag.TagService;
 import cn.eyeblue.blog.rest.user.User;
+import cn.eyeblue.blog.rest.user.UserDao;
 import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.NetworkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,10 @@ public class HomeController extends FrontendBaseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserDao userDao;
+
 
     /**
      * 首页
@@ -126,16 +132,19 @@ public class HomeController extends FrontendBaseController {
     ) {
 
         //确认用户是否存在。
+        User user = userDao.findTopByUsername(username);
+        if (user == null) {
+            throw new UtilException("访问地址错误。[user not found]");
+        }
 
+        Article article = articleDao.findTopByUserUuidAndPath(user.getUuid(), path);
+        String ip = NetworkUtil.getIpAddress(request);
+        articleService.wrapDetail(article, ip);
 
-//        String ip = NetworkUtil.getIpAddress(request);
-//        Article article = articleService.detail(uuid, ip);
-//        model.addAttribute("article", article);
+        model.addAttribute("article", article);
 
         return "home/article/detail";
     }
-
-
 
 
     /**
@@ -212,7 +221,6 @@ public class HomeController extends FrontendBaseController {
 
         return "home/user/detail";
     }
-
 
 
 }

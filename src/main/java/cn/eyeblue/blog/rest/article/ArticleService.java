@@ -164,6 +164,15 @@ public class ArticleService extends BaseEntityService<Article> {
 
         Article article = this.check(uuid);
 
+
+        return wrapDetail(article, ip);
+    }
+
+
+    //获取一篇文章的详情。
+    public Article wrapDetail(Article article, String ip) {
+
+
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
         article.setUser(userService.find(article.getUserUuid()));
 
@@ -174,7 +183,7 @@ public class ArticleService extends BaseEntityService<Article> {
         this.analysisHit(article, ip);
 
         //查看当前用户的点赞与否情况。
-        History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, uuid, ip);
+        History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, article.getUuid(), ip);
         if (history != null) {
             article.setAgreed(true);
         }

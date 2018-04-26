@@ -15,7 +15,7 @@
                 <div class="media-body">
                     <div class="f16">
                         <a class="author-name" href="/home/user/${article.user.uuid}">
-                            ${article.user.username}
+                            ${article.user.nickname}
                         </a>
 
                     </div>
@@ -43,7 +43,7 @@
     <div class="media">
                         <#if article.posterUrl?? && article.posterUrl!="">
                         <div class="pull-right">
-                            <a href="/home/article/${article.uuid}">
+                            <a href="/a/${article.user.username}/${article.path}">
                                 <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fit&imageResizeW=100"/>
                             </a>
                         </div>
@@ -51,7 +51,7 @@
 
         <div class="media-body">
             <div class="title">
-                <a href="/home/article/${article.uuid}">
+                <a href="/a/${article.user.username}/${article.path}">
                     <#if article.top>
                         <i class="fa fa-rocket text-danger" title="置顶文章"></i>
                     </#if>

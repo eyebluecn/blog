@@ -78,7 +78,7 @@
                     </#if>
 
                     <#if session.user.role!="GUEST">
-                        <a href="/by" class="bold" target="_blank">${session.user.username}</a>
+                        <a href="/by" class="bold" target="_blank">${session.user.nickname}</a>
                     </#if>
 
                     </div>
@@ -128,7 +128,7 @@
                     </#if>
                     <#if session.user.role!="GUEST">
                         <li>
-                            <a href="/by" class="bold" target="_blank">${session.user.username}</a>
+                            <a href="/by" class="bold" target="_blank">${session.user.nickname}</a>
                         </li>
                     </#if>
                     </ul>
