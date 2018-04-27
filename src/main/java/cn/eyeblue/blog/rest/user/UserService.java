@@ -35,6 +35,9 @@ public class UserService extends BaseEntityService<User> {
     @Value("${admin.username}")
     private String adminUsername;
 
+    @Value("${admin.nickname}")
+    private String adminNickname;
+
     @Value("${admin.email}")
     private String adminEmail;
 
@@ -69,6 +72,7 @@ public class UserService extends BaseEntityService<User> {
         }
         User user = new User();
         user.setUsername(adminUsername);
+        user.setNickname(adminNickname);
         user.setEmail(adminEmail);
         user.setPassword(bCryptPasswordEncoder.encode(adminPassword));
         user.setRole(User.Role.ADMIN);

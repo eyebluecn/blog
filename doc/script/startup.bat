@@ -19,6 +19,7 @@ set TankEmail=blog_dev@tank.eyeblue.cn
 set TankPassword=123456
 rem admin configs
 set AdminUsername=admin
+set AdminNickname=admin
 set AdminEmail=admin@blog.eyeblue.cn
 set AdminPassword=123456
 rem email configs
@@ -30,7 +31,7 @@ set MailPassword=eyeblue_password
 set MailDefaultEncoding=UTF-8
 
 
-set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUsername% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
+set OPTS=-Xmx512m -Dserver.port=%ServerPort% -Dspring.datasource.url=%MysqlUrl% -Dspring.datasource.username=%MysqlUsername% -Dspring.datasource.password=%MysqlPassword% -Dtank.url=%TankUrl% -Dtank.email=%TankEmail% -Dtank.password=%TankPassword% -Dadmin.username=%AdminUsername% -Dadmin.nickname=%AdminNickname% -Dadmin.email=%AdminEmail% -Dadmin.password=%AdminPassword% -Dspring.mail.protocol=%MailProtocol% -Dspring.mail.host=%MailHost% -Dspring.mail.port=%MailPort% -Dspring.mail.username=%MailUsername% -Dspring.mail.password=%MailPassword% -Dspring.mail.default-encoding=%MailDefaultEncoding%
 
 
 if not "%JRE_HOME%" == "" goto gotJreHome

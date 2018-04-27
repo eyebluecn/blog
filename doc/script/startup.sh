@@ -19,6 +19,7 @@ TankEmail=blog_dev@tank.eyeblue.cn
 TankPassword=123456
 #admin configs
 AdminUsername=admin
+AdminNickname=admin
 AdminEmail=admin@blog.eyeblue.cn
 AdminPassword=123456
 #email configs
@@ -29,7 +30,7 @@ MailUsername=eyeblue@126.com
 MailPassword=eyeblue_password
 MailDefaultEncoding=UTF-8
 
-OPTS="-Xmx512m -Dserver.port=$ServerPort -Dspring.datasource.url=$MysqlUrl -Dspring.datasource.username=$MysqlUsername -Dspring.datasource.password=$MysqlPassword -Dtank.url=$TankUrl -Dtank.email=$TankEmail -Dtank.password=$TankPassword -Dadmin.username=$AdminUsername -Dadmin.email=$AdminEmail -Dadmin.password=$AdminPassword -Dspring.mail.protocol=$MailProtocol -Dspring.mail.host=$MailHost -Dspring.mail.port=$MailPort -Dspring.mail.username=$MailUsername -Dspring.mail.password=$MailPassword -Dspring.mail.default-encoding=$MailDefaultEncoding"
+OPTS="-Xmx512m -Dserver.port=$ServerPort -Dspring.datasource.url=$MysqlUrl -Dspring.datasource.username=$MysqlUsername -Dspring.datasource.password=$MysqlPassword -Dtank.url=$TankUrl -Dtank.email=$TankEmail -Dtank.password=$TankPassword -Dadmin.username=$AdminUsername -Dadmin.nickname=$AdminNickname -Dadmin.email=$AdminEmail -Dadmin.password=$AdminPassword -Dspring.mail.protocol=$MailProtocol -Dspring.mail.host=$MailHost -Dspring.mail.port=$MailPort -Dspring.mail.username=$MailUsername -Dspring.mail.password=$MailPassword -Dspring.mail.default-encoding=$MailDefaultEncoding"
 
 
 echo $OPTS

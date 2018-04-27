@@ -1,5 +1,5 @@
-#docker-compose版本，这里的3不要动
-version: "3"
+#docker-compose版本，这里的2不要动
+version: "2"
 services:
 
    # 数据库的镜像信息
@@ -88,8 +88,10 @@ services:
        BLOG_TANK_EMAIL: admin@eyeblue.cn
        # 蓝眼云盘登录用的密码，这里需要和tank节点信息一致
        BLOG_TANK_PASSWORD: 123456
-       # 超级管理员昵称
+       # 超级管理员用户名,只能小写字母和数字，会在url中出现。
        BLOG_ADMIN_USERNAME: admin
+       # 超级管理员昵称，用于显示作者名。
+       BLOG_ADMIN_NICKNAME: admin
        # 超级管理员邮箱
        BLOG_ADMIN_EMAIL: admin@eyeblue.cn
        # 超级管理员密码

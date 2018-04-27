@@ -84,11 +84,19 @@ public class Config {
             System.setProperty("tank.password", tankPassword);
         }
 
-        //蓝眼博客管理员昵称
+        //蓝眼博客管理员用户名
         String adminUsername = map.get("BLOG_ADMIN_USERNAME");
         if (adminUsername != null) {
             System.setProperty("admin.username", adminUsername);
         }
+
+        //蓝眼博客管理员昵称
+        String adminNickname = map.get("BLOG_ADMIN_NICKNAME");
+        if (adminNickname != null) {
+            System.setProperty("admin.nickname", adminNickname);
+        }
+
+
         //蓝眼博客管理员邮箱
         String adminEmail = map.get("BLOG_ADMIN_EMAIL");
         if (adminEmail != null) {
