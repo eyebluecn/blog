@@ -17,6 +17,48 @@
 
 如果您觉得蓝眼博客对您有帮助，请不要吝惜您的star :smile:
 
+
+### 使用Docker安装
+
+蓝眼博客在运行时依赖`mysql`数据库，蓝眼云盘，因此最好的方式是使用`docker-compose`来运行，如果你对`docker-compose`不熟悉，可以参考这篇文章：[《Docker Compose 项目》](https://yeasy.gitbooks.io/docker_practice/content/compose/introduction.html) 
+
+** 1.准备 [docker-compose.yml](docker-compose.yml) 文件 **
+
+里面的个别配置项需要自己修改一下，比如blog中的tank url需要指定自己局域网的地址。
+
+** 2.运行项目 **
+
+首先保证当前目录是`docker-compose.yml`所在的目录，然后执行以下指令即可运行蓝眼云盘：
+```shell
+$ docker-compose up -d
+```
+
+** 3.验证 **
+
+由于数据库启动需要一定的时间，因此大约20s后，打开浏览器访问`http://127.0.0.1:6020`，如果看到登录界面则表示运行成功。
+
+** 4.停止项目**
+
+方法一：使用以下命令来停止蓝眼云盘
+``` shell
+$ docker-compose stop
+```
+
+方法二：当然你也可以用停止容器的方式来停止蓝眼云盘
+``` shell
+$ docker container ls
+
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS              PORTS                    NAMES
+f5f64735fc53        eyeblue/tank:1.0.3   "/go/bin/tank"           20 minutes ago      Up 13 seconds       0.0.0.0:6010->6010/tcp   tank_tank_1
+3a859cad3e7e        mysql:5.7            "docker-entrypoint.s…"   20 minutes ago      Up 14 seconds       3306/tcp                 tank_db_1
+
+$ docker container stop f5
+$ docker container stop 3a
+```
+
+如果你比较关心如何使用docker来构建蓝眼博客，请参考 [《Docker 化你的开源项目》](https://blog.eyeblue.cn/a/zicla/docker-project) 
+
+
 ### 使用安装包安装
 
 #### a) 准备工作
@@ -132,9 +174,10 @@ cd 应用目录路径
 利用得到的安装包即可参考上文的`使用安装包安装`。
 
 
-### 文档
+### 后台入口
 
-正在完善中...
+点击首页最下方的"Powered by"即可进入后台管理系统。
+
 
 ### Contribution
 
