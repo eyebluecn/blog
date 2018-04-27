@@ -51,6 +51,7 @@ public class InstallService {
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `user_uuid` char(36) DEFAULT NULL,\n" +
                     "  `title` varchar(255) DEFAULT NULL COMMENT '标题',\n" +
+                    "  `path` varchar(255) DEFAULT NULL,\n" +
                     "  `tags` varchar(1024) DEFAULT NULL COMMENT '标签',\n" +
                     "  `poster_tank_uuid` char(36) DEFAULT NULL COMMENT '海报',\n" +
                     "  `poster_url` varchar(512) DEFAULT NULL COMMENT '海报Url',\n" +
@@ -69,7 +70,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章表';";
@@ -96,7 +96,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';";
@@ -116,7 +115,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='点赞，访问历史表';";
@@ -150,7 +148,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站中所有的设置项。';";
@@ -171,7 +168,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='举报表';";
@@ -190,7 +186,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='captcha表';";
@@ -209,7 +204,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='session表';";
@@ -229,7 +223,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='验证邮箱表';";
@@ -249,7 +242,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`),\n" +
                     "  UNIQUE KEY `name_UNIQUE` (`name`)\n" +
@@ -274,7 +266,6 @@ public class InstallService {
                     "  `sort` bigint(20) NOT NULL DEFAULT '0',\n" +
                     "  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否已经删除',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文件描述表';";
@@ -288,6 +279,7 @@ public class InstallService {
             String createSql = "CREATE TABLE `blog11_user` (\n" +
                     "  `uuid` char(36) NOT NULL,\n" +
                     "  `username` varchar(255) DEFAULT NULL COMMENT '昵称',\n" +
+                    "  `nickname` varchar(45) DEFAULT NULL,\n" +
                     "  `password` varchar(255) DEFAULT NULL COMMENT '密码',\n" +
                     "  `role` varchar(45) DEFAULT 'USER',\n" +
                     "  `email` varchar(45) DEFAULT NULL COMMENT '邮箱',\n" +
@@ -303,7 +295,6 @@ public class InstallService {
                     "  `sort` bigint(20) DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0',\n" +
                     "  PRIMARY KEY (`uuid`),\n" +
                     "  UNIQUE KEY `id_UNIQUE` (`uuid`),\n" +
                     "  UNIQUE KEY `email_UNIQUE` (`email`)\n" +
@@ -331,7 +322,6 @@ public class InstallService {
                     "  `sort` bigint(20) NOT NULL DEFAULT '0',\n" +
                     "  `update_time` timestamp NULL DEFAULT NULL,\n" +
                     "  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-                    "  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否已经删除',\n" +
                     "  PRIMARY KEY (`uuid`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='敲门表： 用户登录情况计略，可以统计登陆失败次数.可以帮助我们找出黑客。';";
             PreparedStatement preparedStatement = connection.prepareStatement(createSql);

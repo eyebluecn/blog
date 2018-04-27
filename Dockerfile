@@ -22,4 +22,4 @@ RUN ./mvnw install
 EXPOSE 6020
 
 # 作为执行文件 启动这个容器就会去执行 `jar包`
-ENTRYPOINT ["java","-Xmx512m","-jar","/root/eyeblue/blog/target/blog-1.0.3.jar"]
+ENTRYPOINT ["java","-Xmx512m","-jar","/root/eyeblue/blog/target/blog-1.1.0.jar"]

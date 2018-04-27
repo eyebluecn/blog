@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "$0"  )" && pwd  )"
-JAR_PATH=$DIR/blog-1.0.3.jar
+JAR_PATH=$DIR/blog-1.1.0.jar
 
 EDASPID=`ps -ef | grep "java .* -jar $JAR_PATH"|grep -v grep |head -n 1 | awk '{print $2}'`
 if [ -z $EDASPID ];

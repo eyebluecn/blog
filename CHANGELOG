@@ -33,6 +33,8 @@
 
 10. 如果版本是重大更新，数据库结构变化了，要更新 InstallService中的建表语句。
 
+11. 前端npm run build. 然后将dist文件夹的内容放置到bystatic中，并且index.html改成index.ftl
+
 
 2018-01-30
 blog-1.0.3

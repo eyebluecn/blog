@@ -26,7 +26,7 @@ services:
    # 蓝眼云盘的镜像信息
    # 依赖 mysql:5.7 的镜像
    tank:
-     image: eyeblue/tank:1.0.2
+     image: eyeblue/tank:1.0.3
      depends_on:
        - db
      ports:
@@ -59,9 +59,9 @@ services:
 
 
    # 蓝眼博客的镜像信息
-   # 依赖 mysql:5.7 的镜像 和 tank:1.0.2
+   # 依赖 mysql:5.7 的镜像 和 tank:1.0.3
    blog:
-     image: eyeblue/blog:1.0.3
+     image: eyeblue/blog:1.1.0
      depends_on:
        - tank
      ports:
