@@ -32,7 +32,7 @@ public class Config {
         String tmpServerPort = map.get("BLOG_SERVER_PORT");
         if (tmpServerPort != null) {
             int serverPort = Integer.parseInt(tmpServerPort);
-            System.setProperty("server.port", tmpServerPort);
+            System.setProperty("server.port", serverPort + "");
         }
 
         //日志存放路径。控制台中显示所有日志，文件中记录INFO及以上级别的日志。
