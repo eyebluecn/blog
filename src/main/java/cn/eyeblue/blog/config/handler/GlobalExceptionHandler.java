@@ -37,6 +37,9 @@ public class GlobalExceptionHandler {
         exception.printStackTrace();
 
 
+        log.error("异常类型: {} ", "NotFoundException", exception);
+
+
         return webResult;
     }
 
@@ -54,6 +57,7 @@ public class GlobalExceptionHandler {
         exception.printStackTrace();
 
 
+        log.error("异常类型: {} ", "LoginException", exception);
         return webResult;
 
 
@@ -73,7 +77,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage());
         exception.printStackTrace();
 
-
+        log.error("异常类型: {} ", "UnauthorizedException", exception);
         return webResult;
 
     }
@@ -92,7 +96,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage());
         exception.printStackTrace();
 
-
+        log.error("异常类型: {} ", "BadRequestException", exception);
         return webResult;
 
     }
@@ -133,6 +137,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage());
         exception.printStackTrace();
 
+        log.error("异常类型: {} ", "BindException", exception);
         return webResult;
     }
 
@@ -144,7 +149,8 @@ public class GlobalExceptionHandler {
     public WebResult handle(HttpServletRequest req, MissingServletRequestParameterException exception) {
 
 
-        String message = "要求填写的参数\"" + exception.getParameterName() + "\"(" + exception.getParameterType() + ")不符合要求";
+        //String message = "要求填写的参数\"" + exception.getParameterName() + "\"(" + exception.getParameterType() + ")不符合要求";
+        String message = "要求填写的参数不符合要求";
 
         WebResult webResult = new WebResult(ResultCode.FORM_INVALID, message);
 
@@ -152,6 +158,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage());
         exception.printStackTrace();
 
+        log.error("异常类型: {} ", "MissingServletRequestParameterException", exception);
         return webResult;
     }
 
@@ -164,6 +171,8 @@ public class GlobalExceptionHandler {
         WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
         log.debug("------LoginExpiredException------");
         exception.printStackTrace();
+
+        log.error("异常类型: {} ", "LoginExpiredException", exception);
         return webResult;
 
     }
@@ -183,6 +192,7 @@ public class GlobalExceptionHandler {
         exception.printStackTrace();
 
 
+        log.error("异常类型: {} ", "UtilException", exception);
         return webResult;
 
     }
@@ -201,6 +211,7 @@ public class GlobalExceptionHandler {
         exception.printStackTrace();
 
 
+        log.error("异常类型: {} ", "Exception", exception);
         return webResult;
 
     }
