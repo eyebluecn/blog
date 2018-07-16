@@ -144,7 +144,9 @@
             </div>
 
             <div id="interactive-area">
-                <div class="article-appendix" data-articleuseruuid="${article.userUuid!""}"
+                <div class="article-appendix"
+                     data-articleuuid="${article.uuid!""}"
+                     data-articleuseruuid="${article.userUuid!""}"
                      data-useruuid="${session.user.uuid!""}"
                      data-userusername="${session.user.nickname!""}"
                      data-useremail="${session.user.email!""}"

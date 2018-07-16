@@ -163,14 +163,17 @@ $(function () {
 
             var that = this
 
-            var arr = window.location.pathname.split("/")
-            that.articleUuid = arr[arr.length - 1]
 
+
+
+
+            var $articleAppendix = $(".article-appendix");
+            that.articleUuid = $articleAppendix.data("articleuuid");
 
             that.floorComment.articleUuid = that.articleUuid
             that.floorComment.isFloor = true
 
-            var $articleAppendix = $(".article-appendix");
+
             that.articleUserUuid = $articleAppendix.data("articleuseruuid");
             that.userUuid = $articleAppendix.data("useruuid");
             that.userUsername = $articleAppendix.data("userusername");
