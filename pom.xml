@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>4.2.3.RELEASE</version>
+            <version>4.2.8.RELEASE</version>
         </dependency>
 
         <!--Mysql 数据库连接-->
