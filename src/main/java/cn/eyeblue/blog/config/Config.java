@@ -19,6 +19,11 @@ public class Config {
     @Value("${blog.version}")
     private String blogVersion;
 
+    private String appName = "蓝眼博客";
+
+    @Value("${ali.dingdingUrl}")
+    private String aliDingdingUrl;
+
     public boolean isDebug() {
         return serverDebug;
     }

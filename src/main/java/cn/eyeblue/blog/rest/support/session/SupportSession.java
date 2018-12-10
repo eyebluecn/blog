@@ -17,8 +17,11 @@ import java.util.Date;
 @Entity
 public class SupportSession extends BaseEntity {
 
-    //默认记住一周时间(s)
-    public final static int EXPIRY = 60 * 60 * 24 * 7;
+    //默认记住一个月时间(s)
+    public final static long EXPIRY = 60 * 60 * 24 * 30;
+
+    //微信登录时的临时凭证(s) 10分钟
+    public final static int WEIXIN_LOGIN_EXPIRY = 600;
 
 
     private String userUuid;

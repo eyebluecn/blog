@@ -1,25 +1,17 @@
 package cn.eyeblue.blog.rest.base;
 
 import cn.eyeblue.blog.config.AppContextManager;
-import cn.eyeblue.blog.config.exception.LoginException;
 import cn.eyeblue.blog.config.exception.UnauthorizedException;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.user.User;
-import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.JsonUtil;
-import cn.eyeblue.blog.util.NetworkUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -198,60 +190,6 @@ public abstract class BaseEntityController<E extends BaseEntity, F extends BaseE
         return AppContextManager.find(this.clazz, uuid);
     }
 
-
-
-    /**
-     * 返回当前登录的用户，如果没有登录返回null.
-     * @return 当前登录用户
-     */
-    protected User findUser() {
-
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-        HttpServletRequest request = attributes.getRequest();
-        HttpSession httpSession = request.getSession(true);
-
-        Object userObject = httpSession.getAttribute(User.TAG);
-        if (userObject == null) {
-            return null;
-        }
-
-        return (User) userObject;
-    }
-
-    /**
-     * 获取当前的登录的这个user. 没有就抛异常
-     *
-     * @return User.
-     */
-    protected User checkUser() {
-
-        User user = this.findUser();
-        if (user == null) {
-            throw new LoginException();
-        }
-        return user;
-
-    }
-
-    /**
-     *
-     * @return 获取到当前这一次的request
-     */
-    protected HttpServletRequest getCurrentHttpServletRequest() {
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-        return attributes.getRequest();
-    }
-
-
-    /**
-     *
-     * @return 获取到当前这次请求的ip
-     */
-    protected String getCurrentRequestIp() {
-        return NetworkUtil.getIpAddress(getCurrentHttpServletRequest());
-    }
 
 
     /**

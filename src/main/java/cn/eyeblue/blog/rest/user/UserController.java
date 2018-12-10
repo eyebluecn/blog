@@ -21,10 +21,10 @@ import cn.eyeblue.blog.rest.user.knock.UserKnockService;
 import cn.eyeblue.blog.util.NetworkUtil;
 import cn.eyeblue.blog.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +64,6 @@ public class UserController extends BaseEntityController<User, UserForm> {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    Md5PasswordEncoder md5PasswordEncoder;
 
     @Autowired
     SupportCaptchaService supportCaptchaService;
@@ -241,8 +239,9 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
     }
 
+
     //登录验证通过或者注册成功后内部自动登录。
-    private WebResult innerLogin(
+    private User innerLogin(
             User user,
             HttpServletRequest request,
             HttpServletResponse response
@@ -250,23 +249,28 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
         String ip = NetworkUtil.getIpAddress(request);
 
-        log.info(user.getUsername() + " login from ip:" + ip);
+        log.info(user.getNickname() + " login from ip:" + ip);
 
-        //Store user into session.
-        request.getSession().setAttribute(User.TAG, user);
+        //更新user上次登录ip和时间
+        user.setLastIp(ip);
+        user.setLastTime(new Date());
+        userDao.save(user);
 
-
+        //登录有效期一个月时间
         SupportSession supportSession = new SupportSession(user.getUuid(), ip, new Date(System.currentTimeMillis() + SupportSession.EXPIRY * 1000));
         supportSessionDao.save(supportSession);
 
         //设置浏览器cookie.
         Cookie cookie = new Cookie(WebResult.COOKIE_AUTHENTICATION, supportSession.getUuid());
-        cookie.setMaxAge(SupportSession.EXPIRY);
+        cookie.setMaxAge((int) SupportSession.EXPIRY);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
-        return this.success(user);
+        //把用户身份缓存起来。
+        userService.cacheUser(supportSession.getUuid(), user);
+
+        return user;
     }
 
 
@@ -300,12 +304,9 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
             if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
 
-                //更新user上次登录ip和时间
-                user.setLastIp(ip);
-                user.setLastTime(new Date());
-                userDao.save(user);
+                this.innerLogin(user, request, response);
+                return success(user);
 
-                return this.innerLogin(user, request, response);
             } else {
                 userKnockService.log(sessionId, null, email, password, ip, UserKnock.Type.PASSWORD_ERROR);
             }
@@ -316,6 +317,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
         throw new BadRequestException("用户名或密码错误");
 
     }
+
 
     /**
      * 退出登录
@@ -434,11 +436,11 @@ public class UserController extends BaseEntityController<User, UserForm> {
             throw new UtilException("您的邮箱已经验证通过，请勿重复验证！");
         }
 
-        String code = md5PasswordEncoder.encodePassword(user.getEmail() + System.currentTimeMillis(), null);
+
+        String code = DigestUtils.md5Hex(user.getEmail() + System.currentTimeMillis());
 
         Preference preference = preferenceService.fetch();
-        String host = request.getHeader("Host");
-        String url = "http://" + host + "/api/user/email/validate?code=" + code;
+        String url = NetworkUtil.getHost(request) + "/api/user/email/validate?code=" + code;
         String appName = preference.getName();
         String html = "<p>您好：</p><p>您注册了" + appName + "，为确保您的帐号安全，请点击以下链接验证邮箱：</p><p><a href=\"" + url + "\">绑定邮箱</a></p><p>如果以上链接无法点击，请将地址<a href=\"" + url + "\">" + url + "</a>手动复制到浏览器地址栏中访问。</p><p>请在 24 小时内完成验证，此链接将在您使用过一次后失效。</p><p>如果您没有注册，请忽略此邮件。</p><p><br></p><p>" + appName + "团队</p><p><br></p>";
 
@@ -474,7 +476,7 @@ public class UserController extends BaseEntityController<User, UserForm> {
 
         if (supportValidation == null) {
             throw new UtilException("您的邮箱未能验证通过！");
-        } else if (System.currentTimeMillis() - supportValidation.createTime.getTime() > SupportValidation.EXPIRE_INTERVAL) {
+        } else if (System.currentTimeMillis() - supportValidation.getCreateTime().getTime() > SupportValidation.EXPIRE_INTERVAL) {
             throw new UtilException("验证链接已过期，请重新验证！");
         } else {
 

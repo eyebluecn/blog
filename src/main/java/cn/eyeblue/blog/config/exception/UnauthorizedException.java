@@ -6,27 +6,14 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class UnauthorizedException extends RuntimeException {
-
-    private int code;
-    private String message;
+public class UnauthorizedException extends UtilException {
 
     public UnauthorizedException() {
-        super("没有权限");
-        this.message = "没有权限";
-        this.code = ResultCode.UNAUTHORIZED;
+        super(ResultCode.UNAUTHORIZED);
     }
 
-    public UnauthorizedException(String message) {
-        super(message);
-        this.code = ResultCode.UNAUTHORIZED;
-        this.message = message;
-    }
-
-    public UnauthorizedException(int exceptionCode, String message) {
-        super(message);
-        this.code = exceptionCode;
-        this.message = message;
+    public UnauthorizedException(String messagePattern, Object... arguments) {
+        super(ResultCode.UNAUTHORIZED, messagePattern, arguments);
     }
 
 }

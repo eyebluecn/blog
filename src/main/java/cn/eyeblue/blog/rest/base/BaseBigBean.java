@@ -21,7 +21,7 @@ public abstract class BaseBigBean {
     //对page和pageSize进行验证
     protected PageRequest getPageRequest(int page, int pageSize, Sort sort) {
 
-        if (page < 0 || pageSize < 1 || pageSize > 100) {
+        if (page < 0 || pageSize < 1 || pageSize > Pager.MAX_PAGE_SIZE) {
             throw new UtilException("Exceed the pager limitation.");
         }
 
@@ -44,6 +44,26 @@ public abstract class BaseBigBean {
             return sort1.and(sort2);
         }
 
+    }
+
+    //直接获取一个sort，包含了orderSort,orderUpdateTime,orderCreateTime
+    protected Sort defaultSort(Sort.Direction orderSort, Sort.Direction orderUpdateTime, Sort.Direction orderCreateTime) {
+
+        Sort sort = null;
+
+        if (orderSort != null) {
+            sort = new Sort(orderSort, BaseEntity_.sort.getName());
+        }
+
+        if (orderUpdateTime != null) {
+            sort = and(sort, new Sort(orderUpdateTime, BaseEntity_.updateTime.getName()));
+        }
+
+        if (orderCreateTime != null) {
+            sort = and(sort, new Sort(orderCreateTime, BaseEntity_.createTime.getName()));
+        }
+
+        return sort;
     }
 
 

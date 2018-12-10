@@ -4,11 +4,15 @@ import cn.eyeblue.blog.config.AppContextManager;
 import cn.eyeblue.blog.rest.user.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public abstract class BaseEntityService<E extends BaseEntity> extends BaseService {
 
 
-    private Class<E> clazz;
+    protected Class<E> clazz;
 
     protected BaseEntityDao<E> getDao() {
         return AppContextManager.getBaseEntityDao(clazz);
@@ -33,6 +37,27 @@ public abstract class BaseEntityService<E extends BaseEntity> extends BaseServic
      */
     public E find(String uuid) {
         return AppContextManager.find(this.clazz, uuid);
+    }
+
+    /**
+     * 从数据库中根据uuids找出实体数组
+     */
+    public Iterable<E> findAll(List<String> uuids) {
+
+        return getDao().findAllById(uuids);
+    }
+
+    /**
+     * 从数据库中根据uuids找出实体map。
+     */
+    public Map<String, E> findEntityMap(List<String> uuids) {
+
+        Iterable<E> entities = getDao().findAllById(uuids);
+        Map<String, E> map = new HashMap<>();
+        entities.forEach(entity -> {
+            map.put(entity.getUuid(), entity);
+        });
+        return map;
     }
 
     @Transactional

@@ -1,8 +1,13 @@
 package cn.eyeblue.blog.config.handler;
 
-import cn.eyeblue.blog.config.exception.*;
+import cn.eyeblue.blog.config.AppContextManager;
+import cn.eyeblue.blog.config.exception.ResultCode;
+import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.WebResult;
+import cn.eyeblue.blog.rest.common.DingdingService;
+import cn.eyeblue.blog.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -23,91 +29,14 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-
-    //没有找到的异常
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NotFoundException.class})
-    @ResponseBody
-    public WebResult handle(HttpServletRequest req, NotFoundException exception) {
-
-        WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
-
-        log.error("------NotFoundException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
-
-
-        log.error("异常类型: {} ", "NotFoundException", exception);
-
-
-        return webResult;
-    }
-
-    //没有登录，这是一种特殊的异常
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({LoginException.class})
-    @ResponseBody
-    public WebResult handle(HttpServletRequest req, LoginException exception) {
-
-
-        WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
-
-        log.error("------LoginException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
-
-
-        log.error("异常类型: {} ", "LoginException", exception);
-        return webResult;
-
-
-    }
-
-
-    //没有授权
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({UnauthorizedException.class})
-    @ResponseBody
-    public WebResult handle(HttpServletRequest req, UnauthorizedException exception) {
-
-
-        WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
-
-        log.error("------UnauthorizedException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
-
-        log.error("异常类型: {} ", "UnauthorizedException", exception);
-        return webResult;
-
-    }
-
-    //没有授权
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({BadRequestException.class})
-    @ResponseBody
-    public WebResult handle(HttpServletRequest req, BadRequestException exception) {
-
-
-        WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
-
-
-        log.error("------BadRequestException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
-
-        log.error("异常类型: {} ", "BadRequestException", exception);
-        return webResult;
-
-    }
-
     //表单提交时报错。
-    @ResponseStatus(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BindException.class})
     @ResponseBody
-    public WebResult handle(HttpServletRequest req, BindException exception) {
+    public WebResult handleBindException(HttpServletRequest req, BindException exception) {
 
-        String message = "";
+        String defaultMessage = "以下参数不符合要求。";
+        String message = defaultMessage;
         List<ObjectError> errorList = exception.getAllErrors();
         for (ObjectError objectError : errorList) {
 
@@ -115,104 +44,81 @@ public class GlobalExceptionHandler {
                 FieldError fieldError = (FieldError) objectError;
 
                 if (fieldError.getRejectedValue() == null) {
-                    message += "您填写的“" + fieldError.getField() + "”不符合要求：" + objectError.getDefaultMessage() + ";";
+                    message += StringUtil.format("{}:{};", fieldError.getField(), objectError.getDefaultMessage());
                 } else {
-                    message += "您填写的“" + fieldError.getRejectedValue() + "”不符合要求：" + objectError.getDefaultMessage() + ";";
+                    message += StringUtil.format("{}:{};", fieldError.getRejectedValue(), objectError.getDefaultMessage());
                 }
 
             } else {
                 message += objectError.getDefaultMessage();
             }
-
-
         }
 
-        if (message.equals("")) {
-            message = exception.getMessage();
+        if (message.equals(defaultMessage)) {
+            message = ExceptionUtils.getRootCauseMessage(exception);
         }
 
-        WebResult webResult = new WebResult(ResultCode.FORM_INVALID, message);
+        WebResult webResult = new WebResult(ResultCode.PARAMS_ERROR, message);
 
         log.error("------BindException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
+        log.error(ExceptionUtils.getRootCauseMessage(exception), exception);
 
-        log.error("异常类型: {} ", "BindException", exception);
         return webResult;
     }
 
 
     //请求参数不符合要求。
-    @ResponseStatus(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseBody
-    public WebResult handle(HttpServletRequest req, MissingServletRequestParameterException exception) {
+    public WebResult handleMissingServletRequestParameterException(HttpServletRequest req, MissingServletRequestParameterException exception) {
 
 
-        //String message = "要求填写的参数\"" + exception.getParameterName() + "\"(" + exception.getParameterType() + ")不符合要求";
-        String message = "要求填写的参数不符合要求";
-
-        WebResult webResult = new WebResult(ResultCode.FORM_INVALID, message);
+        String message = StringUtil.format("要求填写的参数{}({})不符合要求", exception.getParameterName(), exception.getParameterType());
+        WebResult webResult = new WebResult(ResultCode.PARAMS_ERROR, message);
 
         log.error("------MissingServletRequestParameterException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
+        log.error(ExceptionUtils.getRootCauseMessage(exception), exception);
 
-        log.error("异常类型: {} ", "MissingServletRequestParameterException", exception);
+
         return webResult;
     }
 
-
     //自定义的异常。
-    @ExceptionHandler({LoginExpiredException.class})
-    @ResponseBody
-    public WebResult errorCode(HttpServletRequest req, LoginExpiredException exception) {
-
-        WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
-        log.debug("------LoginExpiredException------");
-        exception.printStackTrace();
-
-        log.error("异常类型: {} ", "LoginExpiredException", exception);
-        return webResult;
-
-    }
-
-
-    //自定义的异常。
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({UtilException.class})
     @ResponseBody
-    public WebResult errorCode(HttpServletRequest req, UtilException exception) {
+    public WebResult handleUtilException(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         UtilException exception) {
 
+        //按照各自的异常进行返回。
+        response.setStatus(exception.getCode().getHttpStatus().value());
 
         WebResult webResult = new WebResult(exception.getCode(), exception.getMessage());
 
-        log.error("------UtilException------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
+        log.error("------" + exception.getClass().getName() + "------");
+        log.error(ExceptionUtils.getRootCauseMessage(exception), exception);
 
 
-        log.error("异常类型: {} ", "UtilException", exception);
         return webResult;
-
     }
 
-
-    //方法支持的异常
+    //其他不能处理的异常。
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public WebResult handleAllException(HttpServletRequest req, Exception exception) {
+    public WebResult handleException(HttpServletRequest req, Exception exception) {
 
-        WebResult webResult = new WebResult(ResultCode.SERVER_ERROR, "服务器未知错误，请稍后再试");
+        WebResult webResult = new WebResult(ResultCode.UNKNOWN, StringUtil.format("未知错误，{}", ExceptionUtils.getRootCauseMessage(exception)));
 
         log.error("------Exception------");
-        log.error(exception.getMessage());
-        exception.printStackTrace();
+        log.error(ExceptionUtils.getRootCauseMessage(exception), exception);
 
 
-        log.error("异常类型: {} ", "Exception", exception);
+        //发送钉钉消息。
+        DingdingService dingdingService = AppContextManager.getBean(DingdingService.class);
+        dingdingService.sendMvcExceptionInfo(exception);
+
         return webResult;
-
     }
 }

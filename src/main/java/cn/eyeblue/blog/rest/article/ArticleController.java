@@ -15,6 +15,7 @@ import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.tank.TankService;
 import cn.eyeblue.blog.rest.user.User;
 import cn.eyeblue.blog.rest.user.UserService;
+import cn.eyeblue.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -136,7 +137,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
 
-        return success(articleService.detail(uuid, getCurrentRequestIp()));
+        return success(articleService.detail(uuid, NetworkUtil.getIpAddress()));
 
     }
 
@@ -212,7 +213,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         Article article = this.check(articleUuid);
 
-        String ip = getCurrentRequestIp();
+        String ip = NetworkUtil.getIpAddress();
         int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, articleUuid, ip);
         if (count > 0) {
             throw new UtilException("请勿重复点赞！");
@@ -245,7 +246,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         Article article = this.check(articleUuid);
 
 
-        String ip = getCurrentRequestIp();
+        String ip = NetworkUtil.getIpAddress();
         History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_ARTICLE, articleUuid, ip);
         if (history == null) {
             throw new UtilException("您没有点赞过这篇文章，操作失败！");

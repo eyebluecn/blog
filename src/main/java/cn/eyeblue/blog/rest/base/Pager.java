@@ -4,13 +4,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 
 @Data
 @NoArgsConstructor
 public class Pager<T> {
+
+    //允许的最大页数
+    public static int MAX_PAGE_SIZE = 500;
+
+    //批处理时每次页数
+    public static int HANDLE_PAGE_SIZE = 500;
 
     //当前页码。
     private long page;
@@ -40,7 +44,6 @@ public class Pager<T> {
         this.data = data;
 
     }
-
 
 
     public Pager(Pager pager) {

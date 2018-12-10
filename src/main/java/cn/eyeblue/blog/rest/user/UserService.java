@@ -6,12 +6,17 @@ import cn.eyeblue.blog.config.exception.UnauthorizedException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
-import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.support.session.SupportSession;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
+import cn.eyeblue.blog.rest.support.session.SupportSessionService;
 import cn.eyeblue.blog.rest.tank.TankService;
+import cn.eyeblue.blog.util.NetworkUtil;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,12 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.Optional;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 
 @Slf4j
 @Service
@@ -59,6 +62,11 @@ public class UserService extends BaseEntityService<User> {
 
     @Autowired
     SupportSessionDao supportSessionDao;
+
+
+    @Autowired
+    SupportSessionService supportSessionService;
+
 
     public UserService() {
         super(User.class);
@@ -115,10 +123,80 @@ public class UserService extends BaseEntityService<User> {
         return user;
     }
 
+
+    //这里的cacheLoader纯粹用于满足guava的格式，我们采用手动加载，获取时使用getIfPresent
+    private CacheLoader<String, User> cacheLoader = new CacheLoader<String, User>() {
+        @SuppressWarnings("NullableProblems")
+        @Override
+        public User load(String key) {
+            return null;
+        }
+    };
+
+    //缓存登录用户的信息的情况 SupportSessionUuid => User.
+    private LoadingCache<String, User> cache = CacheBuilder.newBuilder().maximumSize(10000).build(cacheLoader);
+
+    //从一个request中获取一个用户
+    public User getCachedUser(@NonNull HttpServletRequest request) {
+
+        String authentication = NetworkUtil.getAuthentication(request);
+        if (authentication != null) {
+            User user = this.cache.getIfPresent(authentication);
+
+            if (user == null) {
+                log.info("获取缓存用户 key={} 用户不存在", authentication);
+            } else {
+                //同时没有过期
+                if (user.getLastTime().getTime() + 1000 * SupportSession.EXPIRY < System.currentTimeMillis()) {
+                    log.info("已经过期的用户 key={} nickname={} phone={}", authentication, user.getNickname(), user.getPhone());
+                    this.expireCache(authentication);
+
+                    user = null;
+                } else {
+                    log.info("获取缓存用户 key={} nickname={} phone={}", authentication, user.getNickname(), user.getPhone());
+                }
+            }
+
+            log.info("当前guava {}个用户", this.cache.size());
+
+            return user;
+        } else {
+            return null;
+        }
+
+    }
+
+    //缓存一个用户信息
+    public void cacheUser(@NonNull String supportSessionUuid, @NonNull User user) {
+        log.info("缓存用户 key={} nickname={} phone={}", supportSessionUuid, user.getNickname(), user.getPhone());
+        this.cache.put(supportSessionUuid, user);
+    }
+
+    //清除缓存一个用户信息
+    public void expireCache(@NonNull String supportSessionUuid) {
+        User user = this.cache.getIfPresent(supportSessionUuid);
+        if (user != null) {
+            this.cache.invalidate(supportSessionUuid);
+            log.info("删除缓存用户 key={} nickname={} phone={}", supportSessionUuid, user.getNickname(), user.getPhone());
+        } else {
+            log.info("key={} 的用户已经不在缓存中了", supportSessionUuid);
+        }
+    }
+
+    //更新一个缓存中的用户
+    public void updateCacheUser(@NonNull User user) {
+        ConcurrentMap<String, User> map = this.cache.asMap();
+        map.forEach((key, userItem) -> {
+            if (Objects.equals(userItem.getUuid(), user.getUuid())) {
+                this.cacheUser(key, user);
+                log.info("更新用户{}({})的guava缓存", user.getNickname(), user.getPhone());
+            }
+        });
+    }
+
     //做权限拦截的事情。主要给AuthInterceptor使用。Hibernate Session必须通过@Transactional才可持久。
     @Transactional
     public boolean doAuthIntercept(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
 
         HandlerMethod handlerMethod = null;
         if (handler instanceof ResourceHttpRequestHandler) {
@@ -132,63 +210,32 @@ public class UserService extends BaseEntityService<User> {
             }
         }
 
+        String authentication = NetworkUtil.getAuthentication(request);
 
-        //系统自带的接口
-        String requestURI = request.getRequestURI();
-        if ("/error".equals(requestURI)) {
-            return true;
-        }
-
-
-        //验证用户的身份，是否已经登录了。
-        HttpSession httpSession = request.getSession();
-        User user = (User) httpSession.getAttribute(User.TAG);
-
+        User user = this.getCachedUser(request);
         if (user == null) {
 
-            //尝试去验证token。
-            Cookie[] cookies = request.getCookies();
-            String authentication = null;
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
+            //再尝试从数据库session中加载
+            SupportSession supportSession = supportSessionService.find(authentication);
 
-                    if (WebResult.COOKIE_AUTHENTICATION.equals(cookie.getName())) {
-                        authentication = cookie.getValue();
+            if (supportSession != null) {
+
+                //同时没有过期
+                if (supportSession.getExpireTime().getTime() > System.currentTimeMillis()) {
+
+                    user = this.find(supportSession.getUserUuid());
+
+                    if (user != null) {
+
+                        //将用户信息缓存起来
+                        this.cacheUser(authentication, user);
                     }
+
+                } else {
+                    log.info("supportSession = {} 已经过期");
                 }
             }
 
-            if (authentication != null) {
-
-
-                request.getSession().setAttribute(WebResult.COOKIE_AUTHENTICATION, authentication);
-
-                Optional<SupportSession> optionalSupportSession = supportSessionDao.findById(authentication);
-                //SupportSession supportSession = supportSessionDao.findOne(authentication);
-
-                if (optionalSupportSession.isPresent()) {
-                    SupportSession supportSession = optionalSupportSession.get();
-                    if (supportSession.getExpireTime().getTime() > System.currentTimeMillis()) {
-
-                        String userUuid = supportSession.getUserUuid();
-                        Optional<User> optionalUser = userDao.findById(userUuid);
-                        //user = userDao.findOne(userUuid);
-
-                        if (optionalUser.isPresent()) {
-                            user = optionalUser.get();
-
-                            httpSession.setAttribute(User.TAG, user);
-
-                            //更新该用户的登录信息
-                            supportSession.setExpireTime(new Date(System.currentTimeMillis() + SupportSession.EXPIRY * 1000));
-                            supportSessionDao.save(supportSession);
-                        }
-
-                    }
-                }
-
-
-            }
         }
 
         Feature feature = handlerMethod.getMethodAnnotation(Feature.class);
@@ -218,13 +265,13 @@ public class UserService extends BaseEntityService<User> {
 
                 }
 
-                log.error("用户：" + user.getUsername() + " 角色：" + user.getRole() + " 功能点：" + typeString.toString() + " 接口：" + request.getRequestURI());
+                log.error("用户：" + user.getNickname() + " 角色：" + user.getRole() + " 功能点：" + typeString.toString() + " 接口：" + request.getRequestURI());
                 throw new UnauthorizedException();
 
             }
 
         } else {
-            throw new NotFoundException("您请求的内容不存在！");
+            throw new NotFoundException("您访问的接口不存在或者未配置Feature！");
         }
 
 

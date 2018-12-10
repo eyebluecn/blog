@@ -1,22 +1,16 @@
 package cn.eyeblue.blog.rest.tank;
 
-import cn.eyeblue.blog.config.exception.UtilException;
-import cn.eyeblue.blog.rest.base.Base;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/tank")
@@ -30,43 +24,6 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
 
     public TankController() {
         super(Tank.class);
-    }
-
-    /**
-     * 按照分页的方式获取
-     */
-    @RequestMapping("/page")
-    @Feature(FeatureType.USER_MANAGE)
-    public WebResult page(
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "12") Integer pageSize,
-            @RequestParam(required = false) Sort.Direction orderCreateTime,
-            @RequestParam(required = false) Boolean privacy,
-            @RequestParam(required = false) String name
-    ) {
-
-        Sort sort = null;
-
-        if (orderCreateTime != null) {
-            sort = new Sort(orderCreateTime, Tank_.createTime.getName());
-        }
-
-
-        Pageable pageable = getPageRequest(page, pageSize, sort);
-        return this.success(((root, query, cb) -> {
-            Predicate predicate = cb.isNotNull(root.get(Tank_.uuid));
-            if (name != null) {
-                predicate = cb.and(predicate, cb.like(root.get(Tank_.name), "%" + name + "%"));
-            }
-            if (privacy != null) {
-                predicate = cb.and(predicate, cb.equal(root.get(Tank_.privacy), privacy));
-            }
-
-            return predicate;
-
-        }), pageable, Base::map);
-
-
     }
 
 
@@ -88,21 +45,32 @@ public class TankController extends BaseEntityController<Tank, TankForm> {
     @Feature(FeatureType.USER_MINE)
     public void download(HttpServletResponse response, @PathVariable String uuid) throws Exception {
 
-        Optional<Tank> optionalTank = tankDao.findById(uuid);
-
-        if (!optionalTank.isPresent()) {
-            throw new UtilException("文件不存在或者已经被删除！");
-        }
-        Tank tank = optionalTank.get();
-
-        if (!tank.getPrivacy()) {
-            throw new UtilException("访问链接错误！");
-        }
 
         String url = tankService.httpFetchDownloadUrl(uuid);
 
         response.sendRedirect(url);
 
+    }
+
+
+    @RequestMapping("/fetch/download/{uuid}")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult fetchDownload(@PathVariable String uuid) throws Exception {
+
+        String url = tankService.httpFetchDownloadUrl(uuid);
+
+        return success(url);
+
+    }
+
+    //通过一个url直接上传到蓝眼云盘中。
+    @RequestMapping("/crawl/direct")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult crawlDirect(@RequestParam String url, @RequestParam(required = false) String filename) {
+
+        Tank tank = tankService.httpCrawlDirect(url, checkUser(), filename);
+
+        return success(tank);
     }
 
 

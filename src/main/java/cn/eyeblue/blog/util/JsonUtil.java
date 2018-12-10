@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +23,9 @@ public class JsonUtil {
 
         ObjectMapper mapper = AppContextManager.getBean(ObjectMapper.class);
         try {
-
             return mapper.readValue(content, clazz);
-
         } catch (IOException e) {
-
-            throw new UtilException("无法将json字符串转换为对象！");
+            throw new UtilException("JSON信息有误：{} {}", content, ExceptionUtils.getRootCauseMessage(e));
         }
     }
 
@@ -43,7 +42,7 @@ public class JsonUtil {
             return objectMapper.readValue(jsonString, typeReference);
         } catch (IOException e) {
             log.warn(e.getMessage());
-            throw new UtilException("信息有误，无法从字符串转成对象！");
+            throw new UtilException("JSON信息有误：{} {}", jsonString, ExceptionUtils.getRootCauseMessage(e));
         }
 
     }
@@ -62,7 +61,7 @@ public class JsonUtil {
 
     //从一个jsonString中去获取List<String>
     public static List<String> toStringList(String jsonString) {
-        if (jsonString == null) {
+        if (StringUtils.isEmpty(jsonString)) {
             return new ArrayList<>();
         }
 
@@ -126,10 +125,7 @@ public class JsonUtil {
             return objectMapper.writeValueAsString(obj);
 
         } catch (JsonProcessingException e) {
-
-            log.error(obj.toString());
-            throw new UtilException("json字符串转换时出错！");
-
+            throw new UtilException("转成JSON时出错：{}", ExceptionUtils.getRootCauseMessage(e));
         }
     }
 

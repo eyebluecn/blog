@@ -13,7 +13,7 @@ public class TankBaseEntity {
     private long sort;
     @DateTimeFormat(pattern = DateUtil.DEFAULT_FORMAT)
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
-    private Date modifyTime;
+    private Date updateTime;
     @DateTimeFormat(pattern = DateUtil.DEFAULT_FORMAT)
     @JsonFormat(pattern = DateUtil.DEFAULT_FORMAT)
     private Date createTime;

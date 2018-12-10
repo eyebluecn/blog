@@ -6,21 +6,20 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends UtilException {
 
-    private int code;
-    private String message;
 
-    public BadRequestException(String message) {
-        super(message);
-        this.code = ResultCode.BAD_REQUEST;
-        this.message = message;
+    public BadRequestException() {
+        super(ResultCode.BAD_REQUEST);
     }
 
-    public BadRequestException(int code, String message) {
-        super(message);
-        this.code = code;
-        this.message = message;
+    public BadRequestException(String messagePattern, Object... arguments) {
+        super(ResultCode.BAD_REQUEST, messagePattern, arguments);
     }
+
+    public BadRequestException(ResultCode resultCode) {
+        super(resultCode);
+    }
+
 
 }

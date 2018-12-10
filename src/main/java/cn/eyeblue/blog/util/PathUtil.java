@@ -1,7 +1,6 @@
 package cn.eyeblue.blog.util;
 
 
-
 import cn.eyeblue.blog.config.exception.UtilException;
 
 import java.net.URL;
@@ -118,5 +117,20 @@ public class PathUtil {
 
     }
 
+
+    //获取当前执行的classes文件夹路径。
+    public static String getClassesPath() {
+
+        String path = PathUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
+        //linux系统路径是以“file:/”开头
+        path = path.replace("file:/", "/");
+        //jar包运行路径中会带有“.jar!/”
+        path = path.replace(".jar!/", "/");
+        //classes文件夹后带有“!/”
+        path = path.replace("classes!/", "classes");
+
+        return path;
+    }
 
 }

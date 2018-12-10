@@ -1,7 +1,6 @@
 package cn.eyeblue.blog.rest.base;
 
 import cn.eyeblue.blog.util.JsonUtil;
-import cn.eyeblue.blog.util.StringUtil;
 
 import java.io.Serializable;
 import java.util.HashMap;

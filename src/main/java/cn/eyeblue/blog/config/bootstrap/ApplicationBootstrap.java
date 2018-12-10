@@ -2,6 +2,7 @@ package cn.eyeblue.blog.config.bootstrap;
 
 import cn.eyeblue.blog.config.Config;
 import cn.eyeblue.blog.config.install.InstallService;
+import cn.eyeblue.blog.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -24,6 +25,10 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         log.info("---------------------Bootstrap Blog " + config.getBlogVersion() + "------------------------------");
+
+        log.info("AppPath = {}", PathUtil.getAppPath());
+
+        log.info("ClassesPath = {}", PathUtil.getClassesPath());
 
         try {
             installService.start();

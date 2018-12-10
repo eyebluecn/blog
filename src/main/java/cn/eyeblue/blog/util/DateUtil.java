@@ -122,6 +122,16 @@ public class DateUtil {
     }
 
 
+    //获取昨天此时的时间。
+    public static Date getYesterday() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+        return calendar.getTime();
+    }
+
     //获取今天 0:00的时间。
     public static Date getTodayStartDate() {
 

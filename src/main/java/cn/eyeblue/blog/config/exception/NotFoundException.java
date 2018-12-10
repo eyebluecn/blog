@@ -5,21 +5,15 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class NotFoundException extends RuntimeException {
-    private int code;
-    private String message;
+public class NotFoundException extends UtilException {
 
-    public NotFoundException(String message) {
-        super(message);
-        this.code = ResultCode.NOT_FOUND;
-        this.message = message;
+    public NotFoundException() {
+        super(ResultCode.NOT_FOUND);
     }
 
-    public NotFoundException(int code, String message) {
-        super(message);
-        this.code = code;
-        this.message = message;
-    }
+    public NotFoundException(String messagePattern, Object... arguments) {
+        super(ResultCode.NOT_FOUND, messagePattern, arguments);
 
+    }
 
 }

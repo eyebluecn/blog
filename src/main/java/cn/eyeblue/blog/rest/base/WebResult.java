@@ -14,20 +14,18 @@ public class WebResult {
     //一些混淆的字段
     public final static String COOKIE_AUTHENTICATION = "ca_";
 
-
-
-    private int code = ResultCode.OK;
+    private ResultCode code = ResultCode.OK;
     private Map<String, Object> data;
     private String msg = "成功";
 
-    public WebResult(int code, String msg, Map<String, Object> data) {
+    public WebResult(ResultCode code, String msg, Map<String, Object> data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
 
-    public WebResult(int code, String msg) {
+    public WebResult(ResultCode code, String msg) {
         this.code = code;
         this.msg = msg;
     }

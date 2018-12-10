@@ -17,6 +17,7 @@ public class Matter extends TankBaseEntity {
     private long size;
     private boolean privacy;
     private String path;
+    private long times;
     private String url;
 
 

@@ -1,11 +1,17 @@
 package cn.eyeblue.blog.util;
 
+import com.google.common.base.CaseFormat;
+import lombok.NonNull;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.helpers.MessageFormatter;
+
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 关于字符串处理的通用方法。
  */
-public class StringUtil {
+public class StringUtil extends StringUtils {
 
     /**
      * 获取长度为n的字符串
@@ -60,4 +66,82 @@ public class StringUtil {
         }
 
     }
+
+    //生成32位的UUID，即将uuid的'-'去掉
+    public static String new32BitsUuid() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public static String new32BitsUuid(@NonNull String uuid) {
+        return uuid.replace("-", "");
+    }
+
+    //将一个32为的字符串转变回uuid
+    public static String recoverUuid(@NonNull String bits32) {
+        if (bits32.length() != 32) {
+            throw new RuntimeException("入参非32位" + bits32);
+        }
+
+        //1ca00b2d 3016 4e22 b150 277828cffd36
+        //1ca00b2d-3016-4e22-b150-277828cffd36
+        return format("{}-{}-{}-{}-{}",
+                bits32.substring(0, 8),
+                bits32.substring(8, 12),
+                bits32.substring(12, 16),
+                bits32.substring(16, 20),
+                bits32.substring(20, 32)
+        );
+    }
+
+    //将阿拉伯数字转成中文。
+    public static String numberToChinese(int num) {
+
+        String[] chnNumChar = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+        String[] chnUnitSection = new String[]{"", "万", "亿", "万亿", "亿亿"};
+        String[] chnUnitChar = new String[]{"", "十", "百", "千"};
+
+        String strIns = "";
+        String chnStr = "";
+        int unitPos = 0;
+        boolean zero = true;
+        while (num > 0) {
+            int v = num % 10;
+            if (v == 0) {
+                if (!zero) {
+                    zero = true;
+                    chnStr = chnNumChar[v] + chnStr;
+                }
+            } else {
+                zero = false;
+                strIns = chnNumChar[v];
+                strIns += chnUnitChar[unitPos];
+                chnStr = strIns + chnStr;
+            }
+            unitPos++;
+            num = num / 10;
+        }
+        return chnStr;
+
+    }
+
+    //数字转成ABCD
+    public static String numberToCapital(int num) {
+        if (num < 0 || num > 'Z') {
+            return "null";
+        }
+        char res = (char) ('A' + num);
+        return String.valueOf(res);
+    }
+
+
+    //把一个字符串转成下划线的大写格式
+    public static String toUpperUnderscore(String name) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, name);
+    }
+
+    //类似于sl4j的字符串格式化.使用 {} 做占位符。
+    public static String format(String messagePattern, Object... arguments) {
+        return MessageFormatter.arrayFormat(messagePattern, arguments).getMessage();
+    }
+
 }

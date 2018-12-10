@@ -18,6 +18,7 @@ import cn.eyeblue.blog.rest.report.ReportService;
 import cn.eyeblue.blog.rest.support.captcha.SupportCaptchaService;
 import cn.eyeblue.blog.rest.support.session.SupportSessionDao;
 import cn.eyeblue.blog.rest.user.User;
+import cn.eyeblue.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -94,7 +95,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         form.update(comment, user);
 
-        comment.setIp(getCurrentRequestIp());
+        comment.setIp(NetworkUtil.getIpAddress());
         comment = commentDao.save(comment);
 
         //重新统计该文章评论数量
@@ -104,8 +105,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
 
         //邮件通知自己。
-        String host = getCurrentHttpServletRequest().getHeader("Host");
-        articleService.emailComment(article, comment, host);
+        articleService.emailComment(article, comment, NetworkUtil.getHost());
 
         return success(comment);
     }
@@ -244,7 +244,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         if (commentUuids.size() > 0) {
             //一口气查询所有的comment点赞情况。
-            String ip = getCurrentRequestIp();
+            String ip = NetworkUtil.getIpAddress();
             System.out.println(ip);
             List<History> histories = historyDao.findAll((root, query, cb) -> {
                 Predicate predicate = cb.isNotNull(root.get(History_.uuid));
@@ -297,7 +297,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
         Comment comment = this.check(commentUuid);
 
 
-        String ip = getCurrentRequestIp();
+        String ip = NetworkUtil.getIpAddress();
         System.out.println(ip);
         int count = historyDao.countByTypeAndEntityUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
         if (count > 0) {
@@ -325,7 +325,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         Comment comment = this.check(commentUuid);
 
-        String ip = getCurrentRequestIp();
+        String ip = NetworkUtil.getIpAddress();
         History history = historyDao.findTopByTypeAndEntityUuidAndIp(History.Type.AGREE_COMMENT, commentUuid, ip);
         if (history == null) {
             throw new UtilException("您没有点赞过这条评论，操作失败！");
@@ -346,7 +346,7 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
 
         Comment comment = this.check(commentUuid);
 
-        String ip = getCurrentRequestIp();
+        String ip = NetworkUtil.getIpAddress();
 
         int count = reportDao.countByTypeAndEntityUuidAndIp(Report.Type.REPORT_COMMENT, commentUuid, ip);
         if (count > 0) {

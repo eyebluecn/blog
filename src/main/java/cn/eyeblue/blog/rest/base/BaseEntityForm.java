@@ -2,8 +2,13 @@ package cn.eyeblue.blog.rest.base;
 
 
 import cn.eyeblue.blog.config.AppContextManager;
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.user.User;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import java.util.Set;
 
 public abstract class BaseEntityForm<E extends BaseEntity> extends BaseForm {
 
@@ -51,6 +56,24 @@ public abstract class BaseEntityForm<E extends BaseEntity> extends BaseForm {
      */
     public E find(String uuid) {
         return AppContextManager.find(this.clazz, uuid);
+    }
+
+    /**
+     * 手动验证这个form的正确性
+     */
+    public void validate() {
+        //手动验证
+        int errorNum = 0;
+        String errorMessage = "检测到错误信息。";
+        Set<ConstraintViolation<BaseEntityForm<E>>> constraintViolationSet = Validation.buildDefaultValidatorFactory().getValidator().validate(this);
+        for (ConstraintViolation<BaseEntityForm<E>> item : constraintViolationSet) {
+            errorNum++;
+            errorMessage += "您填写的“" + item.getPropertyPath() + "”不符合要求：" + item.getMessage() + ";";
+        }
+
+        if (errorNum != 0) {
+            throw new BadRequestException(errorMessage);
+        }
     }
 
 }

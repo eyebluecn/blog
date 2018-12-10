@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class TankMessage<T extends TankBaseEntity> {
 
-    private int code;
+    private WebResultCode code;
     private String msg;
     private T data;
 }

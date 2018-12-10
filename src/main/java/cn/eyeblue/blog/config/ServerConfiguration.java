@@ -1,26 +1,29 @@
 package cn.eyeblue.blog.config;
 
 import cn.eyeblue.blog.interceptor.AuthInterceptor;
+import cn.eyeblue.blog.interceptor.SecurityInterceptor;
 import cn.eyeblue.blog.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
 @EnableWebMvc
-public class ServerConfiguration extends WebMvcConfigurerAdapter {
+public class ServerConfiguration implements WebMvcConfigurer {
 
     @Autowired
     Config config;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
+        //添加权限拦截器
         registry.addInterceptor(new AuthInterceptor());
+        //添加监控拦截器
+        registry.addInterceptor(new SecurityInterceptor());
     }
 
     @Override
