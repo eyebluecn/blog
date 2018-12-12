@@ -16,6 +16,7 @@ import cn.eyeblue.blog.rest.user.User;
 import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 
@@ -62,15 +64,19 @@ public class ArticleService extends BaseEntityService<Article> {
             Integer page,
             Integer pageSize,
             Sort.Direction orderSort,
+            Sort.Direction orderUpdateTime,
+            Sort.Direction orderCreateTime,
+
             Sort.Direction orderTop,
             Sort.Direction orderHit,
             Sort.Direction orderPrivacy,
-            Sort.Direction orderCreateTime,
             String userUuid,
             Boolean privacy,
             String title,
             String tag,
             String keyword,
+            List<ArticleType> types,
+            String documentUuid,
             User operator
     ) {
 
@@ -95,9 +101,8 @@ public class ArticleService extends BaseEntityService<Article> {
             sort = this.and(sort, new Sort(orderTop, Article_.top.getName()));
         }
 
-        if (orderSort != null) {
-            sort = this.and(sort, new Sort(orderSort, Article_.sort.getName()));
-        }
+        //因为置顶的排序放到第一位
+        sort = this.and(sort, defaultSort(orderSort, orderUpdateTime, orderCreateTime));
 
 
         if (orderHit != null) {
@@ -108,9 +113,6 @@ public class ArticleService extends BaseEntityService<Article> {
             sort = this.and(sort, new Sort(orderPrivacy, Article_.privacy.getName()));
         }
 
-        if (orderCreateTime != null) {
-            sort = this.and(sort, new Sort(orderCreateTime, Article_.createTime.getName()));
-        }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 
@@ -139,6 +141,17 @@ public class ArticleService extends BaseEntityService<Article> {
 
                 predicate = cb.and(predicate, cb.or(predicate1, predicate2));
             }
+
+            if (CollectionUtils.isNotEmpty(types)) {
+                CriteriaBuilder.In<ArticleType> typeIn = cb.in(root.get(Article_.type));
+                types.forEach(typeIn::value);
+                predicate = cb.and(predicate, typeIn);
+            }
+
+            if (documentUuid != null) {
+                predicate = cb.and(predicate, cb.equal(root.get(Article_.documentUuid), documentUuid));
+            }
+
             return predicate;
 
         }), pageable);

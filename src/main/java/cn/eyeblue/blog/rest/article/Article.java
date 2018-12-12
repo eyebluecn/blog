@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,7 +32,7 @@ public class Article extends BaseEntity {
     private String path;
 
     //标签
-    private String tags;
+    private String tags = EMPTY_JSON_ARRAY;
 
     //封面图片
     private String posterTankUuid;
@@ -71,6 +73,13 @@ public class Article extends BaseEntity {
     //是否接受评论的邮件通知
     private Boolean needNotify = true;
 
+    //对应文档的uuid，只有类型是 DOCUMENT_ARTICLE时用到此字段
+    private String documentUuid;
+
+    //类型：知识库(DOCUMENT)，单篇文章(ARTICLE)，知识库中的文章(DOCUMENT_ARTICLE)
+    @Enumerated(EnumType.STRING)
+    private ArticleType type = ArticleType.ARTICLE;
+
     @Transient
     private Tank posterTank;
 
@@ -84,6 +93,10 @@ public class Article extends BaseEntity {
     //标签数组对象
     @Transient
     private List<Tag> tagArray;
+
+    //对应的文档
+    @Transient
+    private Article document;
 
 
     @Data

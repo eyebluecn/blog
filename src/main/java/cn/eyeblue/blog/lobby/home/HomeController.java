@@ -63,12 +63,15 @@ public class HomeController extends FrontendBaseController {
                 page,
                 pageSize,
                 Sort.Direction.DESC,
+                null,
+                null,
                 Sort.Direction.DESC,
                 null,
                 null,
                 null,
-                null,
                 false,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -76,15 +79,19 @@ public class HomeController extends FrontendBaseController {
 
         //准备热门文章分页了。
         Pager<Article> hotArticlePager = articleService.page(
+
                 0,
                 10,
+                null,
+                null,
                 null,
                 null,
                 Sort.Direction.DESC,
                 null,
                 null,
-                null,
                 false,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -169,9 +176,13 @@ public class HomeController extends FrontendBaseController {
 
         //用户的文章分类。
         Pager<Tag> tagPager = tagService.page(
+
                 0,
                 50,
                 Sort.Direction.DESC,
+                null,
+                null,
+
                 userUuid,
                 null);
         model.addAttribute("tagPager", tagPager);
@@ -182,6 +193,7 @@ public class HomeController extends FrontendBaseController {
                 page,
                 pageSize,
                 Sort.Direction.DESC,
+                null,
                 Sort.Direction.DESC,
                 null,
                 null,
@@ -191,6 +203,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 tagUuid,
                 null,
+                null,
+                null,
                 null);
 
         //准备热门文章分页了。
@@ -199,11 +213,14 @@ public class HomeController extends FrontendBaseController {
                 10,
                 null,
                 null,
+                null,
                 Sort.Direction.DESC,
                 null,
                 null,
                 userUuid,
                 false,
+                null,
+                null,
                 null,
                 null,
                 null,

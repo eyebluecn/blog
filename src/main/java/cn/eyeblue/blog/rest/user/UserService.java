@@ -6,6 +6,7 @@ import cn.eyeblue.blog.config.exception.UnauthorizedException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
+import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
 import cn.eyeblue.blog.rest.support.session.SupportSession;
@@ -20,14 +21,19 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
+import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
@@ -276,5 +282,72 @@ public class UserService extends BaseEntityService<User> {
 
 
     }
+
+
+    public Pager<User> page(
+
+            Integer page,
+            Integer pageSize,
+            Sort.Direction orderSort,
+            Sort.Direction orderUpdateTime,
+            Sort.Direction orderCreateTime,
+
+            Sort.Direction orderLastTime,
+            String username,
+            String email,
+            String phone,
+            String keyword,
+            User.Role role,
+            Boolean autoComplete
+    ) {
+
+        Sort sort = defaultSort(orderSort, orderUpdateTime, orderCreateTime);
+
+
+        if (orderLastTime != null) {
+            sort = this.and(sort, new Sort(orderLastTime, User_.lastTime.getName()));
+        }
+
+        Pageable pageable = getPageRequest(page, pageSize, sort);
+
+
+        Page<User> pageData = getDao().findAll(((root, query, cb) -> {
+            Predicate predicate = cb.isNotNull(root.get(User_.uuid));
+
+            if (username != null) {
+                predicate = cb.and(predicate, cb.like(root.get(User_.username), "%" + username + "%"));
+            }
+
+            if (email != null) {
+                predicate = cb.and(predicate, cb.like(root.get(User_.email), "%" + email + "%"));
+            }
+
+            if (phone != null) {
+                predicate = cb.and(predicate, cb.like(root.get(User_.phone), "%" + phone + "%"));
+            }
+
+            if (role != null) {
+                predicate = cb.and(predicate, cb.equal(root.get(User_.role), role));
+            }
+
+            if (keyword != null) {
+
+                Predicate predicate1 = cb.like(root.get(User_.username), "%" + keyword + "%");
+                Predicate predicate2 = cb.like(root.get(User_.email), "%" + keyword + "%");
+
+                predicate = cb.and(predicate, cb.or(predicate1, predicate2));
+            }
+            return predicate;
+
+        }), pageable);
+
+        long totalItems = pageData.getTotalElements();
+        List<User> list = pageData.getContent();
+
+        return new Pager<>(page, pageSize, totalItems, list);
+
+
+    }
+
 
 }

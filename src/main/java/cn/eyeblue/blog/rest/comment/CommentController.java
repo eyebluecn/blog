@@ -168,6 +168,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) Sort.Direction orderUpdateTime,
+            @RequestParam(required = false) Sort.Direction orderCreateTime,
+
             @RequestParam(required = false) String uuid,
             @RequestParam(required = false) String userUuid,
             @RequestParam(required = false) String articleUuid,
@@ -188,6 +191,9 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
                 page,
                 pageSize,
                 orderSort,
+                orderUpdateTime,
+                orderCreateTime,
+
                 uuid,
                 userUuid,
                 articleUuid,
@@ -214,9 +220,13 @@ public class CommentController extends BaseEntityController<Comment, CommentForm
             pager.getData().forEach(comment -> {
 
                 Pager<Comment> subPager = commentService.page(
+
                         0,
                         10,
                         Sort.Direction.DESC,
+                        null,
+                        null,
+
                         uuid,
                         null,
                         articleUuid,

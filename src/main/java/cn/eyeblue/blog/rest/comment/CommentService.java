@@ -31,6 +31,9 @@ public class CommentService extends BaseEntityService<Comment> {
             Integer page,
             Integer pageSize,
             Sort.Direction orderSort,
+            Sort.Direction orderUpdateTime,
+            Sort.Direction orderCreateTime,
+
             String uuid,
             String userUuid,
             String articleUuid,
@@ -42,10 +45,8 @@ public class CommentService extends BaseEntityService<Comment> {
             String content
     ) {
 
-        Sort sort = null;
-        if (orderSort != null) {
-            sort = new Sort(orderSort, Comment_.sort.getName());
-        }
+        Sort sort = defaultSort(orderSort, orderUpdateTime, orderCreateTime);
+
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 

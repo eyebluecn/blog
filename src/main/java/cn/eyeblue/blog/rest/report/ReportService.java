@@ -30,6 +30,9 @@ public class ReportService extends BaseEntityService<Report> {
             Integer page,
             Integer pageSize,
             Sort.Direction orderSort,
+            Sort.Direction orderUpdateTime,
+            Sort.Direction orderCreateTime,
+
             String entityUuid,
             String entityName,
             Report.Type type,
@@ -37,11 +40,8 @@ public class ReportService extends BaseEntityService<Report> {
             String ip
     ) {
 
-        Sort sort = null;
+        Sort sort = defaultSort(orderSort, orderUpdateTime, orderCreateTime);
 
-        if (orderSort != null) {
-            sort = new Sort(orderSort, Report_.sort.getName());
-        }
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 

@@ -32,7 +32,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
     @Size(min = 1, max = 255, message = "路径必填并且最长255字")
     private String path;
 
-
     //标签
     @NotNull
     private String tags;
@@ -52,12 +51,12 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private Boolean isMarkdown = true;
 
     //内容
-    @Size(max = 2147483647, message = "markdown最长2147483647字")
+    @Size(max = 2147483646, message = "markdown最长2147483646字")
     private String markdown;
 
     //html
     @NotNull
-    @Size(min = 1, max = 2147483647, message = "html必填并且最长2147483647字")
+    @Size(min = 1, max = 2147483646, message = "html必填并且最长2147483646字")
     private String html;
 
     //文章字数

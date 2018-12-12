@@ -3,6 +3,7 @@ package cn.eyeblue.blog.rest.user;
 import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
+import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.base.WebResult;
 import cn.eyeblue.blog.rest.common.MailService;
 import cn.eyeblue.blog.rest.common.NotificationResult;
@@ -23,7 +24,6 @@ import cn.eyeblue.blog.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.criteria.Predicate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -176,10 +175,15 @@ public class UserController extends BaseEntityController<User, UserForm> {
     @Feature(FeatureType.USER_MANAGE)
     @RequestMapping("/page")
     public WebResult page(
+
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
-            @RequestParam(required = false) Sort.Direction orderLastTime,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) Sort.Direction orderUpdateTime,
+            @RequestParam(required = false) Sort.Direction orderCreateTime,
+
+
+            @RequestParam(required = false) Sort.Direction orderLastTime,
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String phone,
@@ -188,53 +192,23 @@ public class UserController extends BaseEntityController<User, UserForm> {
             @RequestParam(required = false, defaultValue = "false") Boolean autoComplete
     ) {
 
-        Sort sort = null;
 
-        if (orderSort != null) {
-            sort = new Sort(orderSort, User_.sort.getName());
-        }
-        if (orderLastTime != null) {
-            sort = this.and(sort, new Sort(orderLastTime, User_.lastTime.getName()));
-        }
+        Pager<User> pager = userService.page(
+                page,
+                pageSize,
+                orderSort,
+                orderUpdateTime,
+                orderCreateTime,
 
-        Pageable pageable = getPageRequest(page, pageSize, sort);
-        return this.success(((root, query, cb) -> {
-                    Predicate predicate = cb.isNotNull(root.get(User_.uuid));
-
-                    if (username != null) {
-                        predicate = cb.and(predicate, cb.like(root.get(User_.username), "%" + username + "%"));
-                    }
-
-                    if (email != null) {
-                        predicate = cb.and(predicate, cb.like(root.get(User_.email), "%" + email + "%"));
-                    }
-
-                    if (phone != null) {
-                        predicate = cb.and(predicate, cb.like(root.get(User_.phone), "%" + phone + "%"));
-                    }
-
-                    if (role != null) {
-                        predicate = cb.and(predicate, cb.equal(root.get(User_.role), role));
-                    }
-
-                    if (keyword != null) {
-
-                        Predicate predicate1 = cb.like(root.get(User_.username), "%" + keyword + "%");
-                        Predicate predicate2 = cb.like(root.get(User_.email), "%" + keyword + "%");
-
-                        predicate = cb.and(predicate, cb.or(predicate1, predicate2));
-                    }
-                    return predicate;
-
-                })
-                , pageable,
-                user -> {
-                    if (autoComplete) {
-                        return user.simpleMap();
-                    } else {
-                        return user.detailMap();
-                    }
-                });
+                orderLastTime,
+                username,
+                email,
+                phone,
+                keyword,
+                role,
+                autoComplete
+        );
+        return success(pager);
 
 
     }

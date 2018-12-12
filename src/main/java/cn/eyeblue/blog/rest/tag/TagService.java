@@ -31,14 +31,14 @@ public class TagService extends BaseEntityService<Tag> {
             Integer page,
             Integer pageSize,
             Sort.Direction orderSort,
+            Sort.Direction orderUpdateTime,
+            Sort.Direction orderCreateTime,
+
             String userUuid,
             String name
     ) {
 
-        Sort sort = null;
-        if (orderSort != null) {
-            sort = new Sort(orderSort, Tag_.sort.getName());
-        }
+        Sort sort = defaultSort(orderSort, orderUpdateTime, orderCreateTime);
 
         Pageable pageable = getPageRequest(page, pageSize, sort);
 

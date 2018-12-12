@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -165,34 +166,47 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.USER_MINE)
     @RequestMapping("/page")
     public WebResult page(
+
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) Sort.Direction orderUpdateTime,
+            @RequestParam(required = false) Sort.Direction orderCreateTime,
+
+
             @RequestParam(required = false) Sort.Direction orderTop,
             @RequestParam(required = false) Sort.Direction orderHit,
             @RequestParam(required = false) Sort.Direction orderPrivacy,
-            @RequestParam(required = false) Sort.Direction orderCreateTime,
             @RequestParam(required = false) String userUuid,
             @RequestParam(required = false) Boolean privacy,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String tag,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) List<ArticleType> types,
+            @RequestParam(required = false) String documentUuid
     ) {
 
         User operator = checkUser();
 
-        Pager<Article> articlePager = articleService.page(page,
+        Pager<Article> articlePager = articleService.page(
+
+                page,
                 pageSize,
                 orderSort,
+                orderUpdateTime,
+                orderCreateTime,
+
+
                 orderTop,
                 orderHit,
                 orderPrivacy,
-                orderCreateTime,
                 userUuid,
                 privacy,
                 title,
                 tag,
                 keyword,
+                types,
+                documentUuid,
                 operator);
 
         return this.success(articlePager);

@@ -137,6 +137,10 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) Sort.Direction orderUpdateTime,
+            @RequestParam(required = false) Sort.Direction orderCreateTime,
+
+
             @RequestParam(required = false) String userUuid,
             @RequestParam(required = false) String name
     ) {
@@ -144,6 +148,9 @@ public class TagController extends BaseEntityController<Tag, TagForm> {
                 page,
                 pageSize,
                 orderSort,
+                orderUpdateTime,
+                orderCreateTime,
+
                 userUuid,
                 name);
 

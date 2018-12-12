@@ -92,6 +92,9 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
             @RequestParam(required = false) Sort.Direction orderSort,
+            @RequestParam(required = false) Sort.Direction orderUpdateTime,
+            @RequestParam(required = false) Sort.Direction orderCreateTime,
+
             @RequestParam(required = false) String entityUuid,
             @RequestParam(required = false) String entityName,
             @RequestParam(required = false) Report.Type type,
@@ -105,6 +108,10 @@ public class ReportController extends BaseEntityController<Report, ReportForm> {
                 page,
                 pageSize,
                 orderSort,
+                orderUpdateTime,
+                orderCreateTime,
+
+
                 entityUuid,
                 entityName,
                 type,
