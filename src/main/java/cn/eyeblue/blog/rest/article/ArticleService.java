@@ -15,6 +15,7 @@ import cn.eyeblue.blog.rest.tank.TankService;
 import cn.eyeblue.blog.rest.user.User;
 import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.JsonUtil;
+import cn.eyeblue.blog.util.NetworkUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -245,7 +246,7 @@ public class ArticleService extends BaseEntityService<Article> {
             return;
         }
 
-        String url = "http://" + host + "/home/article/" + article.getUuid();
+        String url = NetworkUtil.getHost() + "/home/article/" + article.getUuid();
         String html = "<p>文章:《" + article.getTitle() + "》</p><p>用户：" + comment.getName() + "</p><p>邮箱：" + comment.getEmail() + "</p><p>内容：" + comment.getContent() + "\"</p><p><a href=\"" + url + "\">点击查看</a></p>";
         NotificationResult notificationResult = mailService.htmlSend(user.getEmail(), "《" + article.getTitle() + "》收到新评论了", html);
 

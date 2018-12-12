@@ -20,7 +20,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 
 //所有钉钉消息的发送均带有异步功能。
@@ -49,12 +48,12 @@ public class DingdingService {
     public void sendMvcExceptionInfo(Throwable throwable) {
 
         HttpServletRequest request = NetworkUtil.getRequest();
-        HttpSession httpSession = request.getSession(true);
-        Object userObject = httpSession.getAttribute(User.TAG);
+
+        User operator = AppContextManager.findUser();
+
         String userInfo = "【未登录】" + NetworkUtil.getIpAddress(request);
-        if (userObject instanceof User) {
-            User user = (User) userObject;
-            userInfo = "【" + user.getNickname() + "】" + user.getUuid();
+        if (operator != null) {
+            userInfo = "【" + operator.getNickname() + "】" + operator.getUuid();
         }
 
         String content = "应用：" + config.getAppName() + "\n" +

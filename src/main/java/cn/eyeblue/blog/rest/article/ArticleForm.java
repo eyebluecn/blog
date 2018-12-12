@@ -12,6 +12,8 @@ import cn.eyeblue.blog.util.ValidationUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -71,6 +73,14 @@ public class ArticleForm extends BaseEntityForm<Article> {
 
     //是否接受评论通知。
     private Boolean needNotify = true;
+
+
+    //对应文档的uuid，只有类型是 DOCUMENT_ARTICLE时用到此字段
+    private String documentUuid;
+
+    //类型：知识库(DOCUMENT)，单篇文章(ARTICLE)，知识库中的文章(DOCUMENT_ARTICLE)
+    @Enumerated(EnumType.STRING)
+    private ArticleType type = ArticleType.ARTICLE;
 
 
     public ArticleForm() {
