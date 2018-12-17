@@ -78,11 +78,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         //查重。
         Article dbArticle = articleDao.findTopByUserUuidAndPath(operator.getUuid(), article.getPath());
 
-
         if (dbArticle != null) {
             throw new BadRequestException("路径已经存在，创建失败。");
         }
-
 
         article = articleDao.save(article);
 
@@ -138,7 +136,12 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
     @Feature(FeatureType.PUBLIC)
     public WebResult detail(@PathVariable String uuid) {
 
-        return success(articleService.detail(uuid, NetworkUtil.getIpAddress()));
+        String ip = NetworkUtil.getIpAddress();
+
+        Article article = articleService.check(uuid);
+        articleService.wrapDetail(article, ip);
+
+        return success(article);
 
     }
 
@@ -173,7 +176,6 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
             @RequestParam(required = false) Sort.Direction orderUpdateTime,
             @RequestParam(required = false) Sort.Direction orderCreateTime,
 
-
             @RequestParam(required = false) Sort.Direction orderTop,
             @RequestParam(required = false) Sort.Direction orderHit,
             @RequestParam(required = false) Sort.Direction orderPrivacy,
@@ -195,7 +197,6 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
                 orderSort,
                 orderUpdateTime,
                 orderCreateTime,
-
 
                 orderTop,
                 orderHit,

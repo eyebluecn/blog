@@ -172,16 +172,6 @@ public class ArticleService extends BaseEntityService<Article> {
     }
 
 
-    //获取一篇文章的详情。
-    public Article detail(String uuid, String ip) {
-
-
-        Article article = this.check(uuid);
-
-
-        return wrapDetail(article, ip);
-    }
-
 
     //获取一篇文章的详情。
     public Article wrapDetail(Article article, String ip) {

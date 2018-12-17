@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 @Entity
 public class Article extends BaseEntity {
 
+    //第一级菜单的puuid是ROOT.
+    public final static String ROOT = "ROOT";
+
     //发布者
     private String userUuid;
 
@@ -76,6 +79,9 @@ public class Article extends BaseEntity {
     //对应文档的uuid，只有类型是 DOCUMENT_ARTICLE时用到此字段
     private String documentUuid;
 
+    //自己作为文档文章时，标题的父级是什么。第一级菜单的puuid是ROOT
+    private String puuid;
+
     //类型：知识库(DOCUMENT)，单篇文章(ARTICLE)，知识库中的文章(DOCUMENT_ARTICLE)
     @Enumerated(EnumType.STRING)
     private ArticleType type = ArticleType.ARTICLE;
@@ -97,6 +103,10 @@ public class Article extends BaseEntity {
     //对应的文档
     @Transient
     private Article document;
+
+    //作为文档的目录结构，子目录结构。
+    @Transient
+    private List<Article> children;
 
 
     @Data
