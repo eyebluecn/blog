@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.article;
 
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.rest.base.BaseEntityService;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.comment.Comment;
@@ -16,6 +17,7 @@ import cn.eyeblue.blog.rest.user.User;
 import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.JsonUtil;
 import cn.eyeblue.blog.util.NetworkUtil;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -67,7 +71,6 @@ public class ArticleService extends BaseEntityService<Article> {
             Sort.Direction orderSort,
             Sort.Direction orderUpdateTime,
             Sort.Direction orderCreateTime,
-
             Sort.Direction orderTop,
             Sort.Direction orderHit,
             Sort.Direction orderPrivacy,
@@ -78,7 +81,8 @@ public class ArticleService extends BaseEntityService<Article> {
             String keyword,
             List<ArticleType> types,
             String documentUuid,
-            User operator
+            User operator,
+            boolean needTags
     ) {
 
         //验证权限。超级管理员可以查看所有人的私有文章。普通用户只能查看自己的私有文章。
@@ -161,20 +165,22 @@ public class ArticleService extends BaseEntityService<Article> {
         List<Article> list = pageData.getContent();
 
 
-        list.forEach(article -> {
-            //作者
-            article.setUser(userService.find(article.getUserUuid()));
-            //标签装点
-            article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
-        });
+        if (needTags) {
+            list.forEach(article -> {
+                //作者
+                article.setUser(userService.find(article.getUserUuid()));
+                //标签装点
+                article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
+            });
+        }
+
 
         return new Pager<>(page, pageSize, totalItems, list);
     }
 
 
-
     //获取一篇文章的详情。
-    public Article wrapDetail(Article article, String ip) {
+    public Article wrapDetail(@NonNull Article article, String ip) {
 
 
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
@@ -191,6 +197,37 @@ public class ArticleService extends BaseEntityService<Article> {
         if (history != null) {
             article.setAgreed(true);
         }
+
+        //对于文档，装饰其目录树。
+        if (article.getType() == ArticleType.DOCUMENT) {
+            //找出所有的子节点。
+            Pager<Article> nodeArticlePager = this.page(
+                    0,
+                    Pager.MAX_PAGE_SIZE,
+                    Sort.Direction.ASC,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    article.getUuid(),
+                    null,
+                    false
+            );
+            //找出文档下的所有节点
+            List<Article> nodeArticles = nodeArticlePager.getData();
+            //递归整理所有节点
+            this.refineHierarchy(article, nodeArticles);
+
+        }
+
+
         return article;
     }
 
@@ -243,6 +280,62 @@ public class ArticleService extends BaseEntityService<Article> {
         if (notificationResult.getStatus() != NotificationResult.Status.OK) {
             log.warn(html);
         }
+    }
+
+
+    //按照层级关系将菜单整理好。
+    private void refineHierarchy(@NonNull Article document, @NonNull List<Article> candidates) {
+        List<Article> nodes = new ArrayList<>();
+
+        for (Article node : candidates) {
+            //如果是顶级目录
+            if (Objects.equals(node.getPuuid(), Article.ROOT)) {
+                nodes.add(node);
+                refineSubHierarchy(node, candidates);
+            }
+        }
+        document.setChildren(nodes);
+    }
+
+
+    //递归整理当前菜单。
+    private void refineSubHierarchy(@NonNull Article node, List<Article> candidates) {
+        for (Article subNode : candidates) {
+            if (node.getUuid().equals(subNode.getPuuid())) {
+                node.addChild(subNode);
+                refineSubHierarchy(subNode, candidates);
+            }
+        }
+    }
+
+    //对一篇文章的路径进行查重 前提是这篇文章还没有进行创建。
+    public void checkDuplicate(@NonNull User user, @NonNull Article article) {
+
+        if (article.getType() == ArticleType.ARTICLE) {
+            //查重。
+            int count = articleDao.countByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.ARTICLE, article.getPath());
+            if (count > 0) {
+                throw new BadRequestException("路径 {} 的文章已经存在，创建失败。", article.getPath());
+            }
+
+        } else if (article.getType() == ArticleType.DOCUMENT) {
+            //查重。
+            int count = articleDao.countByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.DOCUMENT, article.getPath());
+            if (count > 0) {
+                throw new BadRequestException("路径 {} 的文档已经存在，创建失败。", article.getPath());
+            }
+        } else if (
+                article.getType() == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE ||
+                        article.getType() == ArticleType.DOCUMENT_ARTICLE
+        ) {
+            //查重。
+            int count = articleDao.countByUserUuidAndDocumentUuidAndPath(user.getUuid(), article.getDocumentUuid(), article.getPath());
+            if (count > 0) {
+                throw new BadRequestException("路径 {} 的节点已经存在，创建失败。", article.getPath());
+            }
+
+        }
+
     }
 
 

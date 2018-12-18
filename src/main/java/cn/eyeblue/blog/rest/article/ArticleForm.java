@@ -37,7 +37,6 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private String path;
 
     //标签
-    @NotNull
     private String tags;
 
     //封面图片
@@ -47,8 +46,7 @@ public class ArticleForm extends BaseEntityForm<Article> {
     private String posterUrl;
 
     //摘要
-    @NotNull
-    @Size(min = 1, max = 500, message = "摘要必填并且最长500字")
+    @Size(max = 500, message = "摘要必填并且最长500字")
     private String digest;
 
     //是否是markdown格式
@@ -84,14 +82,12 @@ public class ArticleForm extends BaseEntityForm<Article> {
     @Enumerated(EnumType.STRING)
     private ArticleType type = ArticleType.ARTICLE;
 
-
     public ArticleForm() {
         super(Article.class);
     }
 
     @Override
     protected void update(Article article, User operator) {
-
 
         article.setTitle(title);
 
@@ -120,15 +116,16 @@ public class ArticleForm extends BaseEntityForm<Article> {
         article.setPuuid(puuid);
         article.setType(type);
 
-
         //tag比较复杂，后面统一设置。
+        if (StringUtil.isBlank(tags)) {
+            tags = Article.EMPTY_JSON_ARRAY;
+        }
         List<String> tagUuids = JsonUtil.toStringList(tags);
         TagService tagService = AppContextManager.getBean(TagService.class);
 
         List<Tag> tagList = tagService.checkTags(tagUuids, article.getUserUuid());
         List<String> okTags = tagList.stream().map(Tag::getUuid).collect(Collectors.toList());
         article.setTags(JsonUtil.toJson(okTags));
-
 
         //对于不同类型的article进行校验
         if (type == ArticleType.ARTICLE) {
@@ -138,6 +135,11 @@ public class ArticleForm extends BaseEntityForm<Article> {
                     throw new UtilException("markdown内容必填");
                 }
             }
+
+        } else if (type == ArticleType.DOCUMENT) {
+
+
+        } else if (type == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE) {
 
 
         } else if (type == ArticleType.DOCUMENT_ARTICLE) {
@@ -151,13 +153,15 @@ public class ArticleForm extends BaseEntityForm<Article> {
             if (StringUtil.isBlank(documentUuid)) {
                 throw new BadRequestException("文档需要指定");
             }
+
             if (StringUtil.isBlank(puuid)) {
                 throw new BadRequestException("父级菜单需要指定，第一级为ROOT");
             }
 
+        } else if (type == ArticleType.DOCUMENT_BLANK) {
 
-        } else if (type == ArticleType.DOCUMENT) {
 
+        } else if (type == ArticleType.DOCUMENT_URL) {
 
         }
 

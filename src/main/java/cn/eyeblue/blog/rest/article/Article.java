@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -108,7 +110,6 @@ public class Article extends BaseEntity {
     @Transient
     private List<Article> children;
 
-
     @Data
     public static class Analysis {
         private Integer num;
@@ -123,14 +124,25 @@ public class Article extends BaseEntity {
 
         String tempKey = this.path;
 
-        String pattern = "^[0-9a-z-]+$";
+        String pattern = "^[0-9a-z-_]+$";
         boolean isMatch = Pattern.matches(pattern, tempKey);
         if (!isMatch) {
-            throw new BadRequestException("key值只能包含小写字母，数字以及“-”,“_”");
+            throw new BadRequestException("路径只能包含小写字母，数字以及“-”,“_”");
         }
 
     }
 
+    //往自己的children中添加一个子节点。
+    public void addChild(Article article) {
+        if (children == null) {
+            children = new ArrayList<>();
+        }
+
+        children.add(article);
+
+        //按照sequence来排序。
+        children.sort(Comparator.comparingLong(o -> o.sort));
+    }
 }
 
 

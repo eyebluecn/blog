@@ -6,9 +6,10 @@ import lombok.Getter;
 public enum ArticleType {
     DOCUMENT("文档"),
     ARTICLE("单篇文章"),
-    DOCUMENT_ARTICLE("文档中的文章"),
-    DOCUMENT_BLANK("文档中的空节点"),
-    DOCUMENT_URL("文档中的链接");
+    DOCUMENT_PLACEHOLDER_ARTICLE("文档-占位文章"),
+    DOCUMENT_ARTICLE("文档-文章"),
+    DOCUMENT_BLANK("文档-空节点"),
+    DOCUMENT_URL("文档-链接");
 
 
     @Getter

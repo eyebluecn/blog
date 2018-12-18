@@ -5,6 +5,7 @@ import cn.eyeblue.blog.lobby.base.FrontendBaseController;
 import cn.eyeblue.blog.rest.article.Article;
 import cn.eyeblue.blog.rest.article.ArticleDao;
 import cn.eyeblue.blog.rest.article.ArticleService;
+import cn.eyeblue.blog.rest.article.ArticleType;
 import cn.eyeblue.blog.rest.base.Pager;
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
@@ -75,7 +76,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null);
+                null,
+                true);
 
         //准备热门文章分页了。
         Pager<Article> hotArticlePager = articleService.page(
@@ -95,7 +97,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null);
+                null,
+                true);
 
         model.addAttribute("articlePager", articlePager);
         model.addAttribute("hotArticlePager", hotArticlePager);
@@ -146,7 +149,7 @@ public class HomeController extends FrontendBaseController {
             throw new UtilException("访问地址错误。[user not found]");
         }
 
-        Article article = articleDao.findTopByUserUuidAndPath(user.getUuid(), path);
+        Article article = articleDao.findTopByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.ARTICLE, path);
         String ip = NetworkUtil.getIpAddress(request);
         articleService.wrapDetail(article, ip);
 
@@ -207,7 +210,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null);
+                null,
+                true);
 
         //准备热门文章分页了。
         Pager<Article> hotArticlePager = articleService.page(
@@ -226,7 +230,8 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null);
+                null,
+                true);
 
         model.addAttribute("articlePager", articlePager);
         model.addAttribute("hotArticlePager", hotArticlePager);

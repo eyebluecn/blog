@@ -17,6 +17,11 @@ public interface ArticleDao extends BaseEntityDao<Article> {
 
     int countByUserUuidAndPath(String userUuid, String path);
 
-    Article findTopByUserUuidAndPath(String userUuid, String path);
+    //某个用户下面的文章路径查重
+    int countByUserUuidAndTypeAndPath(String userUuid, ArticleType type, String path);
 
+    //文档下的路径要求唯一
+    int countByUserUuidAndDocumentUuidAndPath(String userUuid, String documentUuid, String path);
+
+    Article findTopByUserUuidAndTypeAndPath(String userUuid, ArticleType type, String path);
 }

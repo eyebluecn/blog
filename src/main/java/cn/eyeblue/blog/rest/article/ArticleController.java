@@ -1,6 +1,5 @@
 package cn.eyeblue.blog.rest.article;
 
-import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
@@ -76,11 +75,7 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         Article article = form.create(operator);
 
         //查重。
-        Article dbArticle = articleDao.findTopByUserUuidAndPath(operator.getUuid(), article.getPath());
-
-        if (dbArticle != null) {
-            throw new BadRequestException("路径已经存在，创建失败。");
-        }
+        articleService.checkDuplicate(operator, article);
 
         article = articleDao.save(article);
 
@@ -118,11 +113,10 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         //当修改了path时。
         if (!Objects.equals(oldPath, article.getPath())) {
+
             //查重。
-            Article dbArticle = articleDao.findTopByUserUuidAndPath(operator.getUuid(), article.getPath());
-            if (dbArticle != null) {
-                throw new BadRequestException("路径已经存在，创建失败。");
-            }
+            articleService.checkDuplicate(operator, article);
+
         }
 
 
@@ -185,19 +179,18 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
             @RequestParam(required = false) String tag,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) List<ArticleType> types,
-            @RequestParam(required = false) String documentUuid
+            @RequestParam(required = false) String documentUuid,
+            @RequestParam(required = false, defaultValue = "false") Boolean needTags
     ) {
 
         User operator = checkUser();
 
         Pager<Article> articlePager = articleService.page(
-
                 page,
                 pageSize,
                 orderSort,
                 orderUpdateTime,
                 orderCreateTime,
-
                 orderTop,
                 orderHit,
                 orderPrivacy,
@@ -208,7 +201,9 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
                 keyword,
                 types,
                 documentUuid,
-                operator);
+                operator,
+                needTags
+        );
 
         return this.success(articlePager);
 
