@@ -82,7 +82,7 @@ public class Article extends BaseEntity {
     private String documentUuid;
 
     //自己作为文档文章时，标题的父级是什么。第一级菜单的puuid是ROOT
-    private String puuid;
+    private String puuid = ROOT;
 
     //类型：知识库(DOCUMENT)，单篇文章(ARTICLE)，知识库中的文章(DOCUMENT_ARTICLE)
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,6 @@
 package cn.eyeblue.blog.rest.article;
 
+import cn.eyeblue.blog.config.exception.BadRequestException;
 import cn.eyeblue.blog.config.exception.UtilException;
 import cn.eyeblue.blog.rest.base.BaseEntityController;
 import cn.eyeblue.blog.rest.base.Pager;
@@ -316,6 +317,53 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
         articleDao.save(article);
 
         return success("取消置顶成功!");
+    }
+
+
+    /**
+     * 为某一篇文档，指定一篇文章。
+     *
+     * @return 结果
+     */
+    @RequestMapping("/document/assign")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult documentAssign(
+            @RequestParam String documentUuid,
+            @RequestParam String puuid,
+            @RequestParam String articleUuid,
+            @RequestParam long sort
+    ) {
+
+        Article document = this.check(documentUuid);
+        Article article = this.check(articleUuid);
+        if (!Objects.equals(puuid, Article.ROOT)) {
+            Article pArticle = this.check(puuid);
+            if (!Objects.equals(pArticle.getDocumentUuid(), documentUuid)) {
+                throw new BadRequestException("{}父级菜单不属于文档{}", pArticle.getTitle(), document.getTitle());
+            }
+        }
+
+        if (document.getType() != ArticleType.DOCUMENT) {
+            throw new BadRequestException("{} 不是文档类型", document.getTitle());
+        }
+
+        if (article.getType() != ArticleType.ARTICLE) {
+            throw new BadRequestException("{} 不是文章类型", article.getTitle());
+        }
+
+        if (article.getDocumentUuid() != null) {
+            throw new BadRequestException("{} 已经是其他文档中的文章了，如果需要重复指定，请使用超链接的方式。", article.getTitle());
+        }
+
+        article.setPuuid(puuid);
+        article.setDocumentUuid(documentUuid);
+        article.setSort(sort);
+        article.setType(ArticleType.DOCUMENT_ARTICLE);
+
+        articleDao.save(article);
+
+
+        return success(document);
     }
 
 
