@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -225,8 +226,10 @@ public class ArticleService extends BaseEntityService<Article> {
             //递归整理所有节点
             this.refineHierarchy(article, nodeArticles);
 
+        } else if (article.getType() == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.getType() == ArticleType.DOCUMENT_ARTICLE) {
+            //对于文档中的文章，附加上其文档信息
+            article.setDocument(this.find(article.getDocumentUuid()));
         }
-
 
         return article;
     }
@@ -308,7 +311,7 @@ public class ArticleService extends BaseEntityService<Article> {
         }
     }
 
-    //对一篇文章的路径进行查重 前提是这篇文章还没有进行创建。
+    //对一篇文章的路径进行查重 前提是这篇文章还没有进行创建。或者修改了path.
     public void checkDuplicate(@NonNull User user, @NonNull Article article) {
 
         if (article.getType() == ArticleType.ARTICLE) {
@@ -334,6 +337,41 @@ public class ArticleService extends BaseEntityService<Article> {
                 throw new BadRequestException("路径 {} 的节点已经存在，创建失败。", article.getPath());
             }
 
+        }
+
+    }
+
+
+    //递归删除目录.
+    @Transactional
+    public void documentIndexDel(@NonNull Article document, @NonNull Article article, boolean forceDelete) {
+
+        //查看是否还有子集。
+        List<Article> children = articleDao.findByDocumentUuidAndPuuid(document.getUuid(), article.getUuid());
+        for (Article child : children) {
+            documentIndexDel(document, child, forceDelete);
+        }
+
+
+        //删除当前的这篇。
+        if (article.getType() == ArticleType.DOCUMENT_ARTICLE) {
+
+            if (forceDelete) {
+                //强制删除
+                articleDao.delete(article);
+            } else {
+                //退回为普通文章
+                article.setType(ArticleType.ARTICLE);
+                article.setPuuid(Article.ROOT);
+                article.setDocumentUuid(null);
+                article.setPrivacy(true);
+
+                articleDao.save(article);
+            }
+
+        } else {
+            //新文章，空白，超链接直接删除即可。
+            articleDao.delete(article);
         }
 
     }

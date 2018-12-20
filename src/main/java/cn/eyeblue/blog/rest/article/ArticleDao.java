@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ArticleDao extends BaseEntityDao<Article> {
 
@@ -24,4 +26,8 @@ public interface ArticleDao extends BaseEntityDao<Article> {
     int countByUserUuidAndDocumentUuidAndPath(String userUuid, String documentUuid, String path);
 
     Article findTopByUserUuidAndTypeAndPath(String userUuid, ArticleType type, String path);
+
+
+    //找出某个puuid下面所有的子集
+    List<Article> findByDocumentUuidAndPuuid(String documentUuid, String puuid);
 }

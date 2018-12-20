@@ -16,6 +16,7 @@ import cn.eyeblue.blog.rest.tank.TankService;
 import cn.eyeblue.blog.rest.user.User;
 import cn.eyeblue.blog.rest.user.UserService;
 import cn.eyeblue.blog.util.NetworkUtil;
+import cn.eyeblue.blog.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -362,8 +363,100 @@ public class ArticleController extends BaseEntityController<Article, ArticleForm
 
         articleDao.save(article);
 
+        return success(document);
+    }
+
+
+    /**
+     * 从某一篇文档删除一个目录
+     *
+     * @return 结果
+     */
+    @RequestMapping("/document/index/del")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult documentIndexDel(
+            @RequestParam String documentUuid,
+            @RequestParam String articleUuid,
+            @RequestParam Boolean forceDelete
+    ) {
+
+        Article document = this.check(documentUuid);
+        Article article = this.check(articleUuid);
+
+        if (document.getType() != ArticleType.DOCUMENT) {
+            throw new BadRequestException("{} 不是文档类型", document.getTitle());
+        }
+
+        if (!Objects.equals(article.getDocumentUuid(), documentUuid)) {
+            throw new BadRequestException("{} 不属于文档 {} 操作失败。", article.getTitle(), document.getTitle());
+        }
+
+
+        //进行递归删除。
+        articleService.documentIndexDel(document, article, forceDelete);
+
 
         return success(document);
+    }
+
+
+    /**
+     * 在文档中保存一篇文章
+     */
+    @RequestMapping("/document/article/save")
+    @Feature(FeatureType.USER_MINE)
+    public WebResult documentArticleSave(
+            @RequestParam String articleUuid,
+            @RequestParam String title,
+            @RequestParam int words,
+            @RequestParam String path,
+            @RequestParam String markdown,
+            @RequestParam String html
+    ) {
+
+        Article article = this.check(articleUuid);
+
+        if (article.getType() != ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE && article.getType() != ArticleType.DOCUMENT_ARTICLE) {
+            throw new BadRequestException("{} 不是文档中的文章", article.getTitle());
+        }
+
+        //如果是新文章，立即升级为文档文章
+        if (article.getType() == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE) {
+            article.setType(ArticleType.DOCUMENT_ARTICLE);
+        }
+
+        String oldPath = article.getPath();
+
+        //修改几项关键内容
+        article.setTitle(title);
+        article.setWords(words);
+        article.setPath(path);
+        article.setMarkdown(markdown);
+        article.setHtml(html);
+
+
+        //验证一些关键信息
+        if (StringUtil.isBlank(title)) {
+            throw new BadRequestException("标题不能为空");
+        }
+        if (StringUtil.isBlank(markdown)) {
+            throw new BadRequestException("markdown不能为空");
+        }
+        if (StringUtil.isBlank(html)) {
+            throw new BadRequestException("html不能为空");
+        }
+
+        if (!Objects.equals(oldPath, path)) {
+            articleService.checkDuplicate(checkUser(), article);
+        }
+
+
+        articleDao.save(article);
+
+        //对于文档中的文章，附加上其文档信息
+        article.setDocument(articleService.find(article.getDocumentUuid()));
+
+        return success(article);
     }
 
 
