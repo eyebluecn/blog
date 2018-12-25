@@ -1,0 +1,139 @@
+@import "../common/global/miscellaneous";
+@import "../common/global/variables";
+
+//左侧菜单
+.document-index-read-frame {
+
+  padding: 10px 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .index-block {
+    margin-left: 14px;
+
+    .line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      padding: 5px 10px 5px 15px;
+
+      font-size: 14px;
+      color: #444;
+      cursor: pointer;
+
+      .fa {
+        width: 8px;
+        color: #aaa;
+
+      }
+      &.fat {
+        color: #000;
+      }
+
+      .title-span {
+        color: #222;
+        &:hover {
+          color: #777;
+        }
+      }
+
+      &.placeholder {
+        .title-span {
+          border-bottom: 1px dashed red;
+        }
+      }
+      &.active {
+        color: @brand-primary;
+        font-weight: bold;
+      }
+
+      &:hover {
+        color: #777;
+      }
+
+    }
+  }
+
+  //第一层级不缩进
+  > .index-block {
+    margin-left: 0;
+
+  }
+
+}
+
+.page-document-read {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  @upper-height: 50px;
+  @left-width: 280px;
+  justify-content: space-between;
+
+  .upper-part {
+    height: @upper-height;
+    line-height: @upper-height;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+    .logo-a {
+      margin: 0 15px;
+      display: inline-block;
+      .logo {
+        width: @upper-height;
+        height: @upper-height;
+      }
+    }
+
+    .title {
+      font-size: 18px;
+      color: #222;
+      font-weight: bold;
+      &:hover {
+        color: #777;
+      }
+    }
+
+  }
+
+  .middle-part {
+    flex: 1;
+
+    display: flex;
+    flex-direction: row;
+
+    .left-part {
+
+      width: @left-width;
+      height: 100%;
+      background-color: #fafafa;
+      border-right: 1px solid #eee;
+
+    }
+    .right-part {
+      flex: 1;
+      height: 100%;
+      background-color: white;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+    }
+  }
+
+}

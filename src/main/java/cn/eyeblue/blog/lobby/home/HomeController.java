@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController extends FrontendBaseController {
@@ -59,6 +61,12 @@ public class HomeController extends FrontendBaseController {
             @RequestParam(required = false, defaultValue = "15") Integer pageSize
     ) {
 
+
+        //首页只展示文章和文档
+        List<ArticleType> typeList = new ArrayList<>();
+        typeList.add(ArticleType.ARTICLE);
+        typeList.add(ArticleType.DOCUMENT);
+
         //准备文章分页了。
         Pager<Article> articlePager = articleService.page(
                 page,
@@ -74,7 +82,7 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null,
+                typeList,
                 null,
                 null,
                 true);
@@ -95,7 +103,7 @@ public class HomeController extends FrontendBaseController {
                 null,
                 null,
                 null,
-                null,
+                typeList,
                 null,
                 null,
                 true);
@@ -131,7 +139,7 @@ public class HomeController extends FrontendBaseController {
 
 
     /**
-     * 访问文章的快捷方式。比如可以通过 /a/zicla/2018-04-24 访问到 path为2018-04-24这一篇文章。
+     * 访问文章的快捷方式。比如可以通过 /a/zicla/tank 访问到 path为tank这一篇文章。
      */
     @Feature(FeatureType.PUBLIC)
     @RequestMapping("/a/{username}/{path}")
@@ -149,13 +157,90 @@ public class HomeController extends FrontendBaseController {
             throw new UtilException("访问地址错误。[user not found]");
         }
 
-        Article article = articleDao.findTopByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.ARTICLE, path);
+        Article article = articleDao.findByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.ARTICLE, path);
         String ip = NetworkUtil.getIpAddress(request);
         articleService.wrapDetail(article, ip);
 
         model.addAttribute("article", article);
 
         return "home/article/detail";
+    }
+
+
+    /**
+     * 访问文档的快捷方式。比如可以通过 /a/zicla/tank 访问到 path为tank这一篇文档。
+     */
+    @Feature(FeatureType.PUBLIC)
+    @RequestMapping("/d/{username}/{path}")
+    public String shortcutDocument(
+            Model model,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @PathVariable String username,
+            @PathVariable String path
+    ) {
+
+        //确认用户是否存在。
+        User user = userDao.findTopByUsername(username);
+        if (user == null) {
+            throw new UtilException("访问地址错误。[user not found]");
+        }
+
+        Article document = articleDao.findByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.DOCUMENT, path);
+
+        String ip = NetworkUtil.getIpAddress(request);
+
+        articleService.wrapDetail(document, ip);
+
+        model.addAttribute("document", document);
+
+        return "home/document/detail";
+    }
+
+
+    /**
+     * 访问文档中的文章快捷方式
+     */
+    @Feature(FeatureType.PUBLIC)
+    @RequestMapping("/d/{username}/{documentPath}/{articlePath}")
+    public String shortcutDocumentArticle(
+            Model model,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @PathVariable String username,
+            @PathVariable String documentPath,
+            @PathVariable String articlePath
+    ) {
+
+        //确认用户是否存在。
+        User user = userDao.findTopByUsername(username);
+        if (user == null) {
+            throw new UtilException("访问地址错误。[user not found]");
+        }
+
+        Article document = articleDao.findByUserUuidAndTypeAndPath(user.getUuid(), ArticleType.DOCUMENT, documentPath);
+
+        if (document == null) {
+            throw new UtilException("文档不存在");
+        }
+
+        Article article = articleDao.findByUserUuidAndDocumentUuidAndPath(user.getUuid(), document.getUuid(), articlePath);
+
+        if (article == null) {
+            throw new UtilException("文章不存在");
+        }
+
+        String ip = NetworkUtil.getIpAddress(request);
+
+        articleService.wrapDetail(document, ip);
+        articleService.wrapDetail(article, ip);
+
+        article.setDocument(document);
+
+        model.addAttribute("document", document);
+        model.addAttribute("article", article);
+
+        return "home/document/read";
     }
 
 

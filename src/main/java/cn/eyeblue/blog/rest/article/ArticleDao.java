@@ -25,7 +25,10 @@ public interface ArticleDao extends BaseEntityDao<Article> {
     //文档下的路径要求唯一
     int countByUserUuidAndDocumentUuidAndPath(String userUuid, String documentUuid, String path);
 
-    Article findTopByUserUuidAndTypeAndPath(String userUuid, ArticleType type, String path);
+    Article findByUserUuidAndTypeAndPath(String userUuid, ArticleType type, String path);
+
+    //根据path找出某个文档下的某篇文章
+    Article findByUserUuidAndDocumentUuidAndPath(String userUuid, String documentUuid, String path);
 
 
     //找出某个puuid下面所有的子集

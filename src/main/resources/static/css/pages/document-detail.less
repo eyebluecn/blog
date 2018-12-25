@@ -1,0 +1,134 @@
+@import "../common/global/miscellaneous";
+@import "../common/global/variables";
+
+//菜单样式
+.document-index-detail-frame {
+
+  .index-block {
+    margin: 5px 0 5px 25px;
+
+    @cell-height: 36px;
+    .line {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+
+      .left-part {
+        .one-line;
+        height: @cell-height;
+        line-height: @cell-height;
+        background-color: white;
+        padding-right: 10px;
+        padding-left: 14px;
+        z-index: 1;
+        font-size: 14px;
+        color: #222;
+        cursor: pointer;
+
+        .fa {
+          width: 10px;
+          color: #aaa;
+        }
+        &.fat {
+          padding-left: 14px;
+        }
+
+        .title-span {
+          color: #222;
+          &:hover {
+            color: #777;
+          }
+        }
+
+        &.placeholder {
+          .title-span {
+            border-bottom: 1px dashed red;
+          }
+        }
+
+      }
+      .right-part {
+        display: inline-block;
+        white-space: nowrap;
+        height: @cell-height;
+        line-height: @cell-height;
+        background-color: white;
+        padding: 0 10px;
+        z-index: 1;
+        font-size: 14px;
+        color: #bfbfbf;
+        cursor: pointer;
+        .one-line;
+        max-width: 200px;
+
+        &:hover {
+          color: #777;
+        }
+      }
+
+      &:before {
+        content: " ";
+        width: 100%;
+        border-bottom: 1px dashed #e8e8e8;
+        top: 50%;
+        position: absolute;
+        right: 0;
+        z-index: 0;
+      }
+
+      //空节点，不带引导线
+      &.blank {
+        &:before {
+          border-bottom: 1px dashed transparent;
+        }
+      }
+
+    }
+  }
+
+  //第一层级不缩进
+  > .index-block {
+    margin-left: 0;
+    > .line {
+      .left-part {
+        font-weight: bold;
+      }
+    }
+  }
+
+}
+
+.page-document-detail {
+
+  background: white;
+
+  //大屏幕
+  @media (min-width: @screen-md-min) {
+    padding: 50px 40px;
+  }
+  //小屏幕
+  @media (max-width: @screen-md-min) {
+    padding: 50px 5px;
+  }
+
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+  }
+  .digest {
+    text-align: center;
+    font-size: 14px;
+    margin: 15px;
+  }
+
+  .author {
+    text-align: center;
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+}

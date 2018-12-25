@@ -1,4 +1,4 @@
-package cn.eyeblue.blog.lobby.index;
+package cn.eyeblue.blog.interceptor;
 
 import cn.eyeblue.blog.rest.core.Feature;
 import cn.eyeblue.blog.rest.core.FeatureType;
@@ -27,7 +27,7 @@ public class CustomErrorController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return "common/error";
+        return "error/index";
     }
 
 }

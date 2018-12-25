@@ -160,9 +160,13 @@ public class ArticleForm extends BaseEntityForm<Article> {
 
         } else if (type == ArticleType.DOCUMENT_BLANK) {
 
+            //path要设为null
+            article.setPath(null);
 
         } else if (type == ArticleType.DOCUMENT_URL) {
 
+            //path要设为null
+            article.setPath(null);
         }
 
     }

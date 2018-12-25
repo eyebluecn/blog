@@ -1,0 +1,192 @@
+.compulsory:before {
+    content: "*";
+    color: red;
+}
+
+.limit-hints {
+    font-size: 10px;
+    color: #aaaaaa;
+    float: right;
+}
+
+.hover-underline {
+    cursor: pointer;
+}
+
+.hover-underline:hover {
+    text-decoration: underline;
+}
+
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.btn-file > input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 23px;
+    height: 100%;
+    width: 100%;
+    direction: ltr;
+    cursor: pointer;
+}
+
+.list-text-restriction {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+    line-height: 17px;
+    max-height: 51px;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+}
+
+.one-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.page-document-detail {
+    background: white;
+}
+
+@media (min-width: 992px) {
+    .page-document-detail {
+        padding: 50px 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    .page-document-detail {
+        padding: 50px 5px;
+    }
+}
+
+.page-document-detail .title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+}
+
+.page-document-detail .digest {
+    text-align: center;
+    font-size: 14px;
+    margin: 15px;
+}
+
+.page-document-detail .author {
+    text-align: center;
+}
+
+.page-document-detail .author img {
+    width: 40px;
+    height: 40px;
+}
+
+.page-document-detail .document-index-detail-frame .index-block {
+    margin: 5px 0 5px 25px;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 36px;
+    line-height: 36px;
+    background-color: white;
+    padding-right: 10px;
+    padding-left: 14px;
+    z-index: 1;
+    font-size: 14px;
+    color: #222;
+    cursor: pointer;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part .fa {
+    width: 10px;
+    color: #aaa;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part.fat {
+    padding-left: 14px;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part .title-span {
+    color: #222;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part .title-span:hover {
+    color: #777;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .left-part.placeholder .title-span {
+    border-bottom: 1px dashed red;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .right-part {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    background-color: white;
+    padding: 0 10px;
+    z-index: 1;
+    font-size: 14px;
+    color: #bfbfbf;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line .right-part:hover {
+    color: #777;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line:before {
+    content: " ";
+    width: 100%;
+    border-bottom: 1px dashed #e8e8e8;
+    top: 50%;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+}
+
+.page-document-detail .document-index-detail-frame .index-block .line.blank:before {
+    border-bottom: 1px dashed transparent;
+}
+
+.page-document-detail .document-index-detail-frame > .index-block {
+    margin-left: 0;
+}
+
+.page-document-detail .document-index-detail-frame > .index-block > .line .left-part {
+    font-weight: bold;
+}
+
+/*# sourceMappingURL=document-read.css.map */

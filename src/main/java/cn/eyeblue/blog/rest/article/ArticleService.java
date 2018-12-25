@@ -184,8 +184,9 @@ public class ArticleService extends BaseEntityService<Article> {
     public Article wrapDetail(@NonNull Article article, String ip) {
 
 
+        User user = userService.find(article.getUserUuid());
         article.setPosterTank(tankService.find(article.getPosterTankUuid()));
-        article.setUser(userService.find(article.getUserUuid()));
+        article.setUser(user);
 
         //装点标签
         article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
@@ -223,8 +224,11 @@ public class ArticleService extends BaseEntityService<Article> {
             );
             //找出文档下的所有节点
             List<Article> nodeArticles = nodeArticlePager.getData();
-            //递归整理所有节点
-            this.refineHierarchy(article, nodeArticles);
+            nodeArticles.forEach(node -> {
+                node.loadVisitUrlAndPath(article, user);
+            });
+
+            this.refineHierarchy(article, nodeArticles, user);
 
         } else if (article.getType() == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.getType() == ArticleType.DOCUMENT_ARTICLE) {
             //对于文档中的文章，附加上其文档信息
@@ -287,7 +291,7 @@ public class ArticleService extends BaseEntityService<Article> {
 
 
     //按照层级关系将菜单整理好。
-    private void refineHierarchy(@NonNull Article document, @NonNull List<Article> candidates) {
+    private void refineHierarchy(@NonNull Article document, @NonNull List<Article> candidates, @NonNull User user) {
         List<Article> nodes = new ArrayList<>();
 
         for (Article node : candidates) {

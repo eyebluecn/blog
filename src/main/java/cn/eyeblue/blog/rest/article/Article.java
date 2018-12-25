@@ -5,9 +5,11 @@ import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.tag.Tag;
 import cn.eyeblue.blog.rest.tank.Tank;
 import cn.eyeblue.blog.rest.user.User;
+import cn.eyeblue.blog.util.StringUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -110,6 +112,13 @@ public class Article extends BaseEntity {
     @Transient
     private List<Article> children;
 
+    //该篇文章的url。
+    @Transient
+    private String visitUrl;
+    //该篇文章最终的path。对于DOCUMENT_URL类型使用的是digest.
+    @Transient
+    private String visitPath;
+
     @Data
     public static class Analysis {
         private Integer num;
@@ -143,6 +152,83 @@ public class Article extends BaseEntity {
         //按照sequence来排序。
         children.sort(Comparator.comparingLong(o -> o.sort));
     }
+
+
+    //是否有子目录
+    public boolean hasChildren() {
+        return CollectionUtils.isNotEmpty(this.getChildren());
+    }
+
+
+    //装载本篇文章的访问路径和访问链接
+    public void loadVisitUrlAndPath(Article document, User user) {
+
+        if (this.type == ArticleType.ARTICLE) {
+            this.visitUrl = StringUtil.format("/a/{}/{}", this.getUser().getUsername(), this.getPath());
+            this.visitPath = this.path;
+        } else if (this.type == ArticleType.DOCUMENT) {
+            this.visitUrl = StringUtil.format("/d/{}/{}", this.getUser().getUsername(), this.getPath());
+            this.visitPath = null;
+        } else if (this.type == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE) {
+
+            if (document == null || user == null) {
+                this.visitUrl = null;
+            } else {
+                this.visitUrl = StringUtil.format("/d/{}/{}/{}",
+                        user.getUsername(),
+                        document.getPath(),
+                        this.getPath());
+            }
+            this.visitPath = this.path;
+
+
+        } else if (this.type == ArticleType.DOCUMENT_ARTICLE) {
+
+            if (document == null || user == null) {
+                this.visitUrl = null;
+            } else {
+                this.visitUrl = StringUtil.format("/d/{}/{}/{}",
+                        user.getUsername(),
+                        document.getPath(),
+                        this.getPath());
+            }
+            this.visitPath = this.path;
+
+
+        } else if (this.type == ArticleType.DOCUMENT_BLANK) {
+
+            this.visitUrl = null;
+            this.visitPath = null;
+
+        } else if (this.type == ArticleType.DOCUMENT_URL) {
+            this.visitUrl = this.digest;
+            this.visitPath = this.digest;
+        } else {
+            this.visitUrl = null;
+            this.visitPath = null;
+        }
+    }
+
+    ///////////////以下方法提供给ftl使用/////////////////////////
+
+
+    //是否为blank类型
+    public boolean ftlIsTypeDocumentBlank() {
+        return this.type == ArticleType.DOCUMENT_BLANK;
+    }
+
+    //访问路径
+    public String ftlVisitPath() {
+        if (this.type == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || this.type ==
+                ArticleType.DOCUMENT_ARTICLE) {
+            return this.path;
+        } else if (type == ArticleType.DOCUMENT_URL) {
+            return this.digest;
+        } else {
+            return "";
+        }
+    }
+
 }
 
 

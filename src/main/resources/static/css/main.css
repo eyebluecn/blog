@@ -17273,6 +17273,212 @@ p {
 .page-article-detail #interactive-area .pager-area {
   margin-top: 10px;
 }
+.document-index-detail-frame .index-block {
+  margin: 5px 0 5px 25px;
+}
+.document-index-detail-frame .index-block .line {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.document-index-detail-frame .index-block .line .left-part {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 36px;
+  line-height: 36px;
+  background-color: white;
+  padding-right: 10px;
+  padding-left: 14px;
+  z-index: 1;
+  font-size: 14px;
+  color: #222;
+  cursor: pointer;
+}
+.document-index-detail-frame .index-block .line .left-part .fa {
+  width: 10px;
+  color: #aaa;
+}
+.document-index-detail-frame .index-block .line .left-part.fat {
+  padding-left: 14px;
+}
+.document-index-detail-frame .index-block .line .left-part .title-span {
+  color: #222;
+}
+.document-index-detail-frame .index-block .line .left-part .title-span:hover {
+  color: #777;
+}
+.document-index-detail-frame .index-block .line .left-part.placeholder .title-span {
+  border-bottom: 1px dashed red;
+}
+.document-index-detail-frame .index-block .line .right-part {
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  background-color: white;
+  padding: 0 10px;
+  z-index: 1;
+  font-size: 14px;
+  color: #bfbfbf;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.document-index-detail-frame .index-block .line .right-part:hover {
+  color: #777;
+}
+.document-index-detail-frame .index-block .line:before {
+  content: " ";
+  width: 100%;
+  border-bottom: 1px dashed #e8e8e8;
+  top: 50%;
+  position: absolute;
+  right: 0;
+  z-index: 0;
+}
+.document-index-detail-frame .index-block .line.blank:before {
+  border-bottom: 1px dashed transparent;
+}
+.document-index-detail-frame > .index-block {
+  margin-left: 0;
+}
+.document-index-detail-frame > .index-block > .line .left-part {
+  font-weight: bold;
+}
+.page-document-detail {
+  background: white;
+}
+@media (min-width: 992px) {
+  .page-document-detail {
+    padding: 50px 40px;
+  }
+}
+@media (max-width: 992px) {
+  .page-document-detail {
+    padding: 50px 5px;
+  }
+}
+.page-document-detail .title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+.page-document-detail .digest {
+  text-align: center;
+  font-size: 14px;
+  margin: 15px;
+}
+.page-document-detail .author {
+  text-align: center;
+}
+.page-document-detail .author img {
+  width: 40px;
+  height: 40px;
+}
+.document-index-read-frame {
+  padding: 10px 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.document-index-read-frame .index-block {
+  margin-left: 14px;
+}
+.document-index-read-frame .index-block .line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px 10px 5px 15px;
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+}
+.document-index-read-frame .index-block .line .fa {
+  width: 8px;
+  color: #aaa;
+}
+.document-index-read-frame .index-block .line.fat {
+  color: #000;
+}
+.document-index-read-frame .index-block .line .title-span {
+  color: #222;
+}
+.document-index-read-frame .index-block .line .title-span:hover {
+  color: #777;
+}
+.document-index-read-frame .index-block .line.placeholder .title-span {
+  border-bottom: 1px dashed red;
+}
+.document-index-read-frame .index-block .line.active {
+  color: #23B7E5;
+  font-weight: bold;
+}
+.document-index-read-frame .index-block .line:hover {
+  color: #777;
+}
+.document-index-read-frame > .index-block {
+  margin-left: 0;
+}
+.page-document-read {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+.page-document-read .upper-part {
+  height: 50px;
+  line-height: 50px;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+.page-document-read .upper-part .logo-a {
+  margin: 0 15px;
+  display: inline-block;
+}
+.page-document-read .upper-part .logo-a .logo {
+  width: 50px;
+  height: 50px;
+}
+.page-document-read .upper-part .title {
+  font-size: 18px;
+  color: #222;
+  font-weight: bold;
+}
+.page-document-read .upper-part .title:hover {
+  color: #777;
+}
+.page-document-read .middle-part {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.page-document-read .middle-part .left-part {
+  width: 280px;
+  height: 100%;
+  background-color: #fafafa;
+  border-right: 1px solid #eee;
+}
+.page-document-read .middle-part .right-part {
+  flex: 1;
+  height: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .page-user-detail {
   background: white;
   padding: 20px 0;
@@ -17395,3 +17601,4 @@ p {
 .page-index .hot-area {
   padding: 15px;
 }
+/*# sourceMappingURL=main.css.map */

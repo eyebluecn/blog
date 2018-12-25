@@ -43,7 +43,7 @@
     <div class="media">
                         <#if article.posterUrl?? && article.posterUrl!="">
                         <div class="pull-right">
-                            <a href="/a/${article.user.username}/${article.path}">
+                            <a href="${article.ftlUrl()}">
                                 <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fit&imageResizeW=100"/>
                             </a>
                         </div>
@@ -51,7 +51,7 @@
 
         <div class="media-body">
             <div class="title">
-                <a href="/a/${article.user.username}/${article.path}">
+                <a href="${article.ftlUrl()}">
                     <#if article.top>
                         <i class="fa fa-rocket text-danger" title="置顶文章"></i>
                     </#if>
