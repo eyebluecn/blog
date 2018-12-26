@@ -45,41 +45,45 @@
 
 <script type="text/javascript">
 
-    // 注册
-    Vue.component('nb-report-panel', {
-        template: '#nb-report-panel',
-        data: function () {
-            return {
-                selectContent: "垃圾广告",
-                content: null
-            }
-        },
-        props: {
-            comment: {
-                type: Comment,
-                required: true
-            }
-        },
-        computed: {},
-        watch: {},
-        methods: {
-            submit: function () {
-                var that = this
-
-                if (that.selectContent !== '其他') {
-                    that.content = that.selectContent
+    $(function () {
+        // 注册
+        Vue.component('nb-report-panel', {
+            template: '#nb-report-panel',
+            data: function () {
+                return {
+                    selectContent: "垃圾广告",
+                    content: null
                 }
-                this.comment.httpReport(that.content, function (response) {
+            },
+            props: {
+                comment: {
+                    type: Comment,
+                    required: true
+                }
+            },
+            computed: {},
+            watch: {},
+            methods: {
+                submit: function () {
+                    var that = this
 
-                    that.$emit("success")
+                    if (that.selectContent !== '其他') {
+                        that.content = that.selectContent
+                    }
+                    this.comment.httpReport(that.content, function (response) {
 
-                })
+                        that.$emit("success")
+
+                    })
+                }
+            },
+            mounted: function () {
+                this.content = null
             }
-        },
-        mounted: function () {
-            this.content = null
-        }
+        })
+
     })
+
 
 </script>
 

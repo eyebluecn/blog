@@ -25,6 +25,9 @@
     <link href="/static/fork/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
 
+<#--markdown样式-->
+    <link href="/static/fork/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css">
+
     <script src="/static/fork/jquery/dist/jquery.min.js"></script>
     <script src="/static/fork/bootstrap/dist/js/bootstrap.min.js"></script>
 

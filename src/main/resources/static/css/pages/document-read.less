@@ -60,6 +60,13 @@
   //第一层级不缩进
   > .index-block {
     margin-left: 0;
+    //第一级粗体
+
+    > .line {
+      > .title-span {
+        font-weight: bold;
+      }
+    }
 
   }
 
@@ -89,24 +96,43 @@
 
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
 
-    .logo-a {
-      margin: 0 15px;
-      display: inline-block;
-      .logo {
-        width: @upper-height;
-        height: @upper-height;
+    .logo-title {
+      .logo-a {
+        margin: 0 15px;
+        display: inline-block;
+        .logo {
+          width: @upper-height;
+          height: @upper-height;
+        }
+      }
+
+      .title {
+        font-size: 18px;
+        color: #222;
+        font-weight: bold;
+        &:hover {
+          color: #777;
+        }
       }
     }
+    .preference-navi {
+      padding-right: 30px;
+      a {
 
-    .title {
-      font-size: 18px;
-      color: #222;
-      font-weight: bold;
-      &:hover {
-        color: #777;
+        display: inline-block;
+        line-height: @upper-height;
+        height: @upper-height;
+        font-size: 16px;
+        color: #555;
+        margin-left: 15px;
+
+        &:hover {
+          color: @brand-primary;
+          border-bottom: 2px solid @brand-primary;
+        }
       }
     }
 
@@ -132,6 +158,8 @@
       background-color: white;
       overflow-x: hidden;
       overflow-y: auto;
+
+      padding: 20px;
 
     }
   }

@@ -168,10 +168,13 @@ public class ArticleService extends BaseEntityService<Article> {
 
         if (needTags) {
             list.forEach(article -> {
+                User author = userService.find(article.getUserUuid());
                 //作者
-                article.setUser(userService.find(article.getUserUuid()));
+                article.setUser(author);
                 //标签装点
                 article.setTagArray(tagService.getTagsByUuids(JsonUtil.toStringList(article.getTags())));
+                //访问链接
+                article.loadVisitUrlAndPath(null, author);
             });
         }
 
@@ -199,6 +202,9 @@ public class ArticleService extends BaseEntityService<Article> {
         if (history != null) {
             article.setAgreed(true);
         }
+
+        //装载上访问路径
+        article.loadVisitUrlAndPath(null, user);
 
         //对于文档，装饰其目录树。
         if (article.getType() == ArticleType.DOCUMENT) {

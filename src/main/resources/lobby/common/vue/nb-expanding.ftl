@@ -11,34 +11,38 @@
     </transition>
 </script>
 <script type="text/javascript">
-    // 注册
-    Vue.component('nb-expanding', {
-        template: '#nb-expanding',
-        data: function () {
-            return {}
-        },
-        props: {},
-        computed: {},
-        watch: {},
-        methods: {
-            beforeEnter: function (el) {
 
+    $(function () {
+
+        // 注册
+        Vue.component('nb-expanding', {
+            template: '#nb-expanding',
+            data: function () {
+                return {}
             },
-            enter: function (el, done) {
+            props: {},
+            computed: {},
+            watch: {},
+            methods: {
+                beforeEnter: function (el) {
 
-                $(el).hide();
-                $(el).slideDown({duration: 377});
+                },
+                enter: function (el, done) {
+
+                    $(el).hide();
+                    $(el).slideDown({duration: 377});
 
 
+                },
+                leave: function (el, done) {
+                    $(el).slideUp({duration: 377});
+
+                }
             },
-            leave: function (el, done) {
-                $(el).slideUp({duration: 377});
+            mounted: function () {
 
             }
-        },
-        mounted: function () {
-
-        }
+        })
     })
 </script>
 

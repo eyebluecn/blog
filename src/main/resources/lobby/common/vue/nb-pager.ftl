@@ -73,182 +73,186 @@
     </div>
 </script>
 <script type="text/javascript">
-    // 注册
-    Vue.component('nb-pager', {
-        template: '#nb-pager',
-        data: function () {
-            return {
-                //引入内部的pageSize变量，防止enableHistory出现两次刷新。并且强制置为page=0. -1表示未初始化。
-                pageSize: -1,
-                pageSizeOptions: [5, 10, 15, 20, 30, 50]
-            }
-        },
-        props: {
-            pager: {
-                type: Pager,
-                required: true,
-                validator: function (value) {
 
-                    if (!value.offset) {
-                        value.offset = 3;
-                    }
-                    value.offset = parseInt(value.offset);
+    $(function () {
 
-                    return true;
+        // 注册
+        Vue.component('nb-pager', {
+            template: '#nb-pager',
+            data: function () {
+                return {
+                    //引入内部的pageSize变量，防止enableHistory出现两次刷新。并且强制置为page=0. -1表示未初始化。
+                    pageSize: -1,
+                    pageSizeOptions: [5, 10, 15, 20, 30, 50]
                 }
             },
-            callback: {
-                type: Function,
-                required: true
-            },
-            emptyhint: {
-                type: String,
-                required: false,
-                "default": "没有符合条件的项目"
-            }
-        },
-        computed: {
-            showPagination: function () {
-                return this.pager.totalItems > this.pager.pageSize;
-            },
-            isFirstPage: function () {
-                return this.pager.page === 0;
-            },
-            totalPages: function () {
-                return Math.ceil(this.pager.totalItems / this.pager.pageSize);
-            },
-            isLastPage: function () {
-                return this.pager.page === this.totalPages - 1
-            },
-            colSize: function () {
-                return this.pager.offset * 2 + 1;
-            },
-            indicators: function () {
+            props: {
+                pager: {
+                    type: Pager,
+                    required: true,
+                    validator: function (value) {
 
-                var arr = [];
-                //only one group. start from 1.
-                if (this.totalPages <= this.colSize) {
-                    for (var i = 1; i < 1 + this.totalPages; i++) {
-                        arr.push(i);
+                        if (!value.offset) {
+                            value.offset = 3;
+                        }
+                        value.offset = parseInt(value.offset);
+
+                        return true;
                     }
+                },
+                callback: {
+                    type: Function,
+                    required: true
+                },
+                emptyhint: {
+                    type: String,
+                    required: false,
+                    "default": "没有符合条件的项目"
+                }
+            },
+            computed: {
+                showPagination: function () {
+                    return this.pager.totalItems > this.pager.pageSize;
+                },
+                isFirstPage: function () {
+                    return this.pager.page === 0;
+                },
+                totalPages: function () {
+                    return Math.ceil(this.pager.totalItems / this.pager.pageSize);
+                },
+                isLastPage: function () {
+                    return this.pager.page === this.totalPages - 1
+                },
+                colSize: function () {
+                    return this.pager.offset * 2 + 1;
+                },
+                indicators: function () {
 
-
-                } else {
-
-                    //many groups.
-                    //very close to beginning
-                    if ((this.pager.page + 1) * 2 < this.colSize) {
-                        for (var i = 1; i < 1 + this.colSize; i++) {
-                            arr.push(i)
-
+                    var arr = [];
+                    //only one group. start from 1.
+                    if (this.totalPages <= this.colSize) {
+                        for (var i = 1; i < 1 + this.totalPages; i++) {
+                            arr.push(i);
                         }
-                    } else if (this.pager.page + 1 + this.pager.offset > this.totalPages) {
 
-                        //very close to the end
 
-                        for (var i = this.totalPages - this.colSize + 1; i < 1 + this.totalPages; i++) {
-                            arr.push(i)
-
-                        }
                     } else {
 
-                        //at the middle
-                        for (var i = this.pager.page - this.pager.offset + 2; i < 2 + this.pager.page + this.pager.offset; i++) {
-                            arr.push(i)
+                        //many groups.
+                        //very close to beginning
+                        if ((this.pager.page + 1) * 2 < this.colSize) {
+                            for (var i = 1; i < 1 + this.colSize; i++) {
+                                arr.push(i)
 
+                            }
+                        } else if (this.pager.page + 1 + this.pager.offset > this.totalPages) {
+
+                            //very close to the end
+
+                            for (var i = this.totalPages - this.colSize + 1; i < 1 + this.totalPages; i++) {
+                                arr.push(i)
+
+                            }
+                        } else {
+
+                            //at the middle
+                            for (var i = this.pager.page - this.pager.offset + 2; i < 2 + this.pager.page + this.pager.offset; i++) {
+                                arr.push(i)
+
+                            }
                         }
                     }
-                }
 
 
-                return arr;
-            }
-
-        },
-        watch: {
-
-            //场外的改变，我们只做调整，但是不刷新。
-            "pager.pageSize": function (newVal, oldVal) {
-
-                if (newVal) {
-                    newVal = parseInt(newVal);
-                } else {
-                    newVal = 10;
-                }
-
-                if (oldVal) {
-                    oldVal = parseInt(oldVal);
-                } else {
-                    oldVal = 10;
-                }
-
-                this.pager.pageSize = newVal;
-
-                if (newVal !== oldVal) {
-                    this.pageSize = this.pager.pageSize;
-                }
-            },
-            //场内主动改变，我们必须去刷新
-            "pageSize": function (newVal, oldVal) {
-
-
-                if (oldVal === -1) {
-                    return;
-                }
-
-                if (newVal) {
-                    newVal = parseInt(newVal);
-                } else {
-                    newVal = 10;
-                }
-
-                if (oldVal) {
-                    oldVal = parseInt(oldVal);
-                } else {
-                    oldVal = 10;
-                }
-
-                if (newVal === oldVal) {
-                    return;
-                }
-
-                this.pageSize = newVal;
-
-                //保证是用户点击了select而改变的，而不是"pager.pageSize"改变了导致的。
-                if (this.pager.pageSize !== this.pageSize) {
-                    this.pager.pageSize = this.pageSize;
-                    this.page = 0;
-                    this.refresh();
-                }
-
-            }
-
-        },
-        methods: {
-
-            changePage: function (page) {
-
-                if (this.pager.page !== page) {
-
-                    this.pager.page = page;
-                    this.refresh();
+                    return arr;
                 }
 
             },
-            refresh: function () {
-                if (typeof this.callback === "function") {
-                    this.callback();
+            watch: {
+
+                //场外的改变，我们只做调整，但是不刷新。
+                "pager.pageSize": function (newVal, oldVal) {
+
+                    if (newVal) {
+                        newVal = parseInt(newVal);
+                    } else {
+                        newVal = 10;
+                    }
+
+                    if (oldVal) {
+                        oldVal = parseInt(oldVal);
+                    } else {
+                        oldVal = 10;
+                    }
+
+                    this.pager.pageSize = newVal;
+
+                    if (newVal !== oldVal) {
+                        this.pageSize = this.pager.pageSize;
+                    }
+                },
+                //场内主动改变，我们必须去刷新
+                "pageSize": function (newVal, oldVal) {
+
+
+                    if (oldVal === -1) {
+                        return;
+                    }
+
+                    if (newVal) {
+                        newVal = parseInt(newVal);
+                    } else {
+                        newVal = 10;
+                    }
+
+                    if (oldVal) {
+                        oldVal = parseInt(oldVal);
+                    } else {
+                        oldVal = 10;
+                    }
+
+                    if (newVal === oldVal) {
+                        return;
+                    }
+
+                    this.pageSize = newVal;
+
+                    //保证是用户点击了select而改变的，而不是"pager.pageSize"改变了导致的。
+                    if (this.pager.pageSize !== this.pageSize) {
+                        this.pager.pageSize = this.pageSize;
+                        this.page = 0;
+                        this.refresh();
+                    }
+
                 }
-            }
-        },
-        mounted: function () {
-            this.pageSize = this.pager.pageSize;
 
-            if (!this.pager.offset) {
-                this.pager.offset = 3;
-            }
+            },
+            methods: {
 
-        }
+                changePage: function (page) {
+
+                    if (this.pager.page !== page) {
+
+                        this.pager.page = page;
+                        this.refresh();
+                    }
+
+                },
+                refresh: function () {
+                    if (typeof this.callback === "function") {
+                        this.callback();
+                    }
+                }
+            },
+            mounted: function () {
+                this.pageSize = this.pager.pageSize;
+
+                if (!this.pager.offset) {
+                    this.pager.offset = 3;
+                }
+
+            }
+        })
     })
 </script>
 
