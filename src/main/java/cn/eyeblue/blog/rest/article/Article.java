@@ -160,6 +160,9 @@ public class Article extends BaseEntity {
     }
 
 
+    ///////////////以下方法提供给ftl使用/////////////////////////
+
+
     //装载本篇文章的访问路径和访问链接
     public void loadVisitUrlAndPath(Article document, User user) {
 
@@ -206,26 +209,6 @@ public class Article extends BaseEntity {
         } else {
             this.visitUrl = null;
             this.visitPath = null;
-        }
-    }
-
-    ///////////////以下方法提供给ftl使用/////////////////////////
-
-
-    //是否为blank类型
-    public boolean ftlIsTypeDocumentBlank() {
-        return this.type == ArticleType.DOCUMENT_BLANK;
-    }
-
-    //访问路径
-    public String ftlVisitPath() {
-        if (this.type == ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || this.type ==
-                ArticleType.DOCUMENT_ARTICLE) {
-            return this.path;
-        } else if (type == ArticleType.DOCUMENT_URL) {
-            return this.digest;
-        } else {
-            return "";
         }
     }
 

@@ -77,6 +77,11 @@ public class SecurityInterceptor implements HandlerInterceptor {
         String finalUserUuid = userUuid;
         asyncHandlerService.submit(() -> {
 
+            //TODO: 探索切换数据源期间，不记录访问日志。
+            if (System.currentTimeMillis() > 0) {
+                return;
+            }
+
             SecurityVisitService securityVisitService = AppContextManager.getBean(SecurityVisitService.class);
             SecurityVisit securityVisit = new SecurityVisit(
                     finalUserUuid,

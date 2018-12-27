@@ -277,7 +277,7 @@ public class AppContextManager implements ApplicationContextAware {
     }
 
     /**
-     * 打印出所有装在了的bean
+     * 打印出所有装载了的bean
      */
     public static void printBeans() {
         System.out.print(Arrays.asList(getAppContext().getBeanDefinitionNames()));

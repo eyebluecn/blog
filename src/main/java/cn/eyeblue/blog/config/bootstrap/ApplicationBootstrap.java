@@ -31,7 +31,7 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
         log.info("ClassesPath = {}", PathUtil.getClassesPath());
 
         try {
-            installService.start();
+            //installService.start();
         } catch (Exception e) {
             log.error("运行安装程序出错", e);
             throw new RuntimeException("运行安装程序出错");

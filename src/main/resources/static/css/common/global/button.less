@@ -1,31 +1,76 @@
+@import "variables";
 
 .btn-action {
-	margin: 0 3px;
-	display: inline-block;
-	opacity: 0.85;
-	-webkit-transition: all 0.1s;
-	-o-transition: all 0.1s;
-	transition: all 0.1s;
-	cursor: pointer;
+  margin: 0 3px;
+  display: inline-block;
+  opacity: 0.85;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  transition: all 0.1s;
+  cursor: pointer;
+  outline: none;
 
-	&:hover {
-		text-decoration: none;
-		opacity: 1;
-		-moz-transform: scale(1.2);
-		-webkit-transform: scale(1.2);
-		-o-transform: scale(1.2);
-		-ms-transform: scale(1.2);
-		transform: scale(1.2);
-	}
+  &:hover {
+    text-decoration: none;
+    opacity: 1;
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  &:focus {
+    outline: none;
+  }
 }
 
 //编辑区域按钮，鼠标一上去按钮变大
 .action-buttons {
-	a {
-		.btn-action;
-	}
+  a {
+    .btn-action;
+  }
 }
 
 .cursor {
-	cursor: pointer;
+  cursor: pointer;
+}
+
+//一些长相特俗的按钮
+.btn-erhua {
+  background-color: @erhua-color;
+  color: rgba(255, 255, 255, 0.8);
+  outline: none;
+  padding: 5px 25px;
+  border-radius: 13px;
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+
+  tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &:active,
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &.disabled,
+  &[disabled] {
+    background-color: #CCCCCC;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &.warning {
+    background-color: @brand-warning;
+  }
+
 }

@@ -149,21 +149,14 @@ public class UserService extends BaseEntityService<User> {
         if (authentication != null) {
             User user = this.cache.getIfPresent(authentication);
 
-            if (user == null) {
-                log.info("获取缓存用户 key={} 用户不存在", authentication);
-            } else {
+            if (user != null) {
                 //同时没有过期
                 if (user.getLastTime().getTime() + 1000 * SupportSession.EXPIRY < System.currentTimeMillis()) {
-                    log.info("已经过期的用户 key={} nickname={} phone={}", authentication, user.getNickname(), user.getPhone());
                     this.expireCache(authentication);
 
                     user = null;
-                } else {
-                    log.info("获取缓存用户 key={} nickname={} phone={}", authentication, user.getNickname(), user.getPhone());
                 }
             }
-
-            log.info("当前guava {}个用户", this.cache.size());
 
             return user;
         } else {

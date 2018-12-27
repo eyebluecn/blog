@@ -4,12 +4,17 @@ import cn.eyeblue.blog.config.AppContextManager;
 import cn.eyeblue.blog.config.Config;
 import cn.eyeblue.blog.rest.base.BaseEntity;
 import cn.eyeblue.blog.rest.tank.Tank;
+import cn.eyeblue.blog.util.NetworkUtil;
+import cn.eyeblue.blog.util.StringUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -73,6 +78,63 @@ public class Preference extends BaseEntity {
 
         return preference;
     }
+
+
+    //是否为blank类型
+    public List<Link> ftlLinks() {
+
+        ArrayList<Link> links = new ArrayList<>();
+
+
+        if (StringUtil.isNotBlank(menuName1) && StringUtil.isNotBlank(menuUrl1)) {
+            links.add(new Link(menuName1, menuUrl1));
+        }
+
+        if (StringUtil.isNotBlank(menuName2) && StringUtil.isNotBlank(menuUrl2)) {
+            links.add(new Link(menuName2, menuUrl2));
+        }
+
+
+        if (StringUtil.isNotBlank(menuName3) && StringUtil.isNotBlank(menuUrl3)) {
+            links.add(new Link(menuName3, menuUrl3));
+        }
+
+
+        if (StringUtil.isNotBlank(menuName4) && StringUtil.isNotBlank(menuUrl4)) {
+            links.add(new Link(menuName4, menuUrl4));
+        }
+
+
+        if (StringUtil.isNotBlank(menuName5) && StringUtil.isNotBlank(menuUrl5)) {
+            links.add(new Link(menuName5, menuUrl5));
+        }
+
+
+        return links;
+
+    }
+
+    ///////////////以下方法提供给ftl使用/////////////////////////
+    @Data
+    public static class Link {
+        private String name;
+        private String url;
+        private String target;
+
+        public Link(@NonNull String name, @NonNull String url) {
+            this.name = name;
+            this.url = url;
+
+            if (this.url.startsWith(NetworkUtil.getHost())) {
+                this.target = "_self";
+            } else {
+                this.target = "_blank";
+            }
+
+        }
+
+    }
+
 
 }
 

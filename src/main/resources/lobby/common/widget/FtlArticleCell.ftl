@@ -6,7 +6,7 @@
                 <div class="pull-left">
                     <a href="/home/user/${article.user.uuid}">
                         <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
-                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100"/>
+                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}?ir=fill_100_100"/>
                         <#else>
                             <img class="img-circle w40 h40" src="/static/img/avatar.png"/>
                         </#if>
@@ -44,7 +44,7 @@
                         <#if article.posterUrl?? && article.posterUrl!="">
                         <div class="pull-right">
                             <a href="${article.visitUrl!""}">
-                                <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fit&imageResizeW=100"/>
+                                <img src="${article.posterUrl}?ir=fit_100_0"/>
                             </a>
                         </div>
                         </#if>
@@ -55,6 +55,10 @@
                     <#if article.top>
                         <i class="fa fa-rocket text-danger" title="置顶文章"></i>
                     </#if>
+                    <#if article.type == 'DOCUMENT'>
+                        <i class="fa fa-cubes text-primary" title="文档"></i>
+                    </#if>
+
                     ${article.title}
                 </a>
             </div>

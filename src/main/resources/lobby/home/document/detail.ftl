@@ -9,7 +9,7 @@
     <@layout.put block="content" type="replace">
         <#import "widget/detail/IndexFrame.ftl" as IndexFrame>
 
-    <div class="page-document-detail">
+    <div class="page-document-detail row">
         <div>
             <div class="title">
                 ${document.title}

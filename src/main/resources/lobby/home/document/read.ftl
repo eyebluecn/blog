@@ -1,6 +1,6 @@
 <@layout.extends name="/common/blank.ftl">
     <@layout.put block="title" type="replace">
-        ${document.title}
+        ${article.title}
     </@layout.put>
     <@layout.put block="head" type="append">
 
@@ -14,18 +14,39 @@
                     //启用perfect-scrollbar
                     var ps = new PerfectScrollbar('#perfect-scrollbar');
 
+                    var $sideMenu = $("#side-menu");
+                    var $trigger = $("#side-menu-trigger");
+                    //在小屏幕控制左边菜单收起。
+                    $trigger.click(function () {
+
+                        if ($sideMenu.hasClass("show-drawer")) {
+                            $sideMenu.removeClass("show-drawer");
+
+                            $trigger.addClass("fa-navicon");
+                            $trigger.addClass("text-primary");
+                            $trigger.removeClass("fa-close");
+                            $trigger.removeClass("text-danger");
+
+                        } else {
+                            $sideMenu.addClass("show-drawer");
+
+                            $trigger.removeClass("fa-navicon");
+                            $trigger.removeClass("text-primary");
+                            $trigger.addClass("fa-close");
+                            $trigger.addClass("text-danger");
+                        }
+
+                    });
+
+
                 });
             </script>
-
 
     </@layout.put>
 
     <@layout.put block="content" type="replace">
         <#import "widget/read/IndexFrame.ftl" as IndexFrame>
         <#import "../article/widget/ArticleBody.ftl" as ArticleBody>
-
-
-
 
     <div class="page-document-read">
         <div class="upper-part">
@@ -38,32 +59,21 @@
                 </a>
             </div>
             <div class="preference-navi">
-                <#if preference.menuName1?? && preference.menuName1!="">
-                        <a href="${preference.menuUrl1!""}"
-                           target="${preference.menuUrl1?starts_with("http")?string('_blank','_self')}">${preference.menuName1}</a>
-                </#if>
-                    <#if preference.menuName2?? && preference.menuName2!="">
-                        <a href="${preference.menuUrl2!""}"
-                           target="${preference.menuUrl2?starts_with("http")?string('_blank','_self')}">${preference.menuName2}</a>
-                    </#if>
-                    <#if preference.menuName3?? && preference.menuName3!="">
-                        <a href="${preference.menuUrl3!""}"
-                           target="${preference.menuUrl3?starts_with("http")?string('_blank','_self')}">${preference.menuName3}</a>
-                    </#if>
-                    <#if preference.menuName4?? && preference.menuName4!="">
-                        <a href="${preference.menuUrl4!""}"
-                           target="${preference.menuUrl4?starts_with("http")?string('_blank','_self')}">${preference.menuName4}</a>
-                    </#if>
-                    <#if preference.menuName5?? && preference.menuName5!="">
-                        <a href="${preference.menuUrl5!""}"
-                           target="${preference.menuUrl5?starts_with("http")?string('_blank','_self')}">${preference.menuName5}</a>
-                    </#if>
+                <div class="visible-pc pull-right">
+                    <#list preference.ftlLinks() as link>
+                        <a href="${link.url}"
+                           target="${link.target}">${link.name}</a>
+                    </#list>
+                </div>
+                <div class="visible-mobile pull-right">
+                    <i class="fa fa-navicon f17 ln60 cursor text-primary" id="side-menu-trigger"></i>
+                </div>
             </div>
         </div>
         <div class="middle-part">
-            <div class="left-part">
+            <div class="left-part" id="side-menu">
 
-                <@IndexFrame.IndexFrame document=document/>
+                <@IndexFrame.IndexFrame document=document preference=preference/>
 
             </div>
             <div class="right-part">

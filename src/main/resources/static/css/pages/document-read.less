@@ -10,6 +10,25 @@
   height: 100%;
   overflow: hidden;
 
+  .global-menu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    li {
+      padding: 5px 15px;
+      a {
+        font-size: 16px;
+        color: black;
+        font-weight: bold;
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+
+    }
+  }
+
   .index-block {
     margin-left: 14px;
 
@@ -141,27 +160,79 @@
   .middle-part {
     flex: 1;
 
-    display: flex;
-    flex-direction: row;
+    position: relative;
 
     .left-part {
 
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      -webkit-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      transition: all 0.4s;
+
       width: @left-width;
-      height: 100%;
       background-color: #fafafa;
       border-right: 1px solid #eee;
+      z-index: 200;
+
+      //大屏幕
+      @media (min-width: @screen-md-min) {
+        left: 0;
+      }
+      //小屏幕
+      @media (max-width: @screen-md-min) {
+        left: -@left-width;
+      }
+
+      &.show-drawer {
+
+        //大屏幕
+        @media (min-width: @screen-md-min) {
+          left: 0;
+        }
+        //小屏幕
+        @media (max-width: @screen-md-min) {
+          left: 0;
+        }
+      }
 
     }
     .right-part {
-      flex: 1;
+
+      position: absolute;
+      top: 0;
+      left: @left-width;
+      right: 0;
+      bottom: 0;
+
+      -webkit-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      transition: all 0.4s;
+
       height: 100%;
       background-color: white;
       overflow-x: hidden;
       overflow-y: auto;
 
       padding: 20px;
+      z-index: 100;
+
+      //大屏幕
+      @media (min-width: @screen-md-min) {
+        left: @left-width;
+      }
+      //小屏幕
+      @media (max-width: @screen-md-min) {
+        left: 0;
+      }
 
     }
+
   }
 
 }

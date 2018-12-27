@@ -50,6 +50,7 @@ public class HomeController extends FrontendBaseController {
 
     /**
      * 首页
+     * TODO: 准备引入多项缓存功能，否则首页打开经常超时。
      */
     @Feature(FeatureType.PUBLIC)
     @RequestMapping("/home/index")
