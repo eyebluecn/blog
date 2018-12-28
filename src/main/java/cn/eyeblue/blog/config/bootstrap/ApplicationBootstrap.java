@@ -1,7 +1,6 @@
 package cn.eyeblue.blog.config.bootstrap;
 
 import cn.eyeblue.blog.config.Config;
-import cn.eyeblue.blog.config.install.InstallService;
 import cn.eyeblue.blog.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import org.springframework.stereotype.Component;
 public class ApplicationBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
-    InstallService installService;
-
-    @Autowired
     Config config;
 
     //整个服务器启动的时候。
@@ -29,13 +25,6 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
         log.info("AppPath = {}", PathUtil.getAppPath());
 
         log.info("ClassesPath = {}", PathUtil.getClassesPath());
-
-        try {
-            //installService.start();
-        } catch (Exception e) {
-            log.error("运行安装程序出错", e);
-            throw new RuntimeException("运行安装程序出错");
-        }
 
     }
 }
