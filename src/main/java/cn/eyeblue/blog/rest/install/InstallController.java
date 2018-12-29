@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -44,9 +45,9 @@ public class InstallController extends BaseController {
 
         Install install = installForm.create();
 
-        installService.ping(install);
+        List<InstallTableInfo> tableInfo = installService.getTableInfo(install);
 
-        return success();
+        return successObject(tableInfo);
     }
 
 
