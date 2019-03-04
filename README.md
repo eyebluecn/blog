@@ -1,6 +1,6 @@
 ![蓝眼博客logo](https://github.com/eyebluecn/blog/blob/master/src/main/resources/static/img/logo.png?raw=true)
 
-# 蓝眼博客
+# 蓝眼博客 （2.0开发中...）
 
 ##### [在线Demo](http://blog.eyeblue.cn)
 
