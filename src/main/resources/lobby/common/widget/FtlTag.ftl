@@ -10,7 +10,7 @@
     <a class="tag-collection ${size} ${active?string('active','')}"
        href="${url}">
 
-        <img src="${tag.logoUrl!""}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100" alt="100">
+        <img src="${tag.logoUrl!""}?ir=fill_100_100" alt="100">
         <span class="name">${tag.name}</span>
     </a>
 </#macro>

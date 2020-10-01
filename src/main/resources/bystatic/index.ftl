@@ -5,12 +5,12 @@
     <meta name=viewport content="width=device-width,initial-scale=1">
     <title>个人博客管理后台</title>
     <link rel="shortcut icon" href=/bystatic/favicon.ico>
-    <link href=/bystatic/css/app.b1e48d965533afd9a3c2df97b4e6fd56.css rel=stylesheet>
+    <link href=/bystatic/css/app.f78663f305791b9ba229c5aa1a04dff7.css rel=stylesheet>
 </head>
 <body>
 <div id=app></div>
-<script type=text/javascript src=/bystatic/js/manifest.246f791f984002f04ca4.js></script>
-<script type=text/javascript src=/bystatic/js/vendor.d2312385ac5ea8eda861.js></script>
-<script type=text/javascript src=/bystatic/js/app.a9ee466bbc0e4eff2699.js></script>
+<script type=text/javascript src=/bystatic/js/manifest.52c232ede8bf95b7e5e7.js></script>
+<script type=text/javascript src=/bystatic/js/vendor.2a48c8e143f1c25f58c4.js></script>
+<script type=text/javascript src=/bystatic/js/app.8570677d4f8ae3a1fe06.js></script>
 </body>
 </html>

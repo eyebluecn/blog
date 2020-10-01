@@ -98,7 +98,7 @@
 
                                 <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
                                     <img class="img-circle w50 h50"
-                                         src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200"/>
+                                         src="${article.user.avatarUrl}?ir=fill_200_200"/>
                                 <#else>
                                     <img class="img-circle w50 h50" src="/static/img/avatar.png"/>
                                 </#if>
@@ -211,7 +211,7 @@
                                             <a :href="'/home/user/'+comment.userUuid" v-if="comment.userUuid"
                                                title="站内用户">
                                                 <img v-if="comment.avatarUrl" class="img-circle img-sm"
-                                                     :src="comment.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
+                                                     :src="comment.avatarUrl+'?ir=fill_200_200'"/>
                                                 <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>
                                             </a>
                                             <img class="img-circle img-sm" v-else src="/static/img/avatar.png"/>

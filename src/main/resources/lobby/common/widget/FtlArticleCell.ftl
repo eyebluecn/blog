@@ -6,7 +6,7 @@
                 <div class="pull-left">
                     <a href="/home/user/${article.user.uuid}">
                         <#if article.user.avatarUrl?? && article.user.avatarUrl!="">
-                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100"/>
+                            <img class="img-circle w40 h40" src="${article.user.avatarUrl}?ir=fill_100_100"/>
                         <#else>
                             <img class="img-circle w40 h40" src="/static/img/avatar.png"/>
                         </#if>
@@ -41,13 +41,13 @@
     </#if>
 
     <div class="media">
-                        <#if article.posterUrl?? && article.posterUrl!="">
-                        <div class="pull-right">
-                            <a href="/a/${article.user.username}/${article.path}">
-                                <img src="${article.posterUrl}?imageProcess=resize&imageResizeM=fit&imageResizeW=100"/>
-                            </a>
-                        </div>
-                        </#if>
+        <#if article.posterUrl?? && article.posterUrl!="">
+            <div class="pull-right">
+                <a href="/a/${article.user.username}/${article.path}">
+                    <img src="${article.posterUrl}?ir=fit_100_0"/>
+                </a>
+            </div>
+        </#if>
 
         <div class="media-body">
             <div class="title">
